@@ -10,11 +10,11 @@ if($login->is_loggedin()!="")
 
 if(isset($_POST['btn-login']))
 {
-	$uname = strip_tags($_POST['txt_uname_email']);
-	$umail = strip_tags($_POST['txt_uname_email']);
-	$upass = strip_tags($_POST['txt_password']);
+	$id_number = strip_tags($_POST['id_email']);
+	$email = strip_tags($_POST['id_email']);
+	$pass = strip_tags($_POST['password']);
 
-	if($login->doLogin($uname,$umail,$upass))
+	if($login->doLogin($id_number,$email,$pass))
 	{
 		$login->redirect('home.php');
 	}
@@ -58,14 +58,14 @@ if(isset($_POST['btn-login']))
         </div>
 
         <div class="form-group">
-        <input type="text" class="form-control" name="txt_uname_email" placeholder="Username or E mail ID" required />
+        <input type="text" class="form-control" name="id_email" placeholder="ID number or eMail address" required />
         <span id="check-e"></span>
         </div>
 
         <div class="form-group">
-        <input type="password" class="form-control" name="txt_password" placeholder="Your Password" />
+        <input type="password" class="form-control" name="password" placeholder="Your Password" />
         </div>
-       
+
      	<hr />
 
         <div class="form-group">

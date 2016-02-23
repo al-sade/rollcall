@@ -3,57 +3,59 @@
 require_once('dbconfig.php');
 
 class USER
-{	
+{
 
 	private $conn;
-	
+
 	public function __construct()
 	{
 		$database = new Database();
 		$db = $database->dbConnection();
 		$this->conn = $db;
     }
-	
+
 	public function runQuery($sql)
 	{
 		$stmt = $this->conn->prepare($sql);
 		return $stmt;
 	}
-	
-	public function register($uname,$umail,$upass)
+
+	public function register($id_number,$first_name,$last_name,$email,$pass)
 	{
 		try
 		{
-			$new_password = password_hash($upass, PASSWORD_DEFAULT);
-			
-			$stmt = $this->conn->prepare("INSERT INTO users(user_name,user_email,user_pass) 
-		                                               VALUES(:uname, :umail, :upass)");
-												  
-			$stmt->bindparam(":uname", $uname);
-			$stmt->bindparam(":umail", $umail);
-			$stmt->bindparam(":upass", $new_password);										  
-				
-			$stmt->execute();	
-			
-			return $stmt;	
+			$new_password = password_hash($pass, PASSWORD_DEFAULT);
+
+			$stmt = $this->conn->prepare("INSERT INTO users(id_number,first_name,last_name,email,pass)
+		                                               VALUES(:id_number,:first_name,:last_name, :email, :pass)");
+
+			$stmt->bindparam(":id_number", $id_number);
+			$stmt->bindparam(":first_name", $first_name);
+			$stmt->bindparam(":last_name", $last_name);
+			$stmt->bindparam(":email", $email);
+			$stmt->bindparam(":pass", $new_password);
+
+			$stmt->execute();
+
+			return $stmt;
 		}
 		catch(PDOException $e)
 		{
 			echo $e->getMessage();
-		}				
+		}
 	}
-	
-	
-	public function doLogin($uname,$umail,$upass)
+
+
+	public function doLogin($id_number,$email,$pass)
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("SELECT user_id, user_name, user_email, user_pass FROM users WHERE user_name=:uname OR user_email=:umail ");
-			$stmt->execute(array(':uname'=>$uname, ':umail'=>$umail));
+			$stmt = $this->conn->prepare("SELECT * FROM users WHERE id_number=:id_number OR email=:email ");
+			$stmt->execute(array(':id_number'=>$id_number, ':email'=>$email));
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 			if($stmt->rowCount() == 1)
 			{
-				if(password_verify($upass, $userRow['user_pass']))
+				if(password_verify($pass, $userRow['pass']))
 				{
 					$_SESSION['user_session'] = $userRow['user_id'];
 					return true;
@@ -69,7 +71,7 @@ class USER
 			echo $e->getMessage();
 		}
 	}
-	
+
 	public function is_loggedin()
 	{
 		if(isset($_SESSION['user_session']))
@@ -77,12 +79,12 @@ class USER
 			return true;
 		}
 	}
-	
+
 	public function redirect($url)
 	{
 		header("Location: $url");
 	}
-	
+
 	public function doLogout()
 	{
 		session_destroy();
