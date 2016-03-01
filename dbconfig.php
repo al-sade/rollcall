@@ -1,12 +1,15 @@
 <?php
+
+require_once('env.php');
+
 class Database
 {
-    private $host = "localhost";
-    private $db_name = "rollcall";
-    private $username = "root";
-    private $password = "Alaba1515";
+    private $host = HOST;
+    private $db_name = DB;
+    private $username = USER;
+    private $password = PASS;
     public $conn;
-     
+
     public function dbConnection()
 	{
 
