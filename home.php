@@ -27,37 +27,7 @@
 
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="http://www.codingcage.com">Coding Cage</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="http://www.codingcage.com/2015/04/php-login-and-registration-script-with.html">Back to Article</a></li>
-            <li><a href="http://www.codingcage.com/search/label/jQuery">jQuery</a></li>
-            <li><a href="http://www.codingcage.com/search/label/PHP">PHP</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			  <span class="glyphicon glyphicon-user"></span>&nbsp;Hi' <?php echo $userRow['email']; ?>&nbsp;<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;View Profile</a></li>
-                <li><a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+<?php require_once('header.php');?>
 
 
     <div class="clearfix"></div>
@@ -67,21 +37,7 @@
 
     <div class="container">
 
-    	<label class="h5">welcome : <?php print($userRow['first_name'].$userRow['last_name']); ?></label>
-        <hr />
-
-        <h1>
-        <a href="home.php"><span class="glyphicon glyphicon-home"></span> home</a> &nbsp;
-        <a href="profile.php"><span class="glyphicon glyphicon-user"></span> profile</a></h1>
-       	<hr />
-
-        <p class="h4">User Home Page</p>
-
-
-    <p class="blockquote-reverse" style="margin-top:200px;">
-    Programming Blog Featuring Tutorials on PHP, MySQL, Ajax, jQuery, Web Design and More...<br /><br />
-    <a href="http://www.codingcage.com/2015/04/php-login-and-registration-script-with.html">tutorial link</a>
-    </p>
+    	<!-- <label class="h5">welcome : <?php print($userRow['first_name'].$userRow['last_name']); ?></label> -->
 
     </div>
 

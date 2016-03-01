@@ -24,7 +24,7 @@ window.addEventListener('load', function() {
 	var bsa = d.createElement(s);
 	bsa.async = 1;
 	bsa.src = '/bsa.js';
-  console.log(bsa.src);
+  // console.log(bsa.src);
 	firstScript.parentNode.insertBefore(bsa, firstScript);
 
 	// Promo!
