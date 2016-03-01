@@ -19,8 +19,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="jquery-1.11.3-jquery.min.js"></script>
+<link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="components/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
 </head>
@@ -46,7 +47,7 @@
 
 
 
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

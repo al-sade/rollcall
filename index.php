@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("class.user.php");
+
 $login = new USER();
 
 if($login->is_loggedin()!="")
@@ -29,8 +30,9 @@ if(isset($_POST['btn-login']))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>RollCall : Login</title>
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+<link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="style.css" type="text/css"  />
 </head>
 <body>
