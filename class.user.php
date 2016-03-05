@@ -91,5 +91,17 @@ class USER
 		unset($_SESSION['user_session']);
 		return true;
 	}
+
+	public function getCourses($user_id)
+	{
+		$stmt = $this->conn->prepare("SELECT courses.course_name, lecturers.first_name, lecturers.last_name,lecturers.email
+FROM students_courses
+INNER JOIN courses ON students_courses.course = courses.course_id
+INNER JOIN lecturers ON courses.lecturer = lecturers.id
+WHERE student =:student_id ");
+		$stmt->execute(array(':student_id'=>$user_id));
+		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+		return $userRow;
+	}
 }
 ?>
