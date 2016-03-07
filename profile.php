@@ -37,8 +37,15 @@
 
     <div class="container">
 
-    	<!-- <label class="h5">welcome : <?php print($userRow['first_name']); ?></label> -->
-
+			<ul>
+    	<?php
+			 $row = '<li>First Name: '.$userRow['first_name'].'</li>';
+			 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
+			 $row .= '<li>Age: '.$userRow['last_name'].'</li>';
+			 $row .= '<li>eMail: '.$userRow['email'].'</li>';
+			 echo $row;
+			?>
+			</ul>
 
     </div>
 

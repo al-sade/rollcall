@@ -35,6 +35,9 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`users` (
   `first_name` varchar(40) NOT NULL,
   `last_name` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
+  `bday` DATE NOT NULL,
+  `begin_studying` DATE NOT NULL,
+  `department` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `joining_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
@@ -84,12 +87,15 @@ INSERT INTO `rollcall`.`users` (
 `first_name`,
 `last_name`,
 `email`,
+`bday`,
+`begin_studying`,
+`department`,
 `pass`,
 `joining_date`
 )
 VALUES
-(NULL,'38473987','Alon','Cohen','alon@gmail.com','373923hdf',CURRENT_TIMESTAMP),
-(NULL,'300804671','Al','Sade','alsade15@gmail.com','$2y$10$V5LZM6mbjNO545dBjSK7WuYyLLgGt83tqfEz/zbTZYTQHYl.KAct.',CURRENT_TIMESTAMP)
+(NULL,'300804671','Al','Sade','alsade15@gmail.com','2004-03-03','2004-03-03','Economics','$2y$10$V5LZM6mbjNO545dBjSK7WuYyLLgGt83tqfEz/zbTZYTQHYl.KAct.',CURRENT_TIMESTAMP),
+(NULL,'38473987','Alon','Cohen','alon@gmail.com','1994-11-04','2004-03-05','Arts','373923hdf',CURRENT_TIMESTAMP)
  ;
 
 INSERT INTO `rollcall`.`courses` (

@@ -14,31 +14,12 @@ if(isset($_POST['btn-signup']))
 	$first_name = strip_tags($_POST['first_name']);
 	$last_name = strip_tags($_POST['last_name']);
 	$email = strip_tags($_POST['email']);
+	$bday = strip_tags($_POST['bday']);
+	$begin_studying = strip_tags($_POST['begin_studying']);
+	$department = strip_tags($_POST['department']);
 	$pass = strip_tags($_POST['pass']);
 
-	if($id_number=="")	{
-		$error[] = "provide ID number !";
-	}
-	else if($first_name=="")	{
-		$error[] = "provide first name !";
-	}
-	else if($last_name=="")	{
-		$error[] = "provide last_name !";
-	}
-	else if($email=="")	{
-		$error[] = "provide email id !";
-	}
-	else if(!filter_var($email, FILTER_VALIDATE_EMAIL))	{
-	    $error[] = 'Please enter a valid email address !';
-	}
-	else if($pass=="")	{
-		$error[] = "provide password !";
-	}
-	else if(strlen($pass) < 6){
-		$error[] = "Password must be atleast 6 characters";
-	}
-	else
-	{
+
 		try
 		{
 			$stmt = $user->runQuery("SELECT id_number, email FROM users WHERE id_number=:id_number OR email=:email");
@@ -53,7 +34,7 @@ if(isset($_POST['btn-signup']))
 			}
 			else
 			{
-				if($user->register($id_number,$first_name,$last_name,$email,$pass)){
+				if($user->register($id_number,$first_name,$last_name,$email,$bday,$begin_studying,$department,$pass)){
 
 					$user->redirect('sign-up.php?joined');
 				}
@@ -63,7 +44,7 @@ if(isset($_POST['btn-signup']))
 		{
 			echo $e->getMessage();
 		}
-	}
+
 }
 
 ?>
@@ -107,19 +88,36 @@ if(isset($_POST['btn-signup']))
 			}
 			?>
 						<div class="form-group">
-						<input type="text" class="form-control" name="id_number" placeholder="Enter ID Number" value="<?php if(isset($error)){echo $id_number;}?>" />
+						<input type="number" class="form-control" name="id_number" placeholder="Enter ID Number" value="<?php if(isset($error)){echo $id_number;}?>" required/>
 						</div>
             <div class="form-group">
-            <input type="text" class="form-control" name="first_name" placeholder="Enter First Name" value="<?php if(isset($error)){echo $first_name;}?>" />
+            <input type="text" class="form-control" name="first_name" placeholder="Enter First Name" value="<?php if(isset($error)){echo $first_name;}?>" required/>
             </div>
 						<div class="form-group">
-						<input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" value="<?php if(isset($error)){echo $last_name;}?>" />
+						<input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" value="<?php if(isset($error)){echo $last_name;}?>" required/>
 						</div>
 						<div class="form-group">
-						<input type="text" class="form-control" name="email" placeholder="Enter E-Mail ID" value="<?php if(isset($error)){echo $email;}?>" />
+						<input type="email" class="form-control" name="email" placeholder="Enter E-Mail ID" value="<?php if(isset($error)){echo $email;}?>" required/>
+						</div>
+						<div class="form-group">
+						<input type="text" class="form-control" name="bday" placeholder="Date Of Birth" value="<?php if(isset($error)){echo $date_of_birth;}?>" onfocus="(this.type='date')" required/>
+						</div>
+						<div class="form-group">
+						<input type="text" class="form-control" name="begin_studying" placeholder="Beginning Of Studying" value="<?php if(isset($error)){echo $date_of_birth;}?>" onfocus="(this.type='date')" required/>
+						</div>
+						<div class="form-group">
+							<select name="department" class="form-control" required>
+								<option value="" disabled selected>Select Department</option>
+								<option value="software">Software Engineering</option>
+								<option value="electrical">Electrical Engineering</option>
+								<option value="biomedical">Biomedical Engineering</option>
+								<option value="architecture">Architecture</option>
+								<option value="history">History</option>
+								<option value="economics">Economics</option>
+							</select>
 						</div>
             <div class="form-group">
-            	<input type="password" class="form-control" name="pass" placeholder="Enter Password" />
+            	<input minlength=8 type="password" class="form-control" name="pass" placeholder="Enter Password" required/>
             </div>
             <div class="clearfix"></div><hr />
 						<div id="camera">
