@@ -108,12 +108,12 @@ if(isset($_POST['btn-signup']))
 						<div class="form-group">
 							<select name="department" class="form-control" required>
 								<option value="" disabled selected>Select Department</option>
-								<option value="software">Software Engineering</option>
-								<option value="electrical">Electrical Engineering</option>
-								<option value="biomedical">Biomedical Engineering</option>
-								<option value="architecture">Architecture</option>
-								<option value="history">History</option>
-								<option value="economics">Economics</option>
+								<option value="Software Engineering">Software Engineering</option>
+								<option value="Electrical Engineering">Electrical Engineering</option>
+								<option value="Biomedical Engineering">Biomedical Engineering</option>
+								<option value="Architecture">Architecture</option>
+								<option value="History">History</option>
+								<option value="Economics">Economics</option>
 							</select>
 						</div>
             <div class="form-group">

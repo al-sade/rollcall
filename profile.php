@@ -41,8 +41,17 @@
     	<?php
 			 $row = '<li>First Name: '.$userRow['first_name'].'</li>';
 			 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
-			 $row .= '<li>Age: '.$userRow['last_name'].'</li>';
+			 $row .= '<li>Age: ';
+			 $bday = new DateTime($userRow['bday']);
+			 $today   = new DateTime('today');
+			 $row .= $bday->diff($today)->y;
+			 $row .= '</li>';
+			 $row .= '<li>Department: '.$userRow['department'].'</li>';
 			 $row .= '<li>eMail: '.$userRow['email'].'</li>';
+			 $row .= '<li>Year Of Study: ';
+			 $begin_studying = new DateTime($userRow['begin_studying']);
+			 $row .= $begin_studying->diff($today)->y;
+			 $row	.= '</li>';
 			 echo $row;
 			?>
 			</ul>
