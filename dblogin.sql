@@ -19,6 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `dblogin`
 --
+CREATE DATABASE `rollcall`;
+
+USE `rollcall`;
 
 -- --------------------------------------------------------
 
@@ -26,7 +29,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `rollcall`.`users` (
   `user_id` int(15) NOT NULL AUTO_INCREMENT,
   `id_number` int(15) NOT NULL,
   `first_name` varchar(40) NOT NULL,
@@ -38,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `lecturers` (
+CREATE TABLE IF NOT EXISTS `rollcall`.`lecturers` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
   `id_number` int(15) NOT NULL,
   `first_name` varchar(40) NOT NULL,
@@ -50,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `lecturers` (
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `courses`(
+CREATE TABLE IF NOT EXISTS `rollcall`.`courses`(
   `course_id` INT(15) NOT NULL AUTO_INCREMENT,
   `course_name` VARCHAR( 255 ) NOT NULL ,
   `lecturer` VARCHAR( 255 ) NOT NULL,
@@ -58,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `courses`(
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `cameras`(
+CREATE TABLE IF NOT EXISTS `rollcall`.`cameras`(
   `camera` INT(10) NOT NULL,
   `day_of_week` int(10) NOT NULL ,
   `course_id` int(10) NOT NULL,
@@ -67,16 +70,29 @@ CREATE TABLE IF NOT EXISTS `cameras`(
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1;
 
 
-  CREATE TABLE IF NOT EXISTS `students_courses`(
-    `student` INT(10) NOT NULL,
-    `course` INT(10) NOT NULL,
-    FOREIGN KEY (student) REFERENCES users(user_id),
-    FOREIGN KEY (course) REFERENCES courses(course_id)
-  ) ENGINE=InnonDB CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `rollcall`.`students_courses`(
+  `student` INT(10) NOT NULL,
+  `course` INT(10) NOT NULL,
+  FOREIGN KEY (student) REFERENCES users(user_id),
+  FOREIGN KEY (course) REFERENCES courses(course_id)
+) ENGINE=InnonDB CHARSET=latin1;
 
 
+INSERT INTO `rollcall`.`users` (
+`user_id`,
+`id_number`,
+`first_name`,
+`last_name`,
+`email`,
+`pass`,
+`joining_date`
+)
+VALUES
+(NULL,'38473987','Alon','Cohen','alon@gmail.com','373923hdf',CURRENT_TIMESTAMP),
+(NULL,'300804671','Al','Sade','alsade15@gmail.com','$2y$10$V5LZM6mbjNO545dBjSK7WuYyLLgGt83tqfEz/zbTZYTQHYl.KAct.',CURRENT_TIMESTAMP)
+ ;
 
-INSERT INTO `courses` (
+INSERT INTO `rollcall`.`courses` (
   `course_id`,
   `course_name`,
   `lecturer`
@@ -88,7 +104,7 @@ INSERT INTO `courses` (
  ('4444', 'English', '1123');
 
 
-INSERT INTO  `cameras` (
+INSERT INTO  `rollcall`.`cameras` (
 `camera` ,
 `day_of_week` ,
 `course_id` ,
@@ -113,7 +129,35 @@ VALUES
 ('101',  '6',  '1111',  '08:00:00',  '10:00:00');
 
 
+INSERT INTO  `rollcall`.`lecturers` (
+`id` ,
+`id_number` ,
+`first_name` ,
+`last_name` ,
+`email` ,
+`pass` ,
+`joining_date`
+)
+VALUES
+('1122',  '383929324',  'Ben',  'Cohen',  'ben@gmail.com',  'md0i32dm2', CURRENT_TIMESTAMP),
+('1123',  '383924334',  'Ilana',  'lev',  'ilana.lev@gmail.com',  'jde203f3fef', CURRENT_TIMESTAMP),
+('1000',  '3948433',  'Yigal',  'Hoffner',  'yigal@gmail.com',  'ewqe2234r32', CURRENT_TIMESTAMP),
+('1100',  '344924334',  'John',  'Doe',  'john.v@gmail.com',  'fn394h9n4u3f', CURRENT_TIMESTAMP);
 
+
+
+INSERT INTO `rollcall`.`students_courses` (
+  `student`,
+   `course`
+ )
+VALUES
+('1', '1111'),
+('1', '2222'),
+('1', '3333'),
+('1', '4444'),
+('2', '1111'),
+('2', '3333'),
+('2', '4444');
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
