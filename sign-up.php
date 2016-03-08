@@ -17,6 +17,7 @@ if(isset($_POST['btn-signup']))
 	$bday = strip_tags($_POST['bday']);
 	$begin_studying = strip_tags($_POST['begin_studying']);
 	$department = strip_tags($_POST['department']);
+	$image_01 = strip_tags($_POST['canvas-data']);
 	$pass = strip_tags($_POST['pass']);
 
 
@@ -52,7 +53,7 @@ if(isset($_POST['btn-signup']))
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Coding Cage : Sign up</title>
+<title>RollCall : Sign up</title>
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css"  />
@@ -119,31 +120,23 @@ if(isset($_POST['btn-signup']))
             <div class="form-group">
             	<input minlength=8 type="password" class="form-control" name="pass" placeholder="Enter Password" required/>
             </div>
-            <div class="clearfix"></div><hr />
-						<div id="camera">
-						<script>
-						z={analyticsID:"UA-2087880-2",pluginPath:"libs/curl/src/curl/plugin/",domain:"davidwalsh.name",loadSidebar:!(-1!=navigator.userAgent.toLowerCase().indexOf("googlebot")),d:document,w:this},z.baseUrl=z.themePath+"/js/",location.hostname.indexOf(z.domain)<0&&(z.isDebug=1,z.analyticsID=0),z.moo=z.baseUrl+"mootools-yui-compressed.js";z.analyticsID&&function(){!function(e,a,n,t,c,s,i){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,s=a.createElement(n),i=a.getElementsByTagName(n)[0],s.async=1,s.src=t,i.parentNode.insertBefore(s,i)}(z.w,z.d,"script","//www.google-analytics.com/analytics.js","ga"),ga("create",z.analyticsID,z.domain),ga("send","pageview"),ga("set","nonInteraction",!0)}();
-						</script>
 
-						<div class="center clear">
-						<div class="demo-wrapper">
-
-
-						<div id="promoNode"></div>
-
-						<video id="video" width="320" height="240" autoplay></video>
-						<button id="snap" class="sexyButton">Snap Photo</button>
-						<canvas id="canvas" width="320" height="240"></canvas>
-
-						</div>
-						</div>
-						</div>
 						<div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-signup">
+						<div id="camera">
+							<div class="center clear">
+								<video id="video" width="320" height="240" autoplay></video>
+								<button id="snap" onclick="save64();return false;">Take Picture</button>
+								<input id="canvas-data" type="text" name="image_01">
+								<canvas id="canvas" width="320" height="240"></canvas>
+							</div>
+						</div>
+					</div>
+
+						<div class="form-group">
+            	<button id="form-submit" type="submit" class="btn btn-primary" name="btn-signup">
                 	<i class="glyphicon glyphicon-open-file"></i>&nbsp;SIGN UP
                 </button>
             </div>
-            <br />
 
             <label>have an account ! <a href="index.php">Sign In</a></label>
         </form>
@@ -154,7 +147,10 @@ if(isset($_POST['btn-signup']))
 </div>
 <script src="js/catch-pic.js"></script>
 <script>
-!function(e){var t=e.createElement("link"),s="setAttribute";t[s]("type","text/css"),t[s]("rel","stylesheet"),t[s]("href","//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"),e.body.appendChild(t)}(z.d);!function(e){var t=e.documentElement,n="fonts-loaded";if(-1==t.className.indexOf(n)){var s=e.createElement("link"),a="setAttribute";s.onload=function(){t.className+=" "+n},s[a]("type","text/css"),s[a]("rel","stylesheet"),s[a]("href",z.themePath+"/fonts.css"),e.body.appendChild(s)}}(z.d);
-</script>
+	function save64(){
+		var image = document.getElementById('canvas');
+		document.getElementById('canvas-data').placeholder = image;
+		return false;
+	}</script>
 </body>
 </html>
