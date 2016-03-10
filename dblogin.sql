@@ -81,6 +81,14 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`students_courses`(
 ) ENGINE=InnonDB CHARSET=latin1;
 
 
+CREATE TABLE IF NOT EXISTS `rollcall`.`absence`(
+  `student` INT(10) NOT NULL,
+  `course` INT(10) NOT NULL,
+  FOREIGN KEY (student) REFERENCES users(user_id),
+  FOREIGN KEY (course) REFERENCES courses(course_id),
+  `date` timestamp NOT NULL
+) ENGINE=InnonDB CHARSET=latin1;
+
 INSERT INTO `rollcall`.`users` (
 `user_id`,
 `id_number`,
@@ -164,6 +172,16 @@ VALUES
 ('2', '1111'),
 ('2', '3333'),
 ('2', '4444');
+
+INSERT INTO  `rollcall`.`absence` (
+`student` ,
+`course` ,
+`date`
+)
+VALUES
+('1','1111','2016-03-17 10:25:00'),
+('1',  '2222',  '2016-03-14 12:00:00');
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

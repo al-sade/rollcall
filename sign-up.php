@@ -17,8 +17,10 @@ if(isset($_POST['btn-signup']))
 	$bday = strip_tags($_POST['bday']);
 	$begin_studying = strip_tags($_POST['begin_studying']);
 	$department = strip_tags($_POST['department']);
-	$image_01 = strip_tags($_POST['canvas-data']);
 	$pass = strip_tags($_POST['pass']);
+
+
+
 
 
 		try
@@ -54,6 +56,7 @@ if(isset($_POST['btn-signup']))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>RollCall : Sign up</title>
+<script src="vendor/components/jquery/jquery.min.js"></script>
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css"  />
@@ -89,7 +92,7 @@ if(isset($_POST['btn-signup']))
 			}
 			?>
 						<div class="form-group">
-						<input type="number" class="form-control" name="id_number" placeholder="Enter ID Number" value="<?php if(isset($error)){echo $id_number;}?>" required/>
+						<input type="number" id="user_id" class="form-control" name="id_number" placeholder="Enter ID Number" value="<?php if(isset($error)){echo $id_number;}?>" required/>
 						</div>
             <div class="form-group">
             <input type="text" class="form-control" name="first_name" placeholder="Enter First Name" value="<?php if(isset($error)){echo $first_name;}?>" required/>
@@ -125,8 +128,7 @@ if(isset($_POST['btn-signup']))
 						<div id="camera">
 							<div class="center clear">
 								<video id="video" width="320" height="240" autoplay></video>
-								<button id="snap" onclick="save64();return false;">Take Picture</button>
-								<input id="canvas-data" type="text" name="image_01">
+								<button id="snap" onclick="return false;">Take Picture</button>
 								<canvas id="canvas" width="320" height="240"></canvas>
 							</div>
 						</div>
@@ -146,11 +148,5 @@ if(isset($_POST['btn-signup']))
 
 </div>
 <script src="js/catch-pic.js"></script>
-<script>
-	function save64(){
-		var image = document.getElementById('canvas');
-		document.getElementById('canvas-data').placeholder = image;
-		return false;
-	}</script>
 </body>
 </html>

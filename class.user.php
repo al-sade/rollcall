@@ -1,34 +1,26 @@
 <?php
-
 require_once('dbconfig.php');
-
 class USER
 {
-
 	private $conn;
-
 	public function __construct()
 	{
 		$database = new Database();
 		$db = $database->dbConnection();
 		$this->conn = $db;
     }
-
 	public function runQuery($sql)
 	{
 		$stmt = $this->conn->prepare($sql);
 		return $stmt;
 	}
-
-	public function register($id_number,$first_name,$last_name,$email,$bday,$begin_studying,$department,$pass,$image_01)
+	public function register($id_number,$first_name,$last_name,$email,$bday,$begin_studying,$department,$pass)
 	{
 		try
 		{
 			$new_password = password_hash($pass, PASSWORD_DEFAULT);
-
-			$stmt = $this->conn->prepare("INSERT INTO users(id_number,first_name,last_name,email,bday,begin_studying,department,pass, image_01)
-		                                               VALUES(:id_number,:first_name,:last_name,:email,:bday,:begin_studying,:department,:pass, :image_01)");
-
+			$stmt = $this->conn->prepare("INSERT INTO users(id_number,first_name,last_name,email,bday,begin_studying,department,pass)
+		                                               VALUES(:id_number,:first_name,:last_name,:email,:bday,:begin_studying,:department,:pass)");
 			$stmt->bindparam(":id_number", $id_number);
 			$stmt->bindparam(":first_name", $first_name);
 			$stmt->bindparam(":last_name", $last_name);
@@ -37,10 +29,7 @@ class USER
 			$stmt->bindparam(":begin_studying", $begin_studying);
 			$stmt->bindparam(":department", $department);
 			$stmt->bindparam(":pass", $new_password);
-			$stmt->bindparam(":image_01", $image_01);
-
 			$stmt->execute();
-
 			return $stmt;
 		}
 		catch(PDOException $e)
@@ -48,8 +37,6 @@ class USER
 			echo $e->getMessage();
 		}
 	}
-
-
 	public function doLogin($id_number,$email,$pass)
 	{
 		try
@@ -75,7 +62,6 @@ class USER
 			echo $e->getMessage();
 		}
 	}
-
 	public function is_loggedin()
 	{
 		if(isset($_SESSION['user_session']))
@@ -83,19 +69,16 @@ class USER
 			return true;
 		}
 	}
-
 	public function redirect($url)
 	{
 		header("Location: $url");
 	}
-
 	public function doLogout()
 	{
 		session_destroy();
 		unset($_SESSION['user_session']);
 		return true;
 	}
-
 	public function getCourses($user_id)
 	{
 		$stmt = $this->conn->prepare("SELECT courses.course_name, lecturers.first_name, lecturers.last_name,lecturers.email

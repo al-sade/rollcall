@@ -1,7 +1,22 @@
 
+//passes base64 image
+function saveImage(image , user_id){
+
+  jQuery.ajax({
+       url: '../rollcall/save.php',
+       type: 'POST',
+       data: { pngUrl: image, id: user_id },
+       complete: function(data, status)
+       {
+           if(status=='success')
+           {
+              alert('saved!');
+           }
+       }
+   });
+};
+
   // Put event listeners into place
-
-
 
   window.addEventListener("DOMContentLoaded", function() {
     // Grab elements, create settings, etc.
@@ -35,7 +50,14 @@
     document.getElementById("snap").addEventListener("click", function() {
       context.drawImage(video, 0, 0, 320, 240);
 			var image = document.getElementById("canvas");
-	 		var pngUrl = canvas.toDataURL();
-			console.log(pngUrl);
+	 		var pngUrl = canvas.toDataURL('image/png');
+      var id = document.getElementById('user_id').value;
+      if(IsNumeric(id)){
+      saveImage(pngUrl, id);
+    } else {
+      alert("please provide id number before taking a picture");
+    }
     });
   }, false);
+
+  function IsNumeric(input){return (input - 0) == input && (''+input).trim().length > 0;}

@@ -20,10 +20,45 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="components/jquery/jquery.min.js"></script>
+<link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
+
+<!-- Calendar Section -->
+<link href='js/calendar/fullcalendar.css' rel='stylesheet' />
+<link href='js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='js/calendar/lib/moment.min.js'></script>
+<script src='js/calendar/fullcalendar.min.js'></script>
+<script>
+
+	jQuery(document).ready(function() {
+
+		jQuery('#calendar').fullCalendar({
+			defaultDate: '2016-01-12',
+			editable: true,
+			eventLimit: true, // allow "more" link when too many events
+			events: [
+				{
+					title: 'Physics',
+					start: '2016-01-12T20:00:00'
+				},
+				{
+					title: 'Math',
+					start: '2016-01-10T10:00:00'
+				},
+				{
+					title: 'History',
+					start: '2016-01-13T07:00:00'
+				}
+			]
+		});
+
+	});
+
+</script>
+
+<!-- End of calendar section -->
 </head>
 
 <body>
@@ -55,6 +90,8 @@
 			 echo $row;
 			?>
 			</ul>
+
+			<div id='calendar'></div>
 
     </div>
 
