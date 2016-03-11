@@ -18,7 +18,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="components/jquery/jquery.min.js"></script>
 <link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
@@ -30,28 +29,41 @@
 <link href='js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='js/calendar/lib/moment.min.js'></script>
 <script src='js/calendar/fullcalendar.min.js'></script>
-<script>
+<script type="text/javascript">
 
+var absJson = JSON.parse('<?php echo json_encode($auth_user->getAbsence($user_id)); ?>');
+
+//identical console log structure between absJson and arr
+var arr = [{'title': 'Math','start': '2016-01-15 10:00:00'},{'title': 'Math','start': '2016-01-10T10:00:00'	},{	'title': 'History',	'start': '2016-01-13T07:00:00'}];
+
+//delete student key
+for(var i = 0; i < absJson.length; i++) {
+    delete absJson[i]['student'];
+}
+
+// var str = JSON.stringify(absJson).replace("course", "title");
+var out = [];
+
+for (var key in absJson) {
+    if (absJson.hasOwnProperty(key)) {
+        out.push({
+            'title': absJson[key].course,
+            'start': absJson[key].date
+        });
+    }
+}
+
+// str = JSON.parse(str);
+console.log(out);
+
+		// console.log(absences);
 	jQuery(document).ready(function() {
 
 		jQuery('#calendar').fullCalendar({
 			defaultDate: '2016-01-12',
-			editable: true,
+			editable: false,
 			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-					title: 'Physics',
-					start: '2016-01-12T20:00:00'
-				},
-				{
-					title: 'Math',
-					start: '2016-01-10T10:00:00'
-				},
-				{
-					title: 'History',
-					start: '2016-01-13T07:00:00'
-				}
-			]
+			events: out
 		});
 
 	});
@@ -87,6 +99,7 @@
 			 $begin_studying = new DateTime($userRow['begin_studying']);
 			 $row .= $begin_studying->diff($today)->y;
 			 $row	.= '</li>';
+			 $row .= '<li>absence: '.var_dump($auth_user->getAbsence($user_id)).'</li>';
 			 echo $row;
 			?>
 			</ul>
@@ -96,9 +109,6 @@
     </div>
 
 </div>
-
-
-
 
 <script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 
