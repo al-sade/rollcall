@@ -1,5 +1,6 @@
 vendor/
 components/
+images/
 env.php
 jquery-1.11.3-jquery.min.js
 composer.lock

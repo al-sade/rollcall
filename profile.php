@@ -33,37 +33,29 @@
 
 var absJson = JSON.parse('<?php echo json_encode($auth_user->getAbsence($user_id)); ?>');
 
-//identical console log structure between absJson and arr
-var arr = [{'title': 'Math','start': '2016-01-15 10:00:00'},{'title': 'Math','start': '2016-01-10T10:00:00'	},{	'title': 'History',	'start': '2016-01-13T07:00:00'}];
-
 //delete student key
 for(var i = 0; i < absJson.length; i++) {
     delete absJson[i]['student'];
 }
 
-// var str = JSON.stringify(absJson).replace("course", "title");
-var out = [];
+var absences = [];
 
 for (var key in absJson) {
     if (absJson.hasOwnProperty(key)) {
-        out.push({
+        absences.push({
             'title': absJson[key].course,
             'start': absJson[key].date
         });
     }
 }
 
-// str = JSON.parse(str);
-console.log(out);
-
-		// console.log(absences);
 	jQuery(document).ready(function() {
 
 		jQuery('#calendar').fullCalendar({
 			defaultDate: '2016-01-12',
 			editable: false,
 			eventLimit: true, // allow "more" link when too many events
-			events: out
+			events: absences
 		});
 
 	});
@@ -86,7 +78,8 @@ console.log(out);
 
 			<ul>
     	<?php
-			 $row = '<li>First Name: '.$userRow['first_name'].'</li>';
+		   $row = '<li><img src="images/users/'.$userRow['id_number'].'.png"</li>';
+			 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
 			 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
 			 $row .= '<li>Age: ';
 			 $bday = new DateTime($userRow['bday']);
@@ -99,7 +92,6 @@ console.log(out);
 			 $begin_studying = new DateTime($userRow['begin_studying']);
 			 $row .= $begin_studying->diff($today)->y;
 			 $row	.= '</li>';
-			 $row .= '<li>absence: '.var_dump($auth_user->getAbsence($user_id)).'</li>';
 			 echo $row;
 			?>
 			</ul>
