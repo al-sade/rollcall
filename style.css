@@ -53,3 +53,8 @@ body{
 h1{
 	font-family:Verdana, Geneva, sans-serif;
 }
+
+.picCapture {
+    width: 320px;
+    height: 240px;
+}

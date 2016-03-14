@@ -18,6 +18,10 @@ function saveImage(image , user_id){
 
   // Put event listeners into place
 
+var x_image = 0; // for changing the x axis of the small pictuers
+var y_image = 0; // for changing the y axis of the small pictuers
+var pic_id = 0; //picture id
+
   window.addEventListener("DOMContentLoaded", function() {
     // Grab elements, create settings, etc.
     var canvas = document.getElementById("canvas"),
@@ -46,17 +50,27 @@ function saveImage(image , user_id){
       }, errBack);
     }
 
-    // Trigger photo take
     document.getElementById("snap").addEventListener("click", function() {
-      context.drawImage(video, 0, 0, 320, 240);
-			var image = document.getElementById("canvas");
-	 		var pngUrl = canvas.toDataURL('image/png');
-      var id = document.getElementById('user_id').value;
-      if(IsNumeric(id)){
-      saveImage(pngUrl, id);
-    } else {
-      alert("please provide id number before taking a picture");
-    }
+       if(pic_id < 8) {
+          if (pic_id == 4) {
+            x_image = 0;
+            y_image = 70;
+          }
+          context.drawImage(video, 0, 0, 320, 150); // draw the taken image - you want to create this draw 8 TIMES!
+          var image = document.getElementById("canvas"); // get the canvas - you dont care about it
+          var pngUrl = canvas.toDataURL('image/png'); // same
+          var id = document.getElementById('user_id').value;// here you get user id from the form
+          pic_id++;
+        }
+        
+        if(IsNumeric(id)) { //check if id provided - if yes than save the picture
+          saveImage(pngUrl, id, pic_id);// here we save the image - we want to call this function 8 TIMES
+        } else { // if not than ask for id - We must get id for the file NAME
+          alert("please provide id number before taking a picture");
+        }
+        context.clearRect(0, 0, 320, 240);
+        context.drawImage(video, x_image, y_image, 70, 60);
+        x_image = 78 + x_image;
     });
   }, false);
 
