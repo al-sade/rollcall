@@ -43,21 +43,20 @@ var absences = [];
 for (var key in absJson) {
     if (absJson.hasOwnProperty(key)) {
         absences.push({
-            'title': absJson[key].course,
+            'title': absJson[key].course_name,
             'start': absJson[key].date
         });
     }
 }
+console.log(absJson);
 
 	jQuery(document).ready(function() {
-
 		jQuery('#calendar').fullCalendar({
 			defaultDate: '2016-01-12',
 			editable: false,
 			eventLimit: true, // allow "more" link when too many events
 			events: absences
 		});
-
 	});
 
 </script>
@@ -75,27 +74,27 @@ for (var key in absJson) {
     <div class="container-fluid" style="margin-top:80px;">
 
     <div class="container">
-
-			<ul>
-    	<?php
-		   $row = '<li><img src="images/users/'.$userRow['id_number'].'.png"</li>';
-			 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
-			 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
-			 $row .= '<li>Age: ';
-			 $bday = new DateTime($userRow['bday']);
-			 $today   = new DateTime('today');
-			 $row .= $bday->diff($today)->y;
-			 $row .= '</li>';
-			 $row .= '<li>Department: '.$userRow['department'].'</li>';
-			 $row .= '<li>eMail: '.$userRow['email'].'</li>';
-			 $row .= '<li>Year Of Study: ';
-			 $begin_studying = new DateTime($userRow['begin_studying']);
-			 $row .= $begin_studying->diff($today)->y;
-			 $row	.= '</li>';
-			 echo $row;
-			?>
-			</ul>
-
+			<div class="details">
+				<ul>
+	    	<?php
+			   $row = '<li><img src="images/users/'.$userRow['id_number'].'.png"</li>';
+				 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
+				 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
+				 $row .= '<li>Age: ';
+				 $bday = new DateTime($userRow['bday']);
+				 $today   = new DateTime('today');
+				 $row .= $bday->diff($today)->y;
+				 $row .= '</li>';
+				 $row .= '<li>Department: '.$userRow['department'].'</li>';
+				 $row .= '<li>eMail: '.$userRow['email'].'</li>';
+				 $row .= '<li>Year Of Study: ';
+				 $begin_studying = new DateTime($userRow['begin_studying']);
+				 $row .= $begin_studying->diff($today)->y;
+				 $row	.= '</li>';
+				 echo $row;
+				?>
+				</ul>
+			</div>
 			<div id='calendar'></div>
 
     </div>

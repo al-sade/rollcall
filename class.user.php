@@ -93,10 +93,57 @@ class USER
 
 	public function getAbsence($user_id)
 	{
-		$stmt = $this->conn->prepare("SELECT * FROM absence WHERE student =:student_id ");
+		$stmt = $this->conn->prepare("SELECT
+		absence.student, absence.course, absence.date, courses.course_name
+		FROM absence
+		INNER JOIN courses ON absence.course = courses.course_id
+ 		WHERE student =:student_id ");
 		$stmt->execute(array(':student_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 		return $userRow;
 	}
+
+	public function kairosEnroll($path, $user_id)
+{
+	// The data to send to the API
+$postData = array(
+		"image" => 'images',
+    'subject_id' => '3008042332',
+    'gallery_name' => 'presidents',
+    'selector' => 'SETPOSE',
+    'symmetricFill' => 'true'
+);
+
+		$url = "https://api.kairos.com/enroll";
+    $curl = curl_init($url);
+
+		// Setup cURL
+		$ch = curl_init($url);
+		curl_setopt_array($ch, array(
+		    CURLOPT_POST => TRUE,
+		    CURLOPT_RETURNTRANSFER => TRUE,
+		    CURLOPT_HTTPHEADER => array(
+					'Content-Type:  application/json',
+					'app_id: 40a56f65',
+					'app_key: 3998c75b7404a3e22b0d52ab05727cc5'
+		    ),
+		    CURLOPT_POSTFIELDS => json_encode($postData)
+		));
+
+		// Send the request
+		$response = curl_exec($ch);
+
+		// Check for errors
+		if($response === FALSE){
+		    die(curl_error($ch));
+		}
+
+		// Decode the response
+		$responseData = json_decode($response, TRUE);
+
+		// Print the date from the response
+		echo $responseData['published'];
+
+		}
 }
 ?>

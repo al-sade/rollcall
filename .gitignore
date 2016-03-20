@@ -1,6 +1,7 @@
 vendor/
 components/
 images/
+js/calendar/demos/
 env.php
 jquery-1.11.3-jquery.min.js
 composer.lock
