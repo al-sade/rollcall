@@ -127,9 +127,9 @@ if(isset($_POST['btn-signup']))
 						<div class="form-group">
 						<div id="camera">
 							<div class="center clear">
-								<video id="video" width="320" height="240" autoplay></video>
+								<video id="video" class="picCapture" autoplay></video>
 								<button id="snap" onclick="return false;">Take Picture</button>
-								<canvas id="canvas" width="320" height="240"></canvas>
+								<canvas id="canvas" class="picCapture"></canvas>
 							</div>
 						</div>
 					</div>
