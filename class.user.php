@@ -104,11 +104,11 @@ class USER
 		return $userRow;
 	}
 
-	public function kairosEnroll($path, $user_id)
+	public function kairosEnroll($img_path, $user_id)
 {
 	// The data to send to the API
 $postData = array(
-	 "image" => "http://static6.businessinsider.com/image/568d2247e6183eee168b7028/barack-obama-openly-crying-could-help-him--heres-why-people-find-a-leaders-tears-moving.jpg",
+	 "image" => "http://104.131.0.21/rollcall/" + $img_path,
 	 "subject_id" => $user_id,
 	 "gallery_name" => "presidents",
 	 "selector" => "SETPOSE",
