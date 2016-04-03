@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`students_courses`(
 ) ENGINE=InnonDB CHARSET=latin1;
 
 
-CREATE TABLE IF NOT EXISTS `rollcall`.`absence`(
+CREATE TABLE IF NOT EXISTS `rollcall`.`presence`(
   `student` INT(10) NOT NULL,
   `course` INT(10) NOT NULL,
   FOREIGN KEY (student) REFERENCES users(user_id),
@@ -173,7 +173,7 @@ VALUES
 ('2', '3333'),
 ('2', '4444');
 
-INSERT INTO  `rollcall`.`absence` (
+INSERT INTO  `rollcall`.`presence` (
 `student` ,
 `course` ,
 `date`

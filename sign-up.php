@@ -1,4 +1,4 @@
-<?php
+type<?php
 session_start();
 require_once('class.user.php');
 $user = new USER();
@@ -18,9 +18,6 @@ if(isset($_POST['btn-signup']))
 	$begin_studying = strip_tags($_POST['begin_studying']);
 	$department = strip_tags($_POST['department']);
 	$pass = strip_tags($_POST['pass']);
-
-
-
 
 
 		try
@@ -128,7 +125,7 @@ if(isset($_POST['btn-signup']))
 						<div id="camera">
 							<div class="center clear">
 								<video id="video" class="picCapture" autoplay></video>
-								<button id="snap" onclick="return false;">Take Picture</button>
+								<button id="snap" type="button" class="btn btn-default" onclick="return false;">Take Picture</button>
 								<canvas id="canvas" class="picCapture"></canvas>
 							</div>
 						</div>

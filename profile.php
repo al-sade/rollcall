@@ -31,18 +31,18 @@
 <script src='js/calendar/fullcalendar.min.js'></script>
 <script type="text/javascript">
 
-var absJson = JSON.parse('<?php echo json_encode($auth_user->getAbsence($user_id)); ?>');
+var absJson = JSON.parse('<?php echo json_encode($auth_user->getPresence($user_id)); ?>');
 
 //delete student key
 for(var i = 0; i < absJson.length; i++) {
     delete absJson[i]['student'];
 }
 
-var absences = [];
+var presence = [];
 
 for (var key in absJson) {
     if (absJson.hasOwnProperty(key)) {
-        absences.push({
+        presence.push({
             'title': absJson[key].course_name,
             'start': absJson[key].date
         });
@@ -55,7 +55,7 @@ console.log(absJson);
 			defaultDate: '2016-01-12',
 			editable: false,
 			eventLimit: true, // allow "more" link when too many events
-			events: absences
+			events: presence
 		});
 	});
 
