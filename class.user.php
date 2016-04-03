@@ -1,5 +1,6 @@
 <?php
 require_once('dbconfig.php');
+require_once('env.php');
 class USER
 {
 	private $conn;
@@ -91,12 +92,12 @@ class USER
 		return $userRow;
 	}
 
-	public function getAbsence($user_id)
+	public function getPresence($user_id)
 	{
 		$stmt = $this->conn->prepare("SELECT
-		absence.student, absence.course, absence.date, courses.course_name
-		FROM absence
-		INNER JOIN courses ON absence.course = courses.course_id
+		presence.student, presence.course, presence.date, courses.course_name
+		FROM presence
+		INNER JOIN courses ON presence.course = courses.course_id
  		WHERE student =:student_id ");
 		$stmt->execute(array(':student_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
@@ -107,11 +108,11 @@ class USER
 {
 	// The data to send to the API
 $postData = array(
-		"image" => 'images',
-    'subject_id' => '3008042332',
-    'gallery_name' => 'presidents',
-    'selector' => 'SETPOSE',
-    'symmetricFill' => 'true'
+	 "image" => "http://static6.businessinsider.com/image/568d2247e6183eee168b7028/barack-obama-openly-crying-could-help-him--heres-why-people-find-a-leaders-tears-moving.jpg",
+	 "subject_id" => $user_id,
+	 "gallery_name" => "presidents",
+	 "selector" => "SETPOSE",
+	 "symmetricFill" => "true"
 );
 
 		$url = "https://api.kairos.com/enroll";
@@ -142,7 +143,7 @@ $postData = array(
 		$responseData = json_decode($response, TRUE);
 
 		// Print the date from the response
-		echo $responseData['published'];
+		// echo $responseData['published'];
 
 		}
 }

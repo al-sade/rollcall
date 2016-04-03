@@ -6,7 +6,7 @@ $auth_user = new USER();
 
 $post_data = $_POST['pngUrl'];
 $user_id = $_POST['id'];
-$pic_id = $_POST['pic_id']; // get the picture id from the catch-pic.js script
+// $pic_id = $_POST['pic_id']; // get the picture id from the catch-pic.js script
 
 
 if (!empty($post_data)){
@@ -14,11 +14,11 @@ list($type, $post_data) = explode(';', $post_data);
 list(, $post_data)      = explode(',', $post_data);
 $post_data = base64_decode($post_data);
 
-$path = "images/users/'.$user_id.'.png";
+$path = "images/users/".$user_id.".png";
 file_put_contents($path, $post_data);
 }
 
-$auth_user->kairosEnroll('images/users/212121.png',$user_id);
+$auth_user->kairosEnroll('images/users/2212122.png',$user_id);
 
 //This logic can be used to save base64_encode vevrsion of the image!
 // if (!empty($post_data)) {
