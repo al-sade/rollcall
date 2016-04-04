@@ -111,7 +111,7 @@ class USER
 $postData = array(
 	 "image" => "http://104.131.0.21/rollcall/images/users/".$subject_id.".png",
 	 "subject_id" => $user_id.'-a'.$pic_id,
-	 "gallery_name" => "presidents",
+	 "gallery_name" => KAIROS_GALLERY,
 	 "selector" => "SETPOSE",
 	 "symmetricFill" => "true"
 );
@@ -126,8 +126,8 @@ $postData = array(
 		    CURLOPT_RETURNTRANSFER => TRUE,
 		    CURLOPT_HTTPHEADER => array(
 					'Content-Type:  application/json',
-					'app_id: 40a56f65',
-					'app_key: 3998c75b7404a3e22b0d52ab05727cc5'
+					'app_id:'.APP_ID,
+					'app_key:'.APP_KEY
 		    ),
 		    CURLOPT_POSTFIELDS => json_encode($postData)
 		));
