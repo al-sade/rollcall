@@ -73,7 +73,6 @@ function saveImage(image , user_id, pic_id){
                   context.drawImage(video, x_image, y_image, 70, 60);
                   x_image = 78 + x_image;
         }
-        console.log("8 pictures are saved!");
     });
   }, false);
 

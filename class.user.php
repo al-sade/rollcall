@@ -104,12 +104,13 @@ class USER
 		return $userRow;
 	}
 
-	public function kairosEnroll($img_path, $user_id)
+	public function kairosEnroll($user_id, $pic_id)
 {
+	$subject_id = $user_id."-a".$pic_id;
 	// The data to send to the API
 $postData = array(
-	 "image" => "http://104.131.0.21/rollcall/" + $img_path,
-	 "subject_id" => $user_id,
+	 "image" => "http://104.131.0.21/rollcall/images/users/".$subject_id.".png",
+	 "subject_id" => $user_id.'-a'.$pic_id,
 	 "gallery_name" => "presidents",
 	 "selector" => "SETPOSE",
 	 "symmetricFill" => "true"

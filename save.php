@@ -14,11 +14,13 @@ list($type, $post_data) = explode(';', $post_data);
 list(, $post_data)      = explode(',', $post_data);
 $post_data = base64_decode($post_data);
 
-$img_path = "images/users/".$user_id."-a".$pic_id.".png";
-file_put_contents($path, $post_data);
+$img_name = $user_id."-a".$pic_id.".png";
+$img_path = "/var/www/html/rollcall/images/users/".$img_name;
+
+file_put_contents($img_path, $post_data);
 }
 
-$auth_user->kairosEnroll($img_path,$user_id);
+$auth_user->kairosEnroll($user_id, $pic_id);
 
 //This logic can be used to save base64_encode vevrsion of the image!
 // if (!empty($post_data)) {
