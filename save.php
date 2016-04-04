@@ -15,7 +15,7 @@ list(, $post_data)      = explode(',', $post_data);
 $post_data = base64_decode($post_data);
 
 $img_name = $user_id."-a".$pic_id.".png";
-$img_path = "/var/www/html/rollcall/images/users/".$img_name;
+$img_path = IMG_PATH.$img_name;
 
 file_put_contents($img_path, $post_data);
 }
