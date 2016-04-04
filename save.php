@@ -1,7 +1,8 @@
 <?php
 require_once("session.php");
-
+require_once('env.php');
 require_once("class.user.php");
+
 $auth_user = new USER();
 
 $post_data = $_POST['pngUrl'];
