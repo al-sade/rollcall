@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`users` (
   `department` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `joining_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `admin` BOOLEAN NULL DEFAULT NULL
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -99,11 +100,12 @@ INSERT INTO `rollcall`.`users` (
 `begin_studying`,
 `department`,
 `pass`,
-`joining_date`
+`joining_date`,
+`admin`
 )
 VALUES
-(NULL,'300804671','Al','Sade','alsade15@gmail.com','2004-03-03','2004-03-03','Economics','$2y$10$V5LZM6mbjNO545dBjSK7WuYyLLgGt83tqfEz/zbTZYTQHYl.KAct.',CURRENT_TIMESTAMP),
-(NULL,'38473987','Alon','Cohen','alon@gmail.com','1994-11-04','2004-03-05','Arts','373923hdf',CURRENT_TIMESTAMP)
+(NULL,'300804671','Al','Sade','alsade15@gmail.com','2004-03-03','2004-03-03','Economics','$2y$10$V5LZM6mbjNO545dBjSK7WuYyLLgGt83tqfEz/zbTZYTQHYl.KAct.',CURRENT_TIMESTAMP,0),
+(NULL,'38473987','Alon','Cohen','alon@gmail.com','1994-11-04','2004-03-05','Arts','373923hdf',CURRENT_TIMESTAMP,0)
  ;
 
 INSERT INTO `rollcall`.`courses` (

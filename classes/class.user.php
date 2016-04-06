@@ -1,6 +1,6 @@
 <?php
-require_once('dbconfig.php');
-require_once('env.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/dbconfig.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/config.php');
 class USER
 {
 	private $conn;
@@ -50,6 +50,7 @@ class USER
 				if(password_verify($pass, $userRow['pass']))
 				{
 					$_SESSION['user_session'] = $userRow['user_id'];
+					$_SESSION['admin'] = $userRow['admin'];
 					return true;
 				}
 				else

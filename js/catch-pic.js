@@ -3,7 +3,7 @@
 function saveImage(image , user_id, pic_id){
 
   jQuery.ajax({
-       url: '../rollcall/save.php',
+       url: '../save.php',
        type: 'POST',
        data: { pngUrl: image, id: user_id, pic_id: pic_id },
        complete: function(data, status)
@@ -51,28 +51,33 @@ function saveImage(image , user_id, pic_id){
     var pic_id = 0; //picture id
 
     document.getElementById("snap").addEventListener("click", function() {
-       if(pic_id < 8) {
+          var id = document.getElementById('user_id').value;// get user id
+
+          if(IsNumeric(id)) {
+          if(pic_id < 8) {
           if (pic_id == 4) {
             x_image = 0;
             y_image = 70;
           }
-          context.drawImage(video, 0, 0, 320, 150); // draw the taken image - you want to create this draw 8 TIMES!
-          var image = document.getElementById("canvas"); // get the canvas - you dont care about it
-          var pngUrl = canvas.toDataURL('image/png'); // same
-          var id = document.getElementById('user_id').value;// here you get user id from the form
+          context.drawImage(video, 0, 0, 320, 150);
+
+          var image = document.getElementById("canvas"); // get the canvas
+          var pngUrl = canvas.toDataURL('image/png');
+
           pic_id++;
 
+            saveImage(pngUrl, id, pic_id);
+            console.log("kairos call");
 
-                  if(IsNumeric(id)) { //check if id provided - if yes than save the picture
-                    saveImage(pngUrl, id, pic_id);// here we save the image - we want to call this function 8 TIMES
-                    console.log("kairos call");
-                  } else { // if not than ask for id - We must get id for the file NAME
-                    alert("please provide id number before taking a picture");
-                  }
-                  context.clearRect(0, 0, 320, 240);
-                  context.drawImage(video, x_image, y_image, 70, 60);
-                  x_image = 78 + x_image;
+          } else if (pic_id ==8){
+            document.getElementById('form-submit').style.pointerEvents = "all";
+          }
+        }else {
+          console.log("please fill up the form before taking pictures");
         }
+        context.clearRect(0, 0, 320, 240);
+        context.drawImage(video, x_image, y_image, 70, 60);
+        x_image = 78 + x_image;
     });
   }, false);
 

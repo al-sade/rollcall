@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('class.user.php');
+require_once('../classes/class.user.php');
 $user = new USER();
 
 if($user->is_loggedin()!="")
@@ -53,10 +53,10 @@ if(isset($_POST['btn-signup']))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>RollCall : Sign up</title>
-<script src="vendor/components/jquery/jquery.min.js"></script>
-<link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" href="style.css" type="text/css"  />
+<script src="../vendor/components/jquery/jquery.min.js"></script>
+<link href="../vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="../vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="../style.css" type="text/css"  />
 </head>
 <body>
 
@@ -144,6 +144,6 @@ if(isset($_POST['btn-signup']))
 </div>
 
 </div>
-<script src="js/catch-pic.js"></script>
+<script src="../js/catch-pic.js"></script>
 </body>
 </html>

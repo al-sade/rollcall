@@ -1,8 +1,8 @@
 <?php
 
-	require_once("session.php");
+	require_once("../session.php");
 
-	require_once("class.user.php");
+	require_once("../classes/class.user.php");
 	$auth_user = new USER();
 
 
@@ -18,17 +18,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="components/jquery/jquery.min.js"></script>
-<link href="vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" href="style.css" type="text/css"  />
+<link href="../vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="../components/jquery/jquery.min.js"></script>
+<link href="../vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="../style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
 
 <!-- Calendar Section -->
-<link href='js/calendar/fullcalendar.css' rel='stylesheet' />
-<link href='js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='js/calendar/lib/moment.min.js'></script>
-<script src='js/calendar/fullcalendar.min.js'></script>
+<link href='../js/calendar/fullcalendar.css' rel='stylesheet' />
+<link href='../js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='../js/calendar/lib/moment.min.js'></script>
+<script src='../js/calendar/fullcalendar.min.js'></script>
 <script type="text/javascript">
 
 var absJson = JSON.parse('<?php echo json_encode($auth_user->getPresence($user_id)); ?>');
@@ -77,7 +77,7 @@ console.log(absJson);
 			<div class="details">
 				<ul>
 	    	<?php
-			   $row = '<li><img src="images/users/'.$userRow['id_number'].'.png"</li>';
+			   $row = '<li><img src="../images/users/'.$userRow['id_number'].'.png"</li>';
 				 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
 				 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
 				 $row .= '<li>Age: ';
@@ -101,7 +101,7 @@ console.log(absJson);
 
 </div>
 
-<script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

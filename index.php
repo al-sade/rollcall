@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once("class.user.php");
+require_once("classes/class.user.php");
 
 $login = new USER();
 
 if($login->is_loggedin()!="")
 {
-	$login->redirect('home.php');
+	$login->redirect('views/home.php');
 }
 
 if(isset($_POST['btn-login']))
@@ -17,7 +17,7 @@ if(isset($_POST['btn-login']))
 
 	if($login->doLogin($id_number,$email,$pass))
 	{
-		$login->redirect('home.php');
+		$login->redirect('views/home.php');
 	}
 	else
 	{
@@ -76,7 +76,7 @@ if(isset($_POST['btn-login']))
             </button>
         </div>
       	<br />
-            <label>Don't have account yet ! <a href="sign-up.php">Sign Up</a></label>
+            <label>Don't have account yet ! <a href="views/sign-up.php">Sign Up</a></label>
       </form>
 
     </div>

@@ -1,7 +1,7 @@
 <?php
 require_once("session.php");
-require_once('env.php');
-require_once("class.user.php");
+require_once("config.php");
+require_once("classes/class.user.php");
 
 $auth_user = new USER();
 
@@ -21,7 +21,8 @@ $img_path = IMG_PATH.$img_name;
 file_put_contents($img_path, $post_data);
 }
 
-$auth_user->kairosEnroll($user_id, $pic_id);
+//send image to kairos
+// $auth_user->kairosEnroll($user_id, $pic_id);
 
 //This logic can be used to save base64_encode vevrsion of the image!
 // if (!empty($post_data)) {
