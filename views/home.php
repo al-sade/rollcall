@@ -31,9 +31,7 @@
 
 <?php require_once('header.php');?>
 
-
-    <div class="clearfix"></div>
-
+<div class="clearfix"></div>
 
 <div class="container-fluid" style="margin-top:80px;">
 
