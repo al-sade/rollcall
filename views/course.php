@@ -1,11 +1,15 @@
 <?php
-
 	require_once("../session.php");
-
 	require_once("../classes/class.user.php");
-	$auth_user = new USER();
+	require '../vendor/autoload.php';
 
+	$auth_user = new USER();
 	$user_id = $_SESSION['user_session'];
+
+  $course_id = $_GET['cid'];
+  $course_data = $auth_user->getCourse($user_id,$course_id);
+  $dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+
 
 	$stmt = $auth_user->runQuery("SELECT * FROM users WHERE user_id=:user_id");
 	$stmt->execute(array(":user_id"=>$user_id));
@@ -26,47 +30,23 @@
 
 <body>
 
-
 <?php require_once('header.php');?>
 
-	<div class="clearfix"></div>
+<div class="clearfix"></div>
 
-    <div class="container-fluid" style="margin-top:80px;">
-
+<div class="container-fluid" style="margin-top:80px;">
     <div class="container">
 
-        <h2>My Courses</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Course</th>
-              <th>Lecturer</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $courses = $auth_user->getCourses($userRow["user_id"]);
-            foreach($courses as $course){
-              $row = '<tr>';
-              $row .= '<td><a href="course.php?cid='.$course["course_id"].'">'.$course["course_name"].'</a></td>';
-              $row .= '<td>'.$course["first_name"]." ".$course["last_name"].'</td>';
-              $row .= '<td>'.$course["email"].'</td>';
-              $row .= '<tr>';
-              echo $row;
-            }
-             ?>
-          </tbody>
-        </table>
-
-
-
+      <h1><?php echo($course_data[0]['course_name']); ?></h1>
+      <ul>
+        <li>Lecturer: <?php echo $course_data[0]['first_name'].$course_data[0]['last_name']; ?></li>
+        <li>Day: <?php $day = $course_data[0]['day_of_week']; echo $dowMap[$day]; ?></li>
+        <li>Start: <?php echo $course_data[0]['start'];?></li>
+        <li>End: <?php echo $course_data[0]['end'];?></li>
+      </ul>
     </div>
 
 </div>
-
-
-
 
 <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 

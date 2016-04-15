@@ -61,6 +61,9 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`courses`(
   `course_id` INT(15) NOT NULL AUTO_INCREMENT,
   `course_name` VARCHAR( 255 ) NOT NULL ,
   `lecturer` VARCHAR( 255 ) NOT NULL,
+  `day_of_week` INT( 1 ) NOT NULL ,
+  `start` TIME NOT NULL,
+  `end` TIME NOT NULL
   PRIMARY KEY (`course_id`)
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -77,9 +80,12 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`cameras`(
 CREATE TABLE IF NOT EXISTS `rollcall`.`students_courses`(
   `student` INT(10) NOT NULL,
   `course` INT(10) NOT NULL,
+  `day_of_week` INT(10) NOT NULL,
+  `start` TIME NOT NULL,
+  `end` TIME NOT NULL,
   FOREIGN KEY (student) REFERENCES users(user_id),
-  FOREIGN KEY (course) REFERENCES courses(course_id)
-) ENGINE=InnonDB CHARSET=latin1;
+  FOREIGN KEY (course) REFERENCES courses(course_id),
+  ) ENGINE=InnonDB CHARSET=latin1;
 
 
 CREATE TABLE IF NOT EXISTS `rollcall`.`presence`(
@@ -111,13 +117,16 @@ VALUES
 INSERT INTO `rollcall`.`courses` (
   `course_id`,
   `course_name`,
-  `lecturer`
+  `lecturer`,
+  `day_of_week`,
+  `start`,
+  `end`
  )
   VALUES
- ('1111', 'Mathematics', '1000'),
- ('2222', 'Physics', '1100'),
- ('3333', 'Computer Science', '1122'),
- ('4444', 'English', '1123');
+ ('1111', 'Mathematics', '1000', '2', '10:00:00', '12:00:00'),
+ ('2222', 'Physics', '1100', '1', '11:00:00', '15:00:00'),
+ ('3333', 'Computer Science', '1122', '1', '14:00:00', '16:00:00'),
+ ('4444', 'English', '1123', '4', '10:00:00', '12:00:00');
 
 
 INSERT INTO  `rollcall`.`cameras` (

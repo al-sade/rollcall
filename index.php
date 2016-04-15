@@ -17,7 +17,11 @@ if(isset($_POST['btn-login']))
 
 	if($login->doLogin($id_number,$email,$pass))
 	{
+		if($_SESSION['admin']){
+			$login->redirect('views/admin-mgmt.php');
+		}else{
 		$login->redirect('views/home.php');
+	}
 	}
 	else
 	{

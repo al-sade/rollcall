@@ -24,44 +24,6 @@
 <link rel="stylesheet" href="../style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
 
-<!-- Calendar Section -->
-<link href='../js/calendar/fullcalendar.css' rel='stylesheet' />
-<link href='../js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='../js/calendar/lib/moment.min.js'></script>
-<script src='../js/calendar/fullcalendar.min.js'></script>
-<script type="text/javascript">
-
-var absJson = JSON.parse('<?php echo json_encode($auth_user->getPresence($user_id)); ?>');
-
-//delete student key
-for(var i = 0; i < absJson.length; i++) {
-    delete absJson[i]['student'];
-}
-
-var presence = [];
-
-for (var key in absJson) {
-    if (absJson.hasOwnProperty(key)) {
-        presence.push({
-            'title': absJson[key].course_name,
-            'start': absJson[key].date
-        });
-    }
-}
-console.log(absJson);
-
-	jQuery(document).ready(function() {
-		jQuery('#calendar').fullCalendar({
-			defaultDate: '2016-01-12',
-			editable: false,
-			eventLimit: true, // allow "more" link when too many events
-			events: presence
-		});
-	});
-
-</script>
-
-<!-- End of calendar section -->
 </head>
 
 <body>
@@ -95,7 +57,31 @@ console.log(absJson);
 				?>
 				</ul>
 			</div>
-			<div id='calendar'></div>
+
+			<div id="scehdule">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Course</th>
+							<th>Day</th>
+							<th>Start</th>
+							<th>End</th>
+						</tr>
+					</thead>
+						<tbody>
+							<?php
+							$schedule = ($auth_user->getSchedule($user_id));
+							foreach ($schedule as $class) {
+								$output = "<tr><td>".$class['course_name']."</td>";
+								$output .= "<td>".$class['day_of_week']."</td>";
+								$output .= "<td>".$class['start']."</td>";
+								$output .= "<td>".$class['end']."</td></tr>";
+								echo $output;
+							}
+							?>
+						</tbody>
+			</div>
+
 
     </div>
 

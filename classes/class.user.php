@@ -81,9 +81,22 @@ class USER
 		unset($_SESSION['user_session']);
 		return true;
 	}
+
+	public function getCourse($user_id,$course_id){
+		$stmt = $this->conn->prepare("SELECT courses.course_name,lecturers.first_name, lecturers.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
+		FROM courses
+		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
+		INNER JOIN lecturers ON courses.lecturer = lecturers.id
+		WHERE course_id =:course_id ");
+		$stmt->execute(array(':course_id'=>$course_id, ':user_id'=>$user_id));
+		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+		return $userRow;
+
+	}
+
 	public function getCourses($user_id)
 	{
-		$stmt = $this->conn->prepare("SELECT courses.course_name, lecturers.first_name, lecturers.last_name,lecturers.email
+		$stmt = $this->conn->prepare("SELECT courses.course_name, lecturers.first_name, lecturers.last_name,lecturers.email,courses.course_id
 		FROM students_courses
 		INNER JOIN courses ON students_courses.course = courses.course_id
 		INNER JOIN lecturers ON courses.lecturer = lecturers.id
@@ -100,6 +113,18 @@ class USER
 		FROM presence
 		INNER JOIN courses ON presence.course = courses.course_id
  		WHERE student =:student_id ");
+		$stmt->execute(array(':student_id'=>$user_id));
+		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+		return $userRow;
+	}
+
+	public function getSchedule($user_id)
+	{
+		$stmt = $this->conn->prepare("SELECT
+		students_courses.course,students_courses.day_of_week,students_courses.start,students_courses.end,courses.course_name
+		FROM students_courses
+		INNER JOIN courses ON students_courses.course = courses.course_id
+		WHERE student =:student_id ");
 		$stmt->execute(array(':student_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 		return $userRow;

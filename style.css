@@ -82,3 +82,9 @@ h1{
 #form-submit{
 	pointer-events: none;
 }
+
+
+#scehdule{
+	width: 50%;
+	float: right;
+}

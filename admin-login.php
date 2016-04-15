@@ -17,11 +17,11 @@ if(isset($_POST['btn-login']))
 
 	if($login->doLogin($id_number,$email,$pass))
 	{
-		$login->redirect('admin-mgmt.php');
+		$login->redirect('views/admin-mgmt.php');
 	}
 	else
 	{
-		$error = "Wrong Details !";
+		$error = "Wrong Details or Not Allowed";
 	}
 }
 ?>
@@ -38,14 +38,9 @@ if(isset($_POST['btn-login']))
 <body>
 
 <div class="signin-form">
-
 	<div class="container">
-
-
        <form class="form-signin" method="post" id="login-form">
-
         <h2 class="form-signin-heading">Welcome To Rollcall Admin Section</h2><hr />
-
         <div id="error">
         <?php
 			if(isset($error))
@@ -75,11 +70,8 @@ if(isset($_POST['btn-login']))
                 	<i class="glyphicon glyphicon-log-in"></i> &nbsp; SIGN IN
             </button>
         </div>
-
       </form>
-
     </div>
-
 </div>
 
 </body>

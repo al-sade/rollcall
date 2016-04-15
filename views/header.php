@@ -17,6 +17,7 @@
             <li><a href="profile.php">Profile</a></li>
             <li><a href="statistics.php">Statistics</a></li>
             <li><a href="my-courses.php">My Courses</a></li>
+            <li><a href="calendar.php">My Calendar</a></li>
             <li><a href="notifications.php">Notifications</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
