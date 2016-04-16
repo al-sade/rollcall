@@ -1,6 +1,7 @@
 vendor/
 components/
-images/users/*
+uploads/images/users/*
+uploads/appeals/*
 js/calendar/demos/
 config.php
 jquery-1.11.3-jquery.min.js

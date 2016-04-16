@@ -39,7 +39,7 @@
 			<div class="details">
 				<ul>
 	    	<?php
-			   $row = '<li><img src="../images/users/'.$userRow['id_number'].'.png"</li>';
+			   $row = '<li><img src="../uploads/images/users/'.$userRow['id_number'].'.png"</li>';
 				 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
 				 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
 				 $row .= '<li>Age: ';

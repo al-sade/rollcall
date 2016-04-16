@@ -83,7 +83,7 @@ class USER
 	}
 
 	public function getCourse($user_id,$course_id){
-		$stmt = $this->conn->prepare("SELECT courses.course_name,lecturers.first_name, lecturers.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
+		$stmt = $this->conn->prepare("SELECT courses.course_name,lecturers.id, lecturers.first_name, lecturers.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
 		FROM courses
 		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
 		INNER JOIN lecturers ON courses.lecturer = lecturers.id
@@ -106,6 +106,18 @@ class USER
 		return $userRow;
 	}
 
+	//get presence for a specific course
+	public function getCoursePresence($user_id, $course_id){
+		$stmt = $this->conn->prepare("SELECT *
+		FROM presence
+ 		WHERE student =:student_id AND course = :course_id");
+		$stmt->execute(array(':student_id'=>$user_id, ':course_id'=>$course_id));
+		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+		return $userRow;
+
+	}
+
+	//get presence for entire courses
 	public function getPresence($user_id)
 	{
 		$stmt = $this->conn->prepare("SELECT
@@ -130,12 +142,46 @@ class USER
 		return $userRow;
 	}
 
+	public function submitAppeal($user_id, $course_id, $lecturer_id, $message, $file = NULL){
+		try
+		{
+			// $stmt = $this->conn->prepare("INSERT INTO appeals(course_id, student_id, content))
+		  //                                              VALUES(:course_id, :student_id, :content)");
+			$stmt = $this->conn->prepare("INSERT INTO  appeals (
+`appeal_id` ,
+`course_id` ,
+`student_id` ,
+`lecturer_id` ,
+`content` ,
+`submit_date` ,
+`read`
+)
+VALUES (
+NULL , :course_id, :student_id, :lecturer_id, :content,
+CURRENT_TIMESTAMP , '0'
+);
+
+");
+			$stmt->bindparam(":course_id", $course_id);
+			$stmt->bindparam(":student_id", $user_id);
+			$stmt->bindparam(":lecturer_id", $lecturer_id);
+			$stmt->bindparam(":content", $message);
+			$stmt->execute();
+			var_dump($stmt) ;
+			return $stmt;
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+		}
+	}
+
 	public function kairosEnroll($user_id, $pic_id)
 {
 	$subject_id = $user_id."-a".$pic_id;
 	// The data to send to the API
 $postData = array(
-	 "image" => "http://104.131.0.21/rollcall/images/users/".$subject_id.".png",
+	 "image" => "http://104.131.0.21/rollcall/uploads/images/users/".$subject_id.".png",
 	 "subject_id" => $user_id.'-a'.$pic_id,
 	 "gallery_name" => KAIROS_GALLERY,
 	 "selector" => "SETPOSE",

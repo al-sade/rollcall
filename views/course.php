@@ -4,18 +4,69 @@
 	require '../vendor/autoload.php';
 
 	$auth_user = new USER();
-	$user_id = $_SESSION['user_session'];
 
+	$user_id = $_SESSION['user_session'];
   $course_id = $_GET['cid'];
   $course_data = $auth_user->getCourse($user_id,$course_id);
+  $lecturer_id = $course_data[0]['id'];
+  $presence = $auth_user->getCoursePresence($user_id,$course_id);
   $dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
-
 
 	$stmt = $auth_user->runQuery("SELECT * FROM users WHERE user_id=:user_id");
 	$stmt->execute(array(":user_id"=>$user_id));
 
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 
+  //File Handling
+  $target_dir = "../uploads/appeals/";
+  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+  $uploadOk = 1;
+  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+  //End File Handling
+
+  if(isset($_POST['submit']))
+  {
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+   if($check !== false) {
+       echo "File is an image - " . $check["mime"] . ".";
+       $uploadOk = 1;
+   } else {
+       echo "File is not an image.";
+       $uploadOk = 0;
+   }
+   // Check if file already exists
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" && $imageFileType != "pdf" ) {
+    // TODO: PRINT error of allowed file types
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+   //End of checking
+
+    $message = strip_tags($_POST['message']);
+    $auth_user->submitAppeal($user_id, $course_id, $lecturer_id, $message, $file = NULL);
+  }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,7 +87,7 @@
 
 <div class="container-fluid" style="margin-top:80px;">
     <div class="container">
-
+      <div class="row">
       <h1><?php echo($course_data[0]['course_name']); ?></h1>
       <ul>
         <li>Lecturer: <?php echo $course_data[0]['first_name'].$course_data[0]['last_name']; ?></li>
@@ -45,7 +96,35 @@
         <li>End: <?php echo $course_data[0]['end'];?></li>
       </ul>
     </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <h2>Presence Table</h2>
+        <?php var_dump($course_data) ?>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <h2>Submit Appeal</h2>
+        <form method="post" class="form-signin" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="comment">Message:</label>
+            <textarea class="form-control" name="message" rows="5" required></textarea>
+          </div>
+					<div class="form-group">
+            <label class="btn btn-primary" for="appeal-file">
+              <input type="file" name="fileToUpload" id="fileToUpload">
+              </label>
+          </div>
+					<div class="form-group">
+          	<button type="submit" class="btn btn-primary" value="Upload Image" name="submit">
+              	<i class="glyphicon glyphicon-open-file"></i>&nbsp;Submit
+              </button>
+          </div>
 
+        </form>
+      </div>
+    </div>
 </div>
 
 <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>

@@ -26,9 +26,9 @@ file_put_contents($img_path, $post_data);
 
 //This logic can be used to save base64_encode vevrsion of the image!
 // if (!empty($post_data)) {
-//     $dir = '/var/www/rollcall/images/users';
+//     $dir = '/var/www/rollcall/uploads/images/users';
 //     $file = $user_id."_a_".$pic_id; // here we gve file name - you want to change it!
-//     $filename = dirname(__FILE__)."/images/users/".$file.'.txt	';
+//     $filename = dirname(__FILE__)."/uploads/images/users/".$file.'.txt	';
 //     $handle = fopen($filename, "w");
 //     fwrite($handle, $post_data);
 //     fclose($handle);

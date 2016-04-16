@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
           </button>
           <div id="logo-container">
-          <img src="../images/rollcall_logo.png">
+          <img src="../uploads/images/rollcall_logo.png">
           </div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
