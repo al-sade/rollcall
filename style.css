@@ -88,3 +88,14 @@ h1{
 	width: 50%;
 	float: right;
 }
+
+
+
+/***course.php***/
+
+.glyphicon-ok{
+	color: #027D02;
+}
+.glyphicon-remove{
+	color: #F30505;
+}

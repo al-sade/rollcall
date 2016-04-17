@@ -40,21 +40,10 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`users` (
   `department` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `joining_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `admin` BOOLEAN NULL DEFAULT NULL
+  `lecturer` BOOLEAN NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-
-CREATE TABLE IF NOT EXISTS `rollcall`.`lecturers` (
-  `id` int(15) NOT NULL AUTO_INCREMENT,
-  `id_number` int(15) NOT NULL,
-  `first_name` varchar(40) NOT NULL,
-  `last_name` varchar(40) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `pass` varchar(255) NOT NULL,
-  `joining_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `rollcall`.`courses`(
@@ -63,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`courses`(
   `lecturer` VARCHAR( 255 ) NOT NULL,
   `day_of_week` INT( 1 ) NOT NULL ,
   `start` TIME NOT NULL,
-  `end` TIME NOT NULL
+  `end` TIME NOT NULL,
   PRIMARY KEY (`course_id`)
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -152,22 +141,6 @@ VALUES
 ('101',  '5',  '4444',  '14:00:00',  '17:00:00'),
 ('101',  '5',  '3333',  '17:00:00',  '20:00:00'),
 ('101',  '6',  '1111',  '08:00:00',  '10:00:00');
-
-
-INSERT INTO  `rollcall`.`lecturers` (
-`id` ,
-`id_number` ,
-`first_name` ,
-`last_name` ,
-`email` ,
-`pass` ,
-`joining_date`
-)
-VALUES
-('1122',  '383929324',  'Ben',  'Cohen',  'ben@gmail.com',  'md0i32dm2', CURRENT_TIMESTAMP),
-('1123',  '383924334',  'Ilana',  'lev',  'ilana.lev@gmail.com',  'jde203f3fef', CURRENT_TIMESTAMP),
-('1000',  '3948433',  'Yigal',  'Hoffner',  'yigal@gmail.com',  'ewqe2234r32', CURRENT_TIMESTAMP),
-('1100',  '344924334',  'John',  'Doe',  'john.v@gmail.com',  'fn394h9n4u3f', CURRENT_TIMESTAMP);
 
 
 

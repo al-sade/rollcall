@@ -39,7 +39,6 @@
 
     <div class="container">
 
-    	<!-- <label class="h5">welcome : <?php print($userRow['first_name'].$userRow['last_name']); ?></label> -->
 
     </div>
 

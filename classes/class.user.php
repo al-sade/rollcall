@@ -9,11 +9,36 @@ class USER
 		$database = new Database();
 		$db = $database->dbConnection();
 		$this->conn = $db;
-    }
+  }
 	public function runQuery($sql)
 	{
 		$stmt = $this->conn->prepare($sql);
 		return $stmt;
+	}
+	public function doLogin($id_number,$email,$pass)
+	{
+		try
+		{
+			$stmt = $this->conn->prepare("SELECT * FROM users WHERE id_number=:id_number OR email=:email ");
+			$stmt->execute(array(':id_number'=>$id_number, ':email'=>$email));
+			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+			if($stmt->rowCount() == 1)
+			{
+				if(password_verify($pass, $userRow['pass']))
+				{
+					$_SESSION['user_session'] = $userRow['user_id'];
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+		}
 	}
 	public function register($id_number,$first_name,$last_name,$email,$bday,$begin_studying,$department,$pass)
 	{
@@ -32,32 +57,6 @@ class USER
 			$stmt->bindparam(":pass", $new_password);
 			$stmt->execute();
 			return $stmt;
-		}
-		catch(PDOException $e)
-		{
-			echo $e->getMessage();
-		}
-	}
-	public function doLogin($id_number,$email,$pass)
-	{
-		try
-		{
-			$stmt = $this->conn->prepare("SELECT * FROM users WHERE id_number=:id_number OR email=:email ");
-			$stmt->execute(array(':id_number'=>$id_number, ':email'=>$email));
-			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-			if($stmt->rowCount() == 1)
-			{
-				if(password_verify($pass, $userRow['pass']))
-				{
-					$_SESSION['user_session'] = $userRow['user_id'];
-					$_SESSION['admin'] = $userRow['admin'];
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
 		}
 		catch(PDOException $e)
 		{
@@ -83,10 +82,10 @@ class USER
 	}
 
 	public function getCourse($user_id,$course_id){
-		$stmt = $this->conn->prepare("SELECT courses.course_name,lecturers.id, lecturers.first_name, lecturers.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
+		$stmt = $this->conn->prepare("SELECT courses.course_name,users.user_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
 		FROM courses
 		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
-		INNER JOIN lecturers ON courses.lecturer = lecturers.id
+		INNER JOIN users ON courses.lecturer_id = users.user_id
 		WHERE course_id =:course_id ");
 		$stmt->execute(array(':course_id'=>$course_id, ':user_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
@@ -96,10 +95,10 @@ class USER
 
 	public function getCourses($user_id)
 	{
-		$stmt = $this->conn->prepare("SELECT courses.course_name, lecturers.first_name, lecturers.last_name,lecturers.email,courses.course_id
+		$stmt = $this->conn->prepare("SELECT courses.course_name, users.first_name, users.last_name,users.email,courses.course_id
 		FROM students_courses
 		INNER JOIN courses ON students_courses.course = courses.course_id
-		INNER JOIN lecturers ON courses.lecturer = lecturers.id
+		INNER JOIN users ON courses.lecturer_id = users.user_id
 		WHERE student =:student_id ");
 		$stmt->execute(array(':student_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
@@ -138,9 +137,25 @@ class USER
 		INNER JOIN courses ON students_courses.course = courses.course_id
 		WHERE student =:student_id ");
 		$stmt->execute(array(':student_id'=>$user_id));
+
+		$stmt->execute(array(':student_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 		return $userRow;
 	}
+
+	public function getCourseSchedule($user_id, $course_id)
+	{
+		$stmt = $this->conn->prepare("SELECT
+		students_courses.course,students_courses.day_of_week,students_courses.start,students_courses.end,courses.course_name
+		FROM students_courses
+		INNER JOIN courses ON students_courses.course = courses.course_id
+		WHERE student =:student_id AND course = :course_id");
+
+		$stmt->execute(array(':student_id'=>$user_id, ':course_id'=>$course_id));
+		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+		return $userRow;
+	}
+
 
 	public function submitAppeal($user_id, $course_id, $lecturer_id, $message, $file = NULL){
 		try
@@ -176,6 +191,10 @@ CURRENT_TIMESTAMP , '0'
 		}
 	}
 
+	public function getDay($day_num){
+		$arr = array('Sunday', 'Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday');
+		return $arr[$day_num];
+	}
 	public function kairosEnroll($user_id, $pic_id)
 {
 	$subject_id = $user_id."-a".$pic_id;

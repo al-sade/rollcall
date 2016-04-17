@@ -7,8 +7,8 @@
 
 	$user_id = $_SESSION['user_session'];
   $course_id = $_GET['cid'];
-  $course_data = $auth_user->getCourse($user_id,$course_id);
-  $lecturer_id = $course_data[0]['id'];
+	$course_data = $auth_user->getCourse($user_id,$course_id);
+  $lecturer_id = $course_data[0]['user_id'];
   $presence = $auth_user->getCoursePresence($user_id,$course_id);
   $dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
@@ -18,11 +18,13 @@
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 
   //File Handling
+	if(isset($_FILES["fileToUpload"])){
   $target_dir = "../uploads/appeals/";
   $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
   $uploadOk = 1;
   $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-  //End File Handling
+
+	//End File Handling
 
   if(isset($_POST['submit']))
   {
@@ -62,6 +64,7 @@ if ($uploadOk == 0) {
         echo "Sorry, there was an error uploading your file.";
     }
 }
+}
    //End of checking
 
     $message = strip_tags($_POST['message']);
@@ -77,6 +80,7 @@ if ($uploadOk == 0) {
 <script type="text/javascript" src="../components/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="../style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
+
 </head>
 
 <body>
@@ -100,7 +104,41 @@ if ($uploadOk == 0) {
     <div class="container">
       <div class="row">
         <h2>Presence Table</h2>
-        <?php var_dump($course_data) ?>
+
+				  <!-- create presence table -->
+					<?php
+					$day = $auth_user->getDay($course_data[0]['day_of_week']-1);
+					$date = date('Y-m-d', strtotime("next ".$day, strtotime(SEMESTER_START)));
+
+					$date_arr = array();
+					$table = '<table class="table table-bordered">';
+					$table .= '<thead>';
+
+					while (strtotime($date) <= strtotime(SEMESTER_END)) {
+					$date_arr[$date] = 0;
+					$th = explode('-',$date)[1]."-".explode('-',$date)[2];
+					$table .= "<th>".$th."</th>";
+					$date = date ("Y-m-d", strtotime("+7 day", strtotime($date)));
+					}
+					foreach ($presence as $key => $value) {
+					$date = explode(" ",$value['date']);
+					$date_arr[$date[0]] = 1;
+					}
+
+					$table .= '</thead>';
+					$table .= '<tbody><tr>';
+					foreach ($date_arr as $date => $presence) {
+						if($date < date("Y-m-d")){
+						$presence == 1 ? $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>' : $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
+					}else{
+						$table .= "<td></td>";
+					}
+					}
+					$table .= '</tr></body></table>';
+					echo $table;
+					?>
+					<!-- end of rpesence table -->
+
       </div>
     </div>
     <div class="container">

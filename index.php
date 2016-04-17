@@ -1,9 +1,10 @@
 <?php
 session_start();
 require_once("classes/class.user.php");
+require_once("classes/class.admin.php");
 
 $login = new USER();
-
+$admin = new ADMIN();
 if($login->is_loggedin()!="")
 {
 	$login->redirect('views/home.php');
@@ -17,11 +18,11 @@ if(isset($_POST['btn-login']))
 
 	if($login->doLogin($id_number,$email,$pass))
 	{
-		if($_SESSION['admin']){
-			$login->redirect('views/admin-mgmt.php');
-		}else{
 		$login->redirect('views/home.php');
 	}
+	else if($admin->doLogin($id_number,$email,$pass))
+	{
+		$admin->redirect('views/admin/home.php');
 	}
 	else
 	{
