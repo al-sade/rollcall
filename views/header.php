@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -18,7 +19,7 @@
             <li><a href="statistics.php">Statistics</a></li>
             <li><a href="my-courses.php">My Courses</a></li>
             <li><a href="calendar.php">My Calendar</a></li>
-            <li><a href="notifications.php">Notifications</a></li>
+            <li><a href="notifications.php">Notifications<span id="notifications" class="glyphicon glyphicon-bell"></span></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
 
@@ -34,3 +35,5 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+<script type="text/javascript">document.getElementById('notifications').innerHTML = <?php echo sizeof($auth_user->getAppeals($user_id)); ?></script>

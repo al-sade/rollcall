@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once("classes/class.admin.php");
+require_once("classes/class.lecturer.php");
 
-$login = new ADMIN();
+$login = new LECTURER();
 
 if($login->is_loggedin()!="")
 {
@@ -76,3 +76,4 @@ if(isset($_POST['btn-login']))
 
 </body>
 </html>
+s

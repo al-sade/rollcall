@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/dbconfig.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/config.php');
 class USER
 {
-	private $conn;
+	protected $conn;
 	public function __construct()
 	{
 		$database = new Database();
@@ -27,6 +27,8 @@ class USER
 				if(password_verify($pass, $userRow['pass']))
 				{
 					$_SESSION['user_session'] = $userRow['user_id'];
+					if($userRow['lecturer'])
+						$_SESSION['lecturer'] = $userRow['lecturer'];
 					return true;
 				}
 				else
@@ -156,31 +158,53 @@ class USER
 		return $userRow;
 	}
 
+	public function getAppeals($user_id){
+	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date, appeals.read, appeals.response, appeals.approved,users.first_name, users.last_name,courses.course_name
+	  FROM appeals
+	  INNER JOIN users ON appeals.lecturer_id = users.user_id
+	  INNER JOIN courses ON appeals.course_id = courses.course_id
+	  WHERE appeals.student_id = :student_id AND appeals.read != 1");
+	  $stmt->execute(array(':student_id' => $user_id));
+	  $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
-	public function submitAppeal($user_id, $course_id, $lecturer_id, $message, $file = NULL){
+	  return $result;
+	}
+
+	public function appealIsRead($appeal_id){
+		$stmt = $this->conn->prepare("UPDATE appeals SET `read` = 1 WHERE `appeal_id` = :appeal_id");
+		$stmt->execute(array(':appeal_id' => $appeal_id));
+		// $result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+		return $stmt;
+	}
+
+	public function submitAppeal($user_id, $course_id, $lecturer_id, $message, $target_file, $file = NULL){
 		try
 		{
 			// $stmt = $this->conn->prepare("INSERT INTO appeals(course_id, student_id, content))
 		  //                                              VALUES(:course_id, :student_id, :content)");
 			$stmt = $this->conn->prepare("INSERT INTO  appeals (
-`appeal_id` ,
-`course_id` ,
-`student_id` ,
-`lecturer_id` ,
-`content` ,
-`submit_date` ,
-`read`
-)
-VALUES (
-NULL , :course_id, :student_id, :lecturer_id, :content,
-CURRENT_TIMESTAMP , '0'
-);
+				`appeal_id` ,
+				`course_id` ,
+				`student_id` ,
+				`lecturer_id` ,
+				`content` ,
+				`file_dir` ,
+				`submit_date` ,
+				`read`,
+				`response`,
+				`approved`
+				)
+				VALUES (
+				NULL , :course_id, :student_id, :lecturer_id, :content, :target_file,
+				CURRENT_TIMESTAMP , '0', NULL, '0'
+				);");
 
-");
 			$stmt->bindparam(":course_id", $course_id);
 			$stmt->bindparam(":student_id", $user_id);
 			$stmt->bindparam(":lecturer_id", $lecturer_id);
 			$stmt->bindparam(":content", $message);
+			$stmt->bindparam(":target_file", $target_file);
 			$stmt->execute();
 			var_dump($stmt) ;
 			return $stmt;

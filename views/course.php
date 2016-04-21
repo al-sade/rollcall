@@ -1,10 +1,15 @@
 <?php
 	require_once("../session.php");
-	require_once("../classes/class.user.php");
-	require '../vendor/autoload.php';
 
-	$auth_user = new USER();
+	if(isset($_SESSION['lecturer'])){
+		require_once("init-lecturer.php");
+		$auth_user = new LECTURER();
+	}else{
+		require_once("init-user.php");;
+		$auth_user = new USER();
+	}
 
+	if (is_a($auth_user, 'LECTURER')){
 	$user_id = $_SESSION['user_session'];
   $course_id = $_GET['cid'];
 	$course_data = $auth_user->getCourse($user_id,$course_id);
@@ -19,57 +24,64 @@
 
   //File Handling
 	if(isset($_FILES["fileToUpload"])){
-  $target_dir = "../uploads/appeals/";
-  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-  $uploadOk = 1;
-  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	  $target_dir = $_SERVER['DOCUMENT_ROOT']."/rollcall/uploads/appeals/";
+	  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+	  $uploadOk = 1;
+	  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-	//End File Handling
+		//End File Handling
 
-  if(isset($_POST['submit']))
-  {
-    // Check if image file is a actual image or fake image
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-   if($check !== false) {
-       echo "File is an image - " . $check["mime"] . ".";
-       $uploadOk = 1;
-   } else {
-       echo "File is not an image.";
-       $uploadOk = 0;
-   }
-   // Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" && $imageFileType != "pdf" ) {
-    // TODO: PRINT error of allowed file types
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
-}
-   //End of checking
+	  if(isset($_POST['submit']))
+	  {
+	    // Check if image file is a actual image or fake image
+	    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+	   if($check !== false) {
+	       echo "File is an image - " . $check["mime"] . ".";
+	       $uploadOk = 1;
+	   } else {
+	       echo "File is not an image.";
+	       $uploadOk = 0;
+	   }
+	   // Check if file already exists
+	if (file_exists($target_file)) {
+	    echo "Sorry, file already exists.";
+	    $uploadOk = 0;
+	}
+	// Check file size
+	if ($_FILES["fileToUpload"]["size"] > 500000) {
+	    echo "Sorry, your file is too large.";
+	    $uploadOk = 0;
+	}
+	// Allow certain file formats
+	if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+	&& $imageFileType != "gif" && $imageFileType != "pdf" ) {
+	    // TODO: PRINT error of allowed file types
+	    $uploadOk = 0;
+	}
+	// Check if $uploadOk is set to 0 by an error
+	if ($uploadOk == 0) {
+	    echo "Sorry, your file was not uploaded.";
+	// if everything is ok, try to upload file
+	} else {
+	    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+	        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+	    } else {
+	        echo "Sorry, there was an error uploading your file.";
+	    }
+	}
+	}
+	   //End of checking
 
-    $message = strip_tags($_POST['message']);
-    $auth_user->submitAppeal($user_id, $course_id, $lecturer_id, $message, $file = NULL);
-  }
+		 $message = strip_tags($_POST['message']);
+
+		 try{
+	   	$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id, $message, $target_file, $file = NULL);
+		 }
+		 catch(Exception $e) {
+			 echo 'Message: ' .$e->getMessage();
+		 }
+	  }
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -103,7 +115,7 @@ if ($uploadOk == 0) {
     </div>
     <div class="container">
       <div class="row">
-        <h2>Presence Table</h2>
+        <h2>Attendance</h2>
 
 				  <!-- create presence table -->
 					<?php
@@ -130,7 +142,7 @@ if ($uploadOk == 0) {
 					foreach ($date_arr as $date => $presence) {
 						if($date < date("Y-m-d")){
 						$presence == 1 ? $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>' : $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
-					}else{
+						}else{
 						$table .= "<td></td>";
 					}
 					}
@@ -146,7 +158,7 @@ if ($uploadOk == 0) {
         <h2>Submit Appeal</h2>
         <form method="post" class="form-signin" enctype="multipart/form-data">
           <div class="form-group">
-            <label for="comment">Message:</label>
+            <label for="comment">Message: <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
             <textarea class="form-control" name="message" rows="5" required></textarea>
           </div>
 					<div class="form-group">

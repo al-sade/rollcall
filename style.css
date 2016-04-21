@@ -99,3 +99,27 @@ h1{
 .glyphicon-remove{
 	color: #F30505;
 }
+
+/***notifications.php***/
+.appeal {
+    background: #8DD0D2;
+    padding: 10px;
+    border: 1px solid black;
+		position: relative;
+		margin-bottom: 10px;
+}
+
+.form-response {
+    position: absolute;
+    top: 0px;
+    right: 30px;
+}
+
+
+/*** student-notifications.php ***/
+.remove-appeal{
+		float: right;
+    margin-right: -10px;
+    margin-top: -10px;
+		cursor: pointer;
+}

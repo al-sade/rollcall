@@ -1,10 +1,10 @@
 <?php
 session_start();
 require_once("classes/class.user.php");
-require_once("classes/class.admin.php");
+require_once("classes/class.lecturer.php");
 
 $login = new USER();
-$admin = new ADMIN();
+$admin = new LECTURER();
 if($login->is_loggedin()!="")
 {
 	$login->redirect('views/home.php');
@@ -16,16 +16,9 @@ if(isset($_POST['btn-login']))
 	$email = strip_tags($_POST['id_email']);
 	$pass = strip_tags($_POST['password']);
 
-	if($login->doLogin($id_number,$email,$pass))
-	{
+	if($login->doLogin($id_number,$email,$pass)){
 		$login->redirect('views/home.php');
-	}
-	else if($admin->doLogin($id_number,$email,$pass))
-	{
-		$admin->redirect('views/admin/home.php');
-	}
-	else
-	{
+	}	else {
 		$error = "Wrong Details !";
 	}
 }
@@ -45,7 +38,6 @@ if(isset($_POST['btn-login']))
 <div class="signin-form">
 
 	<div class="container">
-
 
        <form class="form-signin" method="post" id="login-form">
 
@@ -73,7 +65,7 @@ if(isset($_POST['btn-login']))
         <input type="password" class="form-control" name="password" placeholder="Your Password" />
         </div>
 
-     	<hr />
+     		<hr />
 
         <div class="form-group">
             <button type="submit" name="btn-login" class="btn btn-default">
