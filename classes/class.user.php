@@ -159,11 +159,11 @@ class USER
 	}
 
 	public function getAppeals($user_id){
-	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date, appeals.read, appeals.response, appeals.approved,users.first_name, users.last_name,courses.course_name
+	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date, appeals.read, appeals.file_dir, appeals.response, appeals.approved,users.first_name, users.last_name,courses.course_name
 	  FROM appeals
 	  INNER JOIN users ON appeals.lecturer_id = users.user_id
 	  INNER JOIN courses ON appeals.course_id = courses.course_id
-	  WHERE appeals.student_id = :student_id AND appeals.read != 1");
+	  WHERE appeals.student_id = :student_id AND appeals.read = 1");
 	  $stmt->execute(array(':student_id' => $user_id));
 	  $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
@@ -181,8 +181,7 @@ class USER
 	public function submitAppeal($user_id, $course_id, $lecturer_id, $message, $target_file, $file = NULL){
 		try
 		{
-			// $stmt = $this->conn->prepare("INSERT INTO appeals(course_id, student_id, content))
-		  //                                              VALUES(:course_id, :student_id, :content)");
+
 			$stmt = $this->conn->prepare("INSERT INTO  appeals (
 				`appeal_id` ,
 				`course_id` ,

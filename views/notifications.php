@@ -18,11 +18,10 @@
 	//
 	// $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 
-
 	if(isset($_POST['approve']) || isset($_POST['decline'])){ //best practice??
-		$response = $_POST['message'];
+		$response = $_POST['response'];
 		if(isset($_POST['approve'])) {$status = 1;} else{$status = 0;} ;
-		$appeal_id = '110';
+		$appeal_id = '122';
 
 		try{
 			$auth_user->appealReply($appeal_id, $response, $status);

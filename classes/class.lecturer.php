@@ -5,6 +5,38 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/classes/class.user.php');
 
 class LECTURER extends USER
 {
+
+public function getCourse($course_id){
+  $stmt = $this->conn->prepare("SELECT * FROM courses
+  WHERE course_id =:course_id ");
+  $stmt->execute(array(':course_id'=>$course_id));
+  $userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+  return $userRow;
+
+}
+
+public function getCourseStudents($course_id, $day_of_week){
+  $stmt = $this->conn->prepare("SELECT students_courses.student, users.first_name, users.last_name
+  FROM students_courses
+  INNER JOIN users ON students_courses.student = users.user_id
+  WHERE course =:course_id AND day_of_week = :day_of_week");
+  $stmt->execute(array(':course_id'=>$course_id, ':day_of_week'=>$day_of_week));
+  $userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+
+  return $userRow;
+}
+//get presence for a specific course
+public function getCoursePresence($course_id){
+  $stmt = $this->conn->prepare("SELECT presence.student, presence.date, users.first_name, users.last_name
+  FROM presence
+  INNER JOIN users ON presence.student = users.user_id
+  WHERE course = :course_id");
+  $stmt->execute(array(':course_id'=>$course_id));
+  $userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+  return $userRow;
+
+}
+
 public function getLecturerCourses($user_id){
   $stmt = $this->conn->prepare("SELECT * FROM courses Where lecturer_id = :lecturer_id");
   $stmt->execute(array(':lecturer_id' => $user_id));
@@ -16,7 +48,9 @@ public function getDb(){
   return $this->$database;
 }
 public function getAppeals($user_id){
-  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.student_id,appeals.student_id, appeals.content, appeals.submit_date, appeals.read, appeals.approved,users.first_name, users.last_name,courses.course_name
+  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.student_id,appeals.student_id,
+                                       appeals.content, appeals.submit_date, appeals.read,appeals.file_dir,
+                                       appeals.approved, users.first_name, users.last_name,courses.course_name
   FROM appeals
   INNER JOIN users ON appeals.student_id = users.user_id
   INNER JOIN courses ON appeals.course_id = courses.course_id
