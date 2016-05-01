@@ -159,11 +159,11 @@ class USER
 	}
 
 	public function getAppeals($user_id){
-	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date, appeals.read, appeals.file_dir, appeals.response, appeals.approved,users.first_name, users.last_name,courses.course_name
+	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date,appeals.date_of_issue, appeals.read, appeals.file_dir, appeals.response, appeals.approved,users.first_name, users.last_name,courses.course_name
 	  FROM appeals
 	  INNER JOIN users ON appeals.lecturer_id = users.user_id
 	  INNER JOIN courses ON appeals.course_id = courses.course_id
-	  WHERE appeals.student_id = :student_id AND appeals.read = 1");
+	  WHERE appeals.student_id = :student_id AND appeals.student_show = 1");
 	  $stmt->execute(array(':student_id' => $user_id));
 	  $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
@@ -171,14 +171,14 @@ class USER
 	}
 
 	public function appealIsRead($appeal_id){
-		$stmt = $this->conn->prepare("UPDATE appeals SET `read` = 1 WHERE `appeal_id` = :appeal_id");
+		$stmt = $this->conn->prepare("UPDATE appeals SET `student_show` = 0 WHERE `appeal_id` = :appeal_id");
 		$stmt->execute(array(':appeal_id' => $appeal_id));
 		// $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
 		return $stmt;
 	}
 
-	public function submitAppeal($user_id, $course_id, $lecturer_id, $message, $target_file, $file = NULL){
+	public function submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $target_file, $file = NULL){
 		try
 		{
 
@@ -190,13 +190,15 @@ class USER
 				`content` ,
 				`file_dir` ,
 				`submit_date` ,
+				`date_of_issue` ,
 				`read`,
+				`student_show`,
 				`response`,
 				`approved`
 				)
 				VALUES (
 				NULL , :course_id, :student_id, :lecturer_id, :content, :target_file,
-				CURRENT_TIMESTAMP , '0', NULL, '0'
+				CURRENT_TIMESTAMP ,:date_of_issue, '0', '1', NULL, '0'
 				);");
 
 			$stmt->bindparam(":course_id", $course_id);
@@ -204,6 +206,7 @@ class USER
 			$stmt->bindparam(":lecturer_id", $lecturer_id);
 			$stmt->bindparam(":content", $message);
 			$stmt->bindparam(":target_file", $target_file);
+			$stmt->bindparam(":date_of_issue", $date_of_issue);
 			$stmt->execute();
 			var_dump($stmt) ;
 			return $stmt;

@@ -49,7 +49,7 @@ public function getDb(){
 }
 public function getAppeals($user_id){
   $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.student_id,appeals.student_id,
-                                       appeals.content, appeals.submit_date, appeals.read,appeals.file_dir,
+                                       appeals.content, appeals.submit_date,appeals.date_of_issue, appeals.read,appeals.file_dir,
                                        appeals.approved, users.first_name, users.last_name,courses.course_name
   FROM appeals
   INNER JOIN users ON appeals.student_id = users.user_id
@@ -63,9 +63,19 @@ public function getAppeals($user_id){
 
 public function appealReply($appeal_id, $response, $status){
   $stmt = $this->conn->prepare("UPDATE appeals
-    SET `read` = 1, `response` = :response, `approved` = :approved
+    SET `read` = 1, `student_show` = 1, `response` = :response, `approved` = :approved
     WHERE `appeal_id` = :appeal_id");
   $stmt->execute(array(':response' => $response, ':approved' => $status, ':appeal_id' => $appeal_id));
+
+  return $stmt;
+}
+
+public function approveAppeal($appeal_id){
+  $stmt = $this->conn->prepare("INSERT INTO  presence
+  SELECT student_id, course_id, date_of_issue
+  FROM appeals
+  WHERE appeal_id = :appeal_id");
+  $stmt->execute(array(':appeal_id' => $appeal_id));
 
   return $stmt;
 }

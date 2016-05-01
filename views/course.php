@@ -78,9 +78,9 @@
 		}
 			 //End of checking
 			 $message = strip_tags($_POST['message']);
-
+			 $date_of_issue = strip_tags($_POST['date_of_issue']);
 			 try{
-				$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id, $message, $appeals_dir.basename($_FILES["fileToUpload"]["name"]), $file = NULL);
+				$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $appeals_dir.basename($_FILES["fileToUpload"]["name"]), $file = NULL);
 			 }
 			 catch(Exception $e) {
 				 echo 'Message: ' .$e->getMessage();
@@ -216,8 +216,16 @@
 				<?php if(!$is_lecturer){ ?>
         <h2>Submit Appeal</h2>
         <form method="post" class="form-signin" enctype="multipart/form-data">
+					<div class="form-group">
+						<label>Date Of Issue:  <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
+			      <select class="form-control" name="date_of_issue" id="doi">
+							<?php foreach ($date_arr as $date => $status){
+								echo '<option>'.$date.'</option>';
+							} ?>
+			      </select>
+					</div>
           <div class="form-group">
-            <label for="comment">Message: <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
+            <label for="comment">Message:</label>
             <textarea class="form-control" name="message" rows="5" required></textarea>
           </div>
 					<div class="form-group">

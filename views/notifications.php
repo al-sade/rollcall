@@ -1,28 +1,33 @@
 <?php
 
 	require_once("../session.php");
+	require '../vendor/autoload.php';
 
 	if(isset($_SESSION['lecturer'])){
 		require_once("init-lecturer.php");
 	}else{
 		require_once("init-user.php");
 	}
-	require '../vendor/autoload.php';
 
 
 	$user_id = $_SESSION['user_session'];
 	$appeals = $auth_user->getAppeals($user_id);
 
-	// $stmt = $auth_user->runQuery("SELECT * FROM users WHERE user_id=:user_id");
-	// $stmt->execute(array(":user_id"=>$user_id));
-	//
-	// $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 
 	if(isset($_POST['approve']) || isset($_POST['decline'])){ //best practice??
 		$response = $_POST['response'];
-		if(isset($_POST['approve'])) {$status = 1;} else{$status = 0;} ;
-		$appeal_id = '122';
-
+		if(isset($_POST['approve'])) {
+			$status = 1;
+			$appeal_id = $_POST['approve'];
+			try{
+			$auth_user->approveAppeal($appeal_id);
+		}		catch(Exception $e){
+					echo 'Message: ' .$e->getMessage();
+				}
+		} else{
+				$status = 0;
+				$appeal_id = $_POST['decline'];
+			}
 		try{
 			$auth_user->appealReply($appeal_id, $response, $status);
 		}
@@ -63,9 +68,7 @@
 				}
 			?>
 
-
-				<div class="appeal-rep">
-
+					<div class="appeal-rep">
 				</div>
     </div>
 

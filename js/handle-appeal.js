@@ -9,7 +9,7 @@ document.getElementById('an_'+appeal_id).style.display = "none";
        {
            if(status=='success')
            {
-              alert('saved!');
+              console.log("appeal removed");
            }
        }
    });
