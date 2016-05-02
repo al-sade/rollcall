@@ -1,6 +1,7 @@
 {
     "require": {
         "twbs/bootstrap": "3.0.3",
-        "components/jquery": "1.9.*"
+        "components/jquery": "1.9.*",
+        "ghunti/highcharts-php": "~3.0"
           }
 }

@@ -216,7 +216,15 @@ class USER
 			echo $e->getMessage();
 		}
 	}
+	public function createAttendanceTable($user_id){
+    $stmt = $this->conn->prepare("SELECT * FROM presence Where student = :user_id");
+    $stmt->execute(array(':user_id' => $user_id));
+    $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
+    // var_dump($result);
+    return $result;
+
+  }
 	public function getDay($day_num){
 		$arr = array('Sunday', 'Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday');
 		return $arr[$day_num];
