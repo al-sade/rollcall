@@ -97,7 +97,7 @@ class USER
 
 	public function getCourses($user_id)
 	{
-		$stmt = $this->conn->prepare("SELECT courses.course_name, users.first_name, users.last_name,users.email,courses.course_id
+		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_of_week, users.first_name, users.last_name,users.email,courses.course_id
 		FROM students_courses
 		INNER JOIN courses ON students_courses.course = courses.course_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
@@ -108,7 +108,7 @@ class USER
 	}
 
 	//get presence for a specific course
-	public function getCoursePresence($user_id, $course_id){
+	public function getUserCoursePresence($user_id, $course_id){
 		$stmt = $this->conn->prepare("SELECT *
 		FROM presence
  		WHERE student =:student_id AND course = :course_id");
@@ -217,6 +217,10 @@ class USER
 		}
 	}
 	public function createAttendanceTable($user_id){
+		$dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+		$att_arr = array();
+		$course_day = array();
+
     $stmt = $this->conn->prepare("SELECT presence.course, presence.date, courses.course_name, courses.day_of_week
 			FROM presence
 			INNER JOIN courses ON presence.course = courses.course_id
@@ -224,16 +228,49 @@ class USER
     $stmt->execute(array(':user_id' => $user_id));
     $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
-    // var_dump($result);
-    return $result;
+		foreach ($result as $value) {
+		  if (!array_key_exists($value['course_name'],$att_arr)){
+		    $att_arr[$value['course_name']] ='';
+		    $att_arr[$value['course_name']]++;
+		  }else{
+		    $att_arr[$value['course_name']]++;
+		  }
+		  if(!array_key_exists($value['course_name'], $course_day)){
+		  $course_day[$value['course_name']] = $value['day_of_week']; //array of key = course name => value = day_of_week
+		  }
+		}
+
+
+    return array($att_arr,$course_day);
 
   }
-	public function getDay($day_num){
+
+	public function getDay($day_num)
+	{
 		$arr = array('Sunday', 'Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday');
 		return $arr[$day_num];
 	}
+
+  public function getCourseFirstDayInSemseter($day_of_week){
+		$dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+		$day = $dowMap[$day_of_week-1];
+		$date = date('Y-m-d', strtotime("next ".$day, strtotime(SEMESTER_START)));
+
+		return $date;
+	}
+
+	public function countCourseDays($day){//$date is first day of course in semester and $day is day of week
+	 	$ctr = 0;
+		$date = $this->getCourseFirstDayInSemseter($day);
+		while (strtotime($date) <= strtotime(SEMESTER_END)) {
+			$ctr++;
+			$date = date ("Y-m-d", strtotime("+7 day", strtotime($date)));
+		}
+		return $ctr;
+	}
+
 	public function kairosEnroll($user_id, $pic_id)
-{
+	{
 	$subject_id = $user_id."-a".$pic_id;
 	// The data to send to the API
 $postData = array(

@@ -27,7 +27,7 @@
 
 		$course_data = $auth_user->getCourse($user_id,$course_id);
 		$lecturer_id = $course_data[0]['user_id'];
-		$presence = $auth_user->getCoursePresence($user_id,$course_id);
+		$presence = $auth_user->getUserCoursePresence($user_id,$course_id);
 
 		//File Handling
 		if(isset($_FILES["fileToUpload"])){
@@ -133,12 +133,14 @@
 					$day = $dowMap[$course_data[0]['day_of_week']-1];
 					$date = date('Y-m-d', strtotime("next ".$day, strtotime(SEMESTER_START)));
 
-					$date_arr = array(); //course dates between SEMESTER_START to SEMESTER_END
+
 					$table = '<table class="table table-bordered">';
 					$table .= '<thead>';
 					if($is_lecturer){
 						$table .= '<th>Student</th>';
 					}
+
+					$date_arr = array(); //course dates between SEMESTER_START to SEMESTER_END
 					//<th> for each date
 					while (strtotime($date) <= strtotime(SEMESTER_END)) {
 					$date_arr[$date] = 0;

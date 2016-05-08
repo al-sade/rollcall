@@ -16,9 +16,9 @@
           <ul class="nav navbar-nav">
             <li><a href="home.php">Home</a></li>
             <li><a href="profile.php">Profile</a></li>
-            <?php if(!isset($_SESSION['lecturer'])){ ?> <li><a href="statistics.php">Statistics</a></li> <?php }?>
+            <li><a href="statistics.php">Statistics</a></li>
             <li><a href="my-courses.php">My Courses</a></li>
-            <li><a href="calendar.php">My Calendar</a></li>
+            <?php if(!isset($_SESSION['lecturer'])){ ?>   <li><a href="calendar.php">My Calendar</a></li> <?php }?>
             <li><a href="notifications.php">Notifications<span id="notifications" class="glyphicon glyphicon-bell"></span></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
