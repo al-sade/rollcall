@@ -1,23 +1,22 @@
 <?php
 session_start();
-require_once("classes/class.lecturer.php");
+require_once("classes/class.admin.php");
 
-$login = new LECTURER();
+$login = new ADMIN();
 
 if($login->is_loggedin()!="")
 {
-	$login->redirect('admin-mgmt.php');
+	$login->redirect('admin/dashboard.php');
 }
 
 if(isset($_POST['btn-login']))
 {
-	$id_number = strip_tags($_POST['id_email']);
-	$email = strip_tags($_POST['id_email']);
+	$admin_id = strip_tags($_POST['admin_id']);
 	$pass = strip_tags($_POST['password']);
 
-	if($login->doLogin($id_number,$email,$pass))
+	if($login->doLogin($admin_id,$pass))
 	{
-		$login->redirect('views/admin-mgmt.php');
+		$login->redirect('admin/dashboard.php');
 	}
 	else
 	{
@@ -40,7 +39,7 @@ if(isset($_POST['btn-login']))
 <div class="signin-form">
 	<div class="container">
        <form class="form-signin" method="post" id="login-form">
-        <h2 class="form-signin-heading">Welcome To Rollcall Admin Section</h2><hr />
+        <h2 class="form-signin-heading">Rollcall - Admin Section</h2><hr />
         <div id="error">
         <?php
 			if(isset($error))
@@ -54,12 +53,11 @@ if(isset($_POST['btn-login']))
 		?>
         </div>
 
-        <div class="form-group">
-        <input type="text" class="form-control" name="id_email" placeholder="Admin ID number or eMail address" required />
-        <span id="check-e"></span>
-        </div>
+				<div class="form-group">
+				<input type="number" id="admin_id" class="form-control" name="admin_id" placeholder="Admin ID" value="<?php if(isset($error)){echo $admin_id;}?>" required/>
+				</div>
 
-        <div class="form-group">
+				<div class="form-group">
         <input type="password" class="form-control" name="password" placeholder="Admin Password" />
         </div>
 

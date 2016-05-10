@@ -2,15 +2,13 @@
 require_once("../session.php");
 require_once("../vendor/autoload.php");
 require_once("../classes/class.stats.php");
+require_once("../session.php");
 
-
-	require_once("../session.php");
-
-	if(isset($_SESSION['lecturer'])){
-		require_once("init-lecturer.php");
-		$auth_user = new LECTURER();
-		$is_lecturer = 1;
-		require_once("lecturer-stats.php"); //new Highchart Object
+if(isset($_SESSION['lecturer'])){
+	require_once("init-lecturer.php");
+	$auth_user = new LECTURER();
+	$is_lecturer = 1;
+	require_once("lecturer-stats.php"); //new Highchart Object
 	}else{
 		require_once("init-user.php");
 		$is_lecturer = 0;
@@ -18,7 +16,7 @@ require_once("../classes/class.stats.php");
 		require_once("student-stats.php"); //new Highchart Object
 	}
 
-	?>
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

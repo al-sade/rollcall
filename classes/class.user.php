@@ -46,7 +46,7 @@ class USER
 	{
 		try
 		{
-			$new_password = password_hash($pass, PASSWORD_DEFAULT);
+			$new_password = password_hash($pass, PASSWORD_DEFAULT); //default php const algo
 			$stmt = $this->conn->prepare("INSERT INTO users(id_number,first_name,last_name,email,bday,begin_studying,department,pass)
 		                                               VALUES(:id_number,:first_name,:last_name,:email,:bday,:begin_studying,:department,:pass)");
 			$stmt->bindparam(":id_number", $id_number);

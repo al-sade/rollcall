@@ -44,7 +44,13 @@ CREATE TABLE IF NOT EXISTS `rollcall`.`users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-
+CREATE TABLE IF NOT EXISTS `rollcall`.`admins` (
+  `admin_id` int(15) NOT NULL AUTO_INCREMENT,
+  `email` varchar(40) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `joining_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnonDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `rollcall`.`courses`(
   `course_id` INT(15) NOT NULL AUTO_INCREMENT,
