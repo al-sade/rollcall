@@ -37,25 +37,25 @@
 			$uploadOk = 1;
 			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-			if(isset($_POST['submit']))
+			if(isset($_POST['submit']) && !empty($_FILES["fileToUpload"]["tmp_name"]))
 			{
 				// Check if image file is a actual image or fake image
 				$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
 			 if($check !== false) {
-					 echo "File is an image - " . $check["mime"] . ".";
+					//  echo "File is an image - " . $check["mime"] . ".";
 					 $uploadOk = 1;
 			 } else {
-					 echo "File is not an image.";
+					//  echo "File is not an image.";
 					 $uploadOk = 0;
 			 }
 			 // Check if file already exists
 			if (file_exists($target_file)) {
-					echo "Sorry, file already exists.";
+					// echo "Sorry, file already exists.";
 					$uploadOk = 0;
 			}
 			// Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000) {
-					echo "Sorry, your file is too large.";
+					// echo "Sorry, your file is too large.";
 					$uploadOk = 0;
 			}
 			// Allow certain file formats
@@ -66,14 +66,8 @@
 			}
 			// Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
-					echo "Sorry, your file was not uploaded.";
+					// echo "Sorry, your file was not uploaded.";
 			// if everything is ok, try to upload file
-			} else {
-					if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-							echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-					} else {
-							echo "Sorry, there was an error uploading your file.";
-					}
 			}
 		}
 			 //End of checking
@@ -176,14 +170,6 @@
 						$table .= '</thead>';
 						$table .= '<tbody>';
 
-						//loop over students in course
-						// foreach ($presence_arr['1'] as $attended) {
-						// 	var_dump($attended);
-						// 	echo "=======";
-						// $date = explode(" ",$attended['date']);
-						// $date_arr[$date[0]] = 1;
-						// }
-
 						foreach ($students_list as $key => $student) {
 							$student_id = $student['student'];
 							$student_presence_arr = $presence_arr[$student_id]; //array of registration dates for each student
@@ -222,8 +208,9 @@
 						<label>Date Of Issue:  <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
 			      <select class="form-control" name="date_of_issue" id="doi">
 							<?php foreach ($date_arr as $date => $status){
-								echo '<option>'.$date.'</option>';
-							} ?>
+								if($status !== 1) { echo '<option>'.$date.'</option>';}
+							}
+							?>
 			      </select>
 					</div>
           <div class="form-group">

@@ -81,7 +81,7 @@ class ADMIN extends USER
 
   public function getStudents($department){
     $stmt = $this->conn->prepare("SELECT id_number, first_name, last_name, email, bday, begin_studying, department FROM users
-    WHERE department = :department");
+    WHERE department = :department AND lecturer = 0");
     $stmt-> execute(array(':department' => $department));
     $result=$stmt->fetchall(PDO::FETCH_ASSOC);
     return $result;

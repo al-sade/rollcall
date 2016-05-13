@@ -32,7 +32,8 @@
 
     <div class="container">
 
-    	<!-- <label class="h5">welcome : <?php print($userRow['first_name'].$userRow['last_name']); ?></label> -->
+    	<h1>Welcome To Rollcall</h1>
+			<h2>Registration Management Tool</h2>
 
     </div>
 

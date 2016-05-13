@@ -107,15 +107,29 @@ h1{
     border: 1px solid black;
 		position: relative;
 		margin-bottom: 10px;
+		width: 75%;
 }
-
+.appeal div{
+	display: inline-block;
+}
 .form-response {
     position: absolute;
     top: 0px;
     right: 30px;
 }
+.appeal-data {
+    width: 50%;
+}
+.appeal-data >span {
+    display: -webkit-box;
+		font-size: 17px;
+}
 
-
+.appeal-file{
+	height: 100px;
+	width: 45%;
+	background-size: cover;
+}
 /*** student-notifications.php ***/
 .remove-appeal{
 		float: right;

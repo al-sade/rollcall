@@ -208,7 +208,7 @@ class USER
 			$stmt->bindparam(":target_file", $target_file);
 			$stmt->bindparam(":date_of_issue", $date_of_issue);
 			$stmt->execute();
-			var_dump($stmt) ;
+
 			return $stmt;
 		}
 		catch(PDOException $e)
@@ -248,7 +248,7 @@ class USER
 	public function getDay($day_num)
 	{
 		$arr = array('Sunday', 'Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday');
-		return $arr[$day_num];
+		return $arr[$day_num-1];
 	}
 
   public function getCourseFirstDayInSemseter($day_of_week){

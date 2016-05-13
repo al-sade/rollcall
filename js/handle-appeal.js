@@ -1,5 +1,6 @@
 function removeAppeal(appeal_id){
 document.getElementById('an_'+appeal_id).style.display = "none";
+document.getElementById('notifications').innerHTML -= 1;
 
   jQuery.ajax({
        url: '../appeal-handler.php',

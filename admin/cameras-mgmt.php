@@ -57,7 +57,7 @@
       foreach($cameras as $camera){
         $output = '<tr>';
         $output .= '<td>'.$camera['camera'].'</td>';
-        $output .= '<td>'.$camera['day_of_week'].'</td>';
+        $output .= '<td>'.$auth_user->getDay($camera['day_of_week']).'</td>';
         $output .= '<td>'.$camera['open_time'].'</td>';
         $output .= '<td>'.$camera['close_time'].'</td>';
         $output .= '<td>'.$camera['course_name'].'</td>';
