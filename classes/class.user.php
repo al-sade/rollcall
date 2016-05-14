@@ -97,7 +97,7 @@ class USER
 
 	public function getCourses($user_id)
 	{
-		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_of_week, users.first_name, users.last_name,users.email,courses.course_id
+		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_of_week,courses.start,courses.end, users.first_name, users.last_name,users.email,courses.course_id
 		FROM students_courses
 		INNER JOIN courses ON students_courses.course = courses.course_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
@@ -127,8 +127,37 @@ class USER
 		INNER JOIN courses ON presence.course = courses.course_id
  		WHERE student =:student_id ");
 		$stmt->execute(array(':student_id'=>$user_id));
-		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
-		return $userRow;
+		$result =$stmt->fetchall(PDO::FETCH_OBJ);
+		return $result;
+	}
+
+	public function getAbsence($user_id)
+	{
+			$allCoursesDates = $this->getCoursesDates($user_id); //all dates of all courses
+			$presence = $this->getPresence($user_id); // all dates user was presence
+			$newPresence = array(); //array of key(course_name) => value(array of all dates user attended)
+			$absence = array();
+
+			foreach($presence as $key => $attendedDate){
+				if(!isset($newPresence[$attendedDate->course_name])){
+					$newPresence[$attendedDate->course_name] = array();
+					$absence[$attendedDate->course_name] = array();
+				}
+				$strippedDate = explode(" ",$attendedDate->date);
+				array_push($newPresence[$attendedDate->course_name], $strippedDate[0]);
+			}
+
+
+			foreach($allCoursesDates as $key => $dates){
+
+				foreach($dates as $date)
+				if(!in_array($date,$newPresence[$key])){
+					array_push($absence[$key], $date);
+				}
+			}
+
+		return $absence;
+
 	}
 
 	public function getSchedule($user_id)
@@ -257,6 +286,24 @@ class USER
 		$date = date('Y-m-d', strtotime("next ".$day, strtotime(SEMESTER_START)));
 
 		return $date;
+	}
+
+	public function getCoursesDates($user_id)
+	{
+		$courses = $this->getCourses($user_id);
+		foreach($courses as $course){
+			$dates[$course['course_name']] = array(); //dates of course in semseter
+			$day = $course['day_of_week'];
+			$date = $this->getCourseFirstDayInSemseter($day);
+
+			while (strtotime($date) <= strtotime(SEMESTER_END)) {
+				array_push($dates[$course['course_name']], $date);
+				$date = date ("Y-m-d", strtotime("+7 day", strtotime($date)));
+			}
+
+		}
+
+		return $dates;
 	}
 
 	public function countCourseDays($day){//$date is first day of course in semester and $day is day of week

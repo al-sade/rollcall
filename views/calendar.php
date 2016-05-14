@@ -27,31 +27,46 @@
 <script src='../js/calendar/fullcalendar.min.js'></script>
 <script type="text/javascript">
 
-var absJson = JSON.parse('<?php echo json_encode($auth_user->getPresence($user_id)); ?>');
+var presenceJson = JSON.parse('<?php echo json_encode($auth_user->getPresence($user_id)); ?>');
+var absenceJson = JSON.parse('<?php echo json_encode($auth_user->getAbsence($user_id)); ?>');
 
 //delete student key
-for(var i = 0; i < absJson.length; i++) {
-    delete absJson[i]['student'];
+for(var i = 0; i < presenceJson.length; i++) {
+    delete presenceJson[i]['student'];
 }
 
 var presence = [];
+var absence = [];
 
-for (var key in absJson) {
-    if (absJson.hasOwnProperty(key)) {
+for (var key in presenceJson) {
+    if (presenceJson.hasOwnProperty(key)) {
         presence.push({
-            'title': absJson[key].course_name,
-            'start': absJson[key].date
+            'title': presenceJson[key].course_name,
+            'start': presenceJson[key].date,
+
+
         });
     }
 }
-console.log(absJson);
 
+//just fix this  -> push all absence dates to proper array
+for (var key in absenceJson) {
+    for (var i = 0; i < absenceJson[key].length; i++) {
+        absence.push({
+            'title': key,
+            'start': absenceJson[key][i],
+						color: '#257e4a'
+        });
+}
+}
+
+var attendanceSummery = presence.concat(absence);
 	jQuery(document).ready(function() {
 		jQuery('#calendar').fullCalendar({
-			defaultDate: '2016-01-12',
+			defaultDate: Date(),
 			editable: false,
 			eventLimit: true, // allow "more" link when too many events
-			events: presence
+			events: attendanceSummery
 		});
 	});
 
