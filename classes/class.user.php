@@ -316,17 +316,39 @@ class USER
 		return $ctr;
 	}
 
+	public function ftp_update($img_name, $user_id, $img_path){
+		// connect and login to FTP server
+		$ftp_server = R_FTP;
+		$ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+		$login = ftp_login($ftp_conn, R_USER, R_PASS);
+
+		ftp_mkdir($ftp_conn, $user_id); //only for first image
+		// upload file
+		if (ftp_put($ftp_conn, $user_id."/".$img_name, $img_path, FTP_BINARY))
+
+		  {
+		  echo "Successfully uploaded $img_path.";
+		  }
+		else
+		  {
+		  echo "Error uploading $img_path.";
+		  }
+
+		// close connection
+		ftp_close($ftp_conn);
+	}
+
 	public function kairosEnroll($user_id, $pic_id)
 	{
 	$subject_id = $user_id."-a".$pic_id;
 	// The data to send to the API
-$postData = array(
-	 "image" => "http://104.131.0.21/rollcall/uploads/images/users/".$subject_id.".png",
-	 "subject_id" => $user_id.'-a'.$pic_id,
-	 "gallery_name" => KAIROS_GALLERY,
-	 "selector" => "SETPOSE",
-	 "symmetricFill" => "true"
-);
+	$postData = array(
+		 "image" => "http://104.131.0.21/rollcall/uploads/images/users/".$subject_id.".png",
+		 "subject_id" => $user_id.'-a'.$pic_id,
+		 "gallery_name" => KAIROS_GALLERY,
+		 "selector" => "SETPOSE",
+		 "symmetricFill" => "true"
+	);
 
 		$url = "https://api.kairos.com/enroll";
     $curl = curl_init($url);

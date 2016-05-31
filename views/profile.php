@@ -70,7 +70,7 @@
 							$schedule = ($auth_user->getSchedule($user_id));
 							foreach ($schedule as $class) {
 								$output = "<tr><td>".$class['course_name']."</td>";
-								$output .= "<td>".$class['day_of_week']."</td>";
+								$output .= "<td>".$auth_user->getDay($class['day_of_week'])."</td>";
 								$output .= "<td>".$class['start']."</td>";
 								$output .= "<td>".$class['end']."</td></tr>";
 								echo $output;

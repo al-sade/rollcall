@@ -22,16 +22,7 @@ file_put_contents($img_path, $post_data);
 }
 
 //send image to kairos
-// $auth_user->kairosEnroll($user_id, $pic_id);
+// $auth_user->kairosEnroll($user_id, $pic_id); DEPRECATED
+$auth_user->ftp_update($img_name, $user_id ,$img_path);
 
-//This logic can be used to save base64_encode vevrsion of the image!
-// if (!empty($post_data)) {
-//     $dir = '/var/www/rollcall/uploads/images/users';
-//     $file = $user_id."_a_".$pic_id; // here we gve file name - you want to change it!
-//     $filename = dirname(__FILE__)."/uploads/images/users/".$file.'.txt	';
-//     $handle = fopen($filename, "w");
-//     fwrite($handle, $post_data);
-//     fclose($handle);
-//     echo $file;
-// }
 ?>
