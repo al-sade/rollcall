@@ -38,7 +38,7 @@ foreach($lecture_courses as $course){
 
  $course_chart[$course_name] = new Highchart();
  $course_chart[$course_name]->chart->renderTo = "container_".$course_id;
- $course_chart[$course_name]->chart->type = "bar";
+ $course_chart[$course_name]->chart->type = "column";
  $course_chart[$course_name]->title->text = $course_name;
  $course_chart[$course_name]->xAxis->categories = $students_list; //students list
  $course_chart[$course_name]->yAxis->min = 0;
@@ -51,7 +51,8 @@ foreach($lecture_courses as $course){
  $course_chart[$course_name]->plotOptions->series->stacking = "normal";
  $course_chart[$course_name]->series[] = array(
      'name' => "Absent",
-     'data' => $absence
+     'data' => $absence,
+     'color' => "#434348"
  );
 
  $course_chart[$course_name]->series[] = array(

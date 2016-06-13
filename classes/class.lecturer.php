@@ -15,6 +15,21 @@ public function getCourse($course_id){
 
 }
 
+public function getCourseCamera($course_id, $day_of_week, $open_time, $close_time){
+  $stmt = $this->conn->prepare("SELECT * FROM cameras
+  WHERE course_id =:course_id
+  AND day_of_week = :day_of_week
+  AND open_time = :open_time
+  AND close_time = :close_time ");
+  $stmt->execute(array(':course_id' => $course_id,
+   ':day_of_week' => $day_of_week,
+   ':open_time' => $open_time,
+   ':close_time' => $close_time));
+  $userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+
+  return $userRow;
+}
+
 public function getCourseStudents($course_id, $day_of_week){
   $stmt = $this->conn->prepare("SELECT students_courses.student, users.first_name, users.last_name
   FROM students_courses

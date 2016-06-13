@@ -4,7 +4,11 @@
 body{
 	background:#f1f9f9;
 }
-
+/*
+text{
+	color: #F1F9F9 !important;
+	fill: #F1F9F9 !important;
+}*/
 .form-signin {
     max-width: 500px;
     padding: 19px 29px 29px;
@@ -66,7 +70,7 @@ h1{
 
 .details  img{
 	margin-bottom: 20px;
-    width: 290px;
+  width: 290px;
 }
 
 .picCapture {
@@ -132,4 +136,9 @@ h1{
     margin-right: -10px;
     margin-top: -10px;
 		cursor: pointer;
+}
+
+/***cameras mgmt***/
+.cameras-table{
+	cursor: pointer;
 }

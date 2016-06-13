@@ -16,7 +16,7 @@ if(isset($_POST['btn-login']))
 	$email = strip_tags($_POST['id_email']);
 	$pass = strip_tags($_POST['password']);
 
-	if($login->doLogin($id_number,$email,$pass)){
+	if($login->doLogin($id_number,$email,$pass) && !$_SESSION['lecturer']){
 		$login->redirect('views/home.php');
 	}	else {
 		$error = "Wrong Details !";
@@ -41,7 +41,7 @@ if(isset($_POST['btn-login']))
 
        <form class="form-signin" method="post" id="login-form">
 
-        <h2 class="form-signin-heading">Log In to WebApp.</h2><hr />
+        <h2 class="form-signin-heading">Log In to Rollcall</h2><hr />
 
         <div id="error">
         <?php

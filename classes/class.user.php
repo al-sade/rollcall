@@ -42,17 +42,18 @@ class USER
 			echo $e->getMessage();
 		}
 	}
-	public function register($id_number,$first_name,$last_name,$email,$bday,$begin_studying,$department,$pass)
+	public function register($id_number,$first_name,$last_name,$email,$phone,$bday,$begin_studying,$department,$pass)
 	{
 		try
 		{
 			$new_password = password_hash($pass, PASSWORD_DEFAULT); //default php const algo
-			$stmt = $this->conn->prepare("INSERT INTO users(id_number,first_name,last_name,email,bday,begin_studying,department,pass)
-		                                               VALUES(:id_number,:first_name,:last_name,:email,:bday,:begin_studying,:department,:pass)");
+			$stmt = $this->conn->prepare("INSERT INTO users(id_number,first_name,last_name,email,phone,bday,begin_studying,department,pass)
+		                                               VALUES(:id_number,:first_name,:last_name,:email,:phone,:bday,:begin_studying,:department,:pass)");
 			$stmt->bindparam(":id_number", $id_number);
 			$stmt->bindparam(":first_name", $first_name);
 			$stmt->bindparam(":last_name", $last_name);
 			$stmt->bindparam(":email", $email);
+			$stmt->bindparam(":phone", $phone);
 			$stmt->bindparam(":bday", $bday);
 			$stmt->bindparam(":begin_studying", $begin_studying);
 			$stmt->bindparam(":department", $department);
@@ -114,8 +115,8 @@ class USER
  		WHERE student =:student_id AND course = :course_id");
 		$stmt->execute(array(':student_id'=>$user_id, ':course_id'=>$course_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
-		return $userRow;
 
+		return $userRow;
 	}
 
 	//get presence for entire courses

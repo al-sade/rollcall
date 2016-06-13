@@ -42,7 +42,7 @@
 
     <h2>Manage Cameras</h2>
 
-    <table class="table table-bordered">
+    <table  class="table table-bordered">
       <thead>
         <tr>
           <th>Camera Number</th>
@@ -56,7 +56,7 @@
     <?php
       foreach($cameras as $camera){
         $output = '<tr>';
-        $output .= '<td>'.$camera['camera'].'</td>';
+        $output .= '<td class="cameras-table" contenteditable>'.$camera['camera'].'</td>';
         $output .= '<td>'.$auth_user->getDay($camera['day_of_week']).'</td>';
         $output .= '<td>'.$camera['open_time'].'</td>';
         $output .= '<td>'.$camera['close_time'].'</td>';

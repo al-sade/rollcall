@@ -10,6 +10,10 @@
 		$auth_user = new USER();
 	}
 
+$user_id = $_SESSION['user_session'];
+$courses = $auth_user->getCourses($user_id);
+$courses = array_combine(array_column($courses, "course_name"), $courses);
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -46,6 +50,7 @@
 				 $row .= '</li>';
 				 $row .= '<li>Department: '.$userRow['department'].'</li>';
 				 $row .= '<li>eMail: '.$userRow['email'].'</li>';
+				 $row .= '<li>Phone: '.$userRow['phone'].'</li>';
 				 $row .= '<li>Year Of Study: ';
 				 $begin_studying = new DateTime($userRow['begin_studying']);
 				 $row .= $begin_studying->diff($today)->y;
@@ -69,7 +74,7 @@
 							<?php
 							$schedule = ($auth_user->getSchedule($user_id));
 							foreach ($schedule as $class) {
-								$output = "<tr><td>".$class['course_name']."</td>";
+								$output = '<tr><td><a href="course.php?cid='.$courses[$class['course_name']]['course_id'].'">'.$class['course_name'].'</a></td>';
 								$output .= "<td>".$auth_user->getDay($class['day_of_week'])."</td>";
 								$output .= "<td>".$class['start']."</td>";
 								$output .= "<td>".$class['end']."</td></tr>";

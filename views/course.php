@@ -107,18 +107,42 @@
 <div class="container-fluid" style="margin-top:80px;">
     <div class="container">
       <div class="row">
-      <h1><?php echo($course_data[0]['course_name']); ?></h1>
-      <ul>
-        <?php if(!$is_lecturer){
-					echo '<li>Lecturer: '.$course_data[0]['first_name'].$course_data[0]['last_name'].'</li>';
-					}?>
-				<li>Day: <?php $day = $course_data[0]['day_of_week']; echo $dowMap[$day]; ?></li>
-        <li>Start: <?php echo $course_data[0]['start'];?></li>
-        <li>End: <?php echo $course_data[0]['end'];?></li>
-      </ul>
+      	<h1><?php echo($course_data[0]['course_name']); ?></h1>
+	      <ul>
+	        <?php if(!$is_lecturer){
+						echo '<li>Lecturer: '.$course_data[0]['first_name'].$course_data[0]['last_name'].'</li>';
+						}?>
+					<li>Day: <?php $day = $course_data[0]['day_of_week']; echo $dowMap[$day-1]; ?></li>
+	        <li>Start: <?php echo $course_data[0]['start'];?></li>
+	        <li>End: <?php echo $course_data[0]['end'];?></li>
+	      </ul>
+    	</div>
     </div>
-    </div>
-    <div class="container">
+
+		<?php	if($_SESSION['lecturer']){ ?>
+					<div class="container">
+						<div class="row">
+							<h1>Camera</h1>
+
+
+									<?php
+									$camera = $auth_user->getCourseCamera($course_data[0]['course_id'],$course_data[0]['day_of_week'],
+								  $course_data[0]['start'],$course_data[0]['end']);
+
+									echo '<ul>';
+									echo '<li>Camera: '.$camera[0]['camera'].'</li>';
+									echo '<li>Day: '.$camera[0]['day_of_week'].'</li>';
+									echo '<li>Start: '.$camera[0]['open_time'].'</li>';
+									echo '<li>End: '.$camera[0]['close_time'].'</li>';
+									echo '</ul>';
+									?>
+
+						</div>
+					</div>
+
+		<?php		} ?>
+
+		<div class="container">
       <div class="row">
         <h2>Attendance</h2>
 
@@ -142,6 +166,13 @@
 					$table .= "<th>".$th."</th>";
 					$date = date ("Y-m-d", strtotime("+7 day", strtotime($date)));
 					}
+					$num_of_days = sizeof($date_arr);
+
+					$table .= "<th>pct.</th>";
+
+					/*
+					*	if session user is STUDENT
+					*/
 
 					if(!$is_lecturer){
 						foreach ($presence as $key => $value) {
@@ -156,10 +187,11 @@
 							}else{
 							$table .= "<td></td>";
 						}
+						$attended += $presence;
 						}
+						$prec = round(($attended * 100) / $num_of_days);
+						$table .= '<td>'.$prec.'%</td>';
 						$table .= '</tr></body></table>';
-
-
 					}
 
 					/*
@@ -181,21 +213,27 @@
 							}
 
 						$table .= '<tr><td>'.$student_name.'</td>';
+
+						$attended = 0;
 						foreach ($date_arr as $date => $status) {
 							if($date < date("Y-m-d")){
 							$status == 1 ? $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>' : $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
 							else{
 							$table .= "<td></td>";
+							}
+							$attended += $status;
 						}
-						}
+
+						$prec = round(($attended * 100) / $num_of_days);
+						$table .= '<td>'.$prec.'%</td>';
 						$table .= '</tr>';
 						}
 						$table .= '</body></table>';
 					}
 					echo $table;
 					?>
-					<!-- end of rpesence table -->
+					<!-- end of presence table -->
 
       </div>
     </div>

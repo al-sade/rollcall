@@ -14,6 +14,7 @@ if(isset($_POST['btn-signup']))
 	$first_name = strip_tags($_POST['first_name']);
 	$last_name = strip_tags($_POST['last_name']);
 	$email = strip_tags($_POST['email']);
+	$phone = strip_tags($_POST['phone']);
 	$bday = strip_tags($_POST['bday']);
 	$begin_studying = strip_tags($_POST['begin_studying']);
 	$department = strip_tags($_POST['department']);
@@ -34,7 +35,7 @@ if(isset($_POST['btn-signup']))
 			}
 			else
 			{
-				if($user->register($id_number,$first_name,$last_name,$email,$bday,$begin_studying,$department,$pass)){
+				if($user->register($id_number,$first_name,$last_name,$email,$phone,$bday,$begin_studying,$department,$pass)){
 
 					$user->redirect('sign-up.php?joined');
 				}
@@ -101,6 +102,9 @@ if(isset($_POST['btn-signup']))
 						<input type="email" class="form-control" name="email" placeholder="Enter E-Mail ID" value="<?php if(isset($error)){echo $email;}?>" required/>
 						</div>
 						<div class="form-group">
+						<input type="number" class="form-control" name="phone" placeholder="Phone Number" value="<?php if(isset($error)){echo $phone;}?>" required/>
+						</div>
+						<div class="form-group">
 						<input type="text" class="form-control" name="bday" placeholder="Date Of Birth" value="<?php if(isset($error)){echo $date_of_birth;}?>" onfocus="(this.type='date')" required/>
 						</div>
 						<div class="form-group">
@@ -124,9 +128,9 @@ if(isset($_POST['btn-signup']))
 						<div class="form-group">
 						<div id="camera">
 							<div class="center clear">
-								<video id="video" class="picCapture" autoplay></video>
+								<video id="video" class="picCapture" width="640" height="480" autoplay></video>
 								<button id="snap" type="button" class="btn btn-default" onclick="return false;">Take Picture</button>
-								<canvas id="canvas" class="picCapture"></canvas>
+								<canvas id="canvas" class="picCapture" width="640" height="480"></canvas>
 							</div>
 						</div>
 					</div>
