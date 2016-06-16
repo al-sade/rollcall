@@ -1,7 +1,8 @@
 {
     "require": {
-        "twbs/bootstrap": "3.0.3",
+        "twbs/bootstrap": "3.3.6",
         "components/jquery": "1.9.*",
-        "ghunti/highcharts-php": "~3.0"
+        "ghunti/highcharts-php": "~3.0",
+        "FortAwesome/Font-Awesome": "*"
           }
 }

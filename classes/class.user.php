@@ -189,7 +189,7 @@ class USER
 	}
 
 	public function getAppeals($user_id){
-	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date,appeals.date_of_issue, appeals.read, appeals.file_dir, appeals.response, appeals.approved,users.first_name, users.last_name,courses.course_name
+	  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.lecturer_id,appeals.student_id, appeals.content, appeals.submit_date,appeals.date_of_issue, appeals.read, appeals.file_dir, appeals.response, appeals.status,users.first_name, users.last_name,courses.course_name
 	  FROM appeals
 	  INNER JOIN users ON appeals.lecturer_id = users.user_id
 	  INNER JOIN courses ON appeals.course_id = courses.course_id
@@ -200,6 +200,21 @@ class USER
 	  return $result;
 	}
 
+	public function getAppealsStatus($course_id, $student_id){
+		$stmt = $this->conn->prepare("
+		SELECT date_of_issue,status
+		FROM appeals
+		WHERE course_id =  :course_id
+		AND student_id = :student_id
+		AND status > 1");
+		//0 and 1 are two default initializers, here we only update the newrer logic of appeals
+		//including custom statuses as sick, late , miluim etc.
+		$stmt->execute(array(':course_id' => $course_id, ':student_id' => $student_id));
+		$result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+		return $result;
+	}
+
 	public function appealIsRead($appeal_id){
 		$stmt = $this->conn->prepare("UPDATE appeals SET `student_show` = 0 WHERE `appeal_id` = :appeal_id");
 		$stmt->execute(array(':appeal_id' => $appeal_id));
@@ -208,7 +223,7 @@ class USER
 		return $stmt;
 	}
 
-	public function submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $target_file, $file = NULL){
+	public function submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $cause, $target_file, $file = NULL){
 		try
 		{
 
@@ -224,7 +239,7 @@ class USER
 				`read`,
 				`student_show`,
 				`response`,
-				`approved`
+				`status`
 				)
 				VALUES (
 				NULL , :course_id, :student_id, :lecturer_id, :content, :target_file,

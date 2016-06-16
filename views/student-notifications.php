@@ -7,7 +7,7 @@ $image_location = '/rollcall/uploads/appeals/';
   }else{
   foreach ($appeals as $appeal) {
     $attached_file = $appeal["file_dir"];
-    $appeal['approved'] == 1 ? $approved = "Approved" : $approved = "declined";
+    $appeal['status'] == 1 ? $approved = "Approved" : $approved = "declined";
     $output = '<div id="an_'.$appeal['appeal_id'].'" class="appeal"><span class="glyphicon glyphicon-remove remove-appeal" onclick="removeAppeal('.$appeal['appeal_id'].')"></span>';
     $output .= '<div class="appeal-data">';
     $output .= '<span>Course: '.$appeal['course_name'].'</span>';

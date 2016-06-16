@@ -72,9 +72,10 @@
 		}
 			 //End of checking
 			 $message = strip_tags($_POST['message']);
+			 $cause = strip_tags($_POST['cause']);
 			 $date_of_issue = strip_tags($_POST['date_of_issue']);
 			 try{
-				$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $appeals_dir.basename($_FILES["fileToUpload"]["name"]), $file = NULL);
+				$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $cause, $appeals_dir.basename($_FILES["fileToUpload"]["name"]), $file = NULL);
 			 }
 			 catch(Exception $e) {
 				 echo 'Message: ' .$e->getMessage();
@@ -84,7 +85,6 @@
 
 	$dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -92,6 +92,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="../vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+<link href="../vendor/fortawesome/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="../components/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="../style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
@@ -110,7 +111,7 @@
       	<h1><?php echo($course_data[0]['course_name']); ?></h1>
 	      <ul>
 	        <?php if(!$is_lecturer){
-						echo '<li>Lecturer: '.$course_data[0]['first_name'].$course_data[0]['last_name'].'</li>';
+						echo '<li>Lecturer: '.$course_data[0]['first_name'].' '.$course_data[0]['last_name'].'</li>';
 						}?>
 					<li>Day: <?php $day = $course_data[0]['day_of_week']; echo $dowMap[$day-1]; ?></li>
 	        <li>Start: <?php echo $course_data[0]['start'];?></li>
@@ -175,19 +176,38 @@
 					*/
 
 					if(!$is_lecturer){
+						$appealsUpdate = $auth_user->getAppealsStatus($course_id, $user_id);
+						$attended = 0;
+
 						foreach ($presence as $key => $value) {
 						$date = explode(" ",$value['date']);
 						$date_arr[$date[0]] = 1;
 						}
 						$table .= '</thead>';
-						$table .= '<tbody><tr>';
+						$table .= '<tbody id="attendance-tbody"><tr>';
+						for($i = 0 ; $i < sizeof($appealsUpdate); $i++) {
+							$date_arr[$appealsUpdate[$i]['date_of_issue']] = $appealsUpdate[$i]['status'];
+						}
 						foreach ($date_arr as $date => $presence) {
 							if($date < date("Y-m-d")){
-							$presence == 1 ? $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>' : $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
+							if ($presence == 0) {
+								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
+							}
+							elseif ($presence == 1) {
+								 $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>';
+							}
+							elseif ($presence == 2) {
+								 $table .= '<td><span class="glyphicon glyphicon-time"></span></td>';
+							}
+						  elseif ($presence == 3) {
+								 $table .= '<td><span class="glyphicon glyphicon-bed"></span></td>';
+							}
 							}else{
 							$table .= "<td></td>";
 						}
-						$attended += $presence;
+						if($presence){
+						$attended ++;
+							}
 						}
 						$prec = round(($attended * 100) / $num_of_days);
 						$table .= '<td>'.$prec.'%</td>';
@@ -199,17 +219,27 @@
 					*/
 
 					else{
-						$table .= '</thead>';
+						$table .= '<tbody id="attendance-tbody"><tr>';
+
 						$table .= '<tbody>';
 
 						foreach ($students_list as $key => $student) {
 							$student_id = $student['student'];
+							$appealsUpdate = $auth_user->getAppealsStatus($course_id, $student_id);
+							// echo 'student id: '.$student_id.'<br>';
+							// var_dump($appealsUpdate);
+							var_dump($date_arr);
+							echo '======================<br>';
 							$student_presence_arr = $presence_arr[$student_id]; //array of registration dates for each student
 							$student_name = $student["first_name"]." ".$student["last_name"];
 							//init each user attendance table row
 							foreach ($student_presence_arr as $key=> $attended) { //loop over each date student attended and set to 1 = attended
 							$date = strtok($attended['date'], " ");
 							$date_arr[$date] = 1;
+							for($i = 0 ; $i < sizeof($appealsUpdate); $i++) {
+								$date_arr[$appealsUpdate[$i]['date_of_issue']] = $appealsUpdate[$i]['status'];
+								}
+
 							}
 
 						$table .= '<tr><td>'.$student_name.'</td>';
@@ -217,13 +247,26 @@
 						$attended = 0;
 						foreach ($date_arr as $date => $status) {
 							if($date < date("Y-m-d")){
-							$status == 1 ? $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>' : $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
+							if ($status == 0) {
+								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
+							}
+							elseif ($status == 1) {
+								 $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>';
+							}
+							elseif ($status == 2) {
+								 $table .= '<td><span class="glyphicon glyphicon-time"></span></td>';
+							}
+						  elseif ($status == 3) {
+								 $table .= '<td><span class="glyphicon glyphicon-bed"></span></td>';
+							}
 							}
 							else{
 							$table .= "<td></td>";
 							}
-							$attended += $status;
-						}
+							if($status){
+							$attended ++;
+								}
+							}
 
 						$prec = round(($attended * 100) / $num_of_days);
 						$table .= '<td>'.$prec.'%</td>';
@@ -250,6 +293,16 @@
 							}
 							?>
 			      </select>
+					</div>
+					<div class="form-group">
+						<label>Cause:</label>
+						<select name="cause" class="form-control" required>
+							<option value="" disabled selected>Select Cause</option>
+							<option value="late">Late</option>
+							<option value="sickness">Sickness</option>
+							<option value="reserve">Reserve Duty</option>
+							<option value="other">Other</option>
+						</select>
 					</div>
           <div class="form-group">
             <label for="comment">Message:</label>

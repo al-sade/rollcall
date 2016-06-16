@@ -99,6 +99,9 @@ h1{
 .glyphicon-remove{
 	color: #F30505;
 }
+#attendance-tbody > tr > td{
+	text-align: center;
+}
 
 /***notifications.php***/
 .appeal {

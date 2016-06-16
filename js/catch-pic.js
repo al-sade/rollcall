@@ -51,8 +51,8 @@ window.addEventListener("DOMContentLoaded", function() {
   document.getElementById("snap").addEventListener("click", function() {
         var id = document.getElementById('user_id').value;// get user id
 
-        if(Number.isInteger(id)) {
-          if(pic_id < 8) {
+        if(IsNumeric(id)) {
+          if(pic_id <= 8) {
           context.drawImage(video, 0, 0, 640, 480);
 
           var image = document.getElementById("canvas"); // get the canvas
