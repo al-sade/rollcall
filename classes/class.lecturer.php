@@ -77,10 +77,17 @@ public function getAppeals($user_id){
 }
 
 public function appealReply($appeal_id, $response, $status){
-  $stmt = $this->conn->prepare("UPDATE appeals
-    SET `read` = 1, `student_show` = 1, `response` = :response, `status` = :status
-    WHERE `appeal_id` = :appeal_id");
-  $stmt->execute(array(':response' => $response, ':status' => $status, ':appeal_id' => $appeal_id));
+  if($status){
+    $stmt = $this->conn->prepare("UPDATE appeals
+        SET `read` = 1, `student_show` = 1, `response` = :response, `status` = `cause`
+        WHERE `appeal_id` = :appeal_id");
+  }else{
+    $stmt = $this->conn->prepare("UPDATE appeals
+        SET `read` = 1, `student_show` = 1, `response` = :response, `status` = 0
+        WHERE `appeal_id` = :appeal_id");
+
+  }
+    $stmt->execute(array(':response' => $response, ':appeal_id' => $appeal_id));
 
   return $stmt;
 }

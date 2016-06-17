@@ -8,6 +8,7 @@ $student_name = $userRow['first_name']." ".$userRow['last_name'];
 $courses = $auth_user->getCourses($userRow['user_id']);
 $courses_list = array();
 $presence = array();
+$appealed = array();
 $absence = array();
 foreach($courses as $course){
   array_push($courses_list, $course['course_name']);
@@ -18,11 +19,13 @@ foreach($courses as $course){
   $course_day = $course['day_of_week'];
 
   $numOfLectures = $auth_user->countCourseDays($course_day);
+  $numOfAttendedByAppeal = count($auth_user->getAttendedByAppeal($student_id, $course_id));
+  $numOfPresence = count($auth_user->getUserCoursePresence($student_id, $course_id)) + $numOfAttendedByAppeal;
+  $numOfAppealed = count($auth_user->getAcceptedAppeals($student_id, $course_id));
 
-
-  array_push($presence, count($auth_user->getUserCoursePresence($student_id, $course_id)));
-  array_push($absence, $numOfLectures - count($auth_user->getUserCoursePresence($student_id, $course_id)));
-
+  array_push($presence, $numOfPresence);
+  array_push($appealed, $numOfAppealed);
+  array_push($absence, $numOfLectures - $numOfPresence - $numOfAppealed);
 
 }
 
@@ -44,7 +47,11 @@ foreach($courses as $course){
      'data' => $absence,
      'color' => "#434348"
  );
-
+ $course_chart->series[] = array(
+     'name' => "Appealed",
+     'data' => $appealed,
+     'color' => "#90ED7D"
+ );
  $course_chart->series[] = array(
      'name' => "Present",
      'data' => $presence

@@ -9,18 +9,16 @@
 		require_once("init-user.php");
 	}
 
-
 	$user_id = $_SESSION['user_session'];
 	$appeals = $auth_user->getAppeals($user_id);
-
 
 	if(isset($_POST['approve']) || isset($_POST['decline'])){ //best practice??
 		$response = $_POST['response'];
 		if(isset($_POST['approve'])) {
-			$status = 1;
 			$appeal_id = $_POST['approve'];
 			try{
-			$auth_user->approveAppeal($appeal_id);
+			$status = 1;
+			// $auth_user->approveAppeal($appeal_id);
 		}		catch(Exception $e){
 					echo 'Message: ' .$e->getMessage();
 				}

@@ -22,7 +22,7 @@
 
 	}else{
 		$is_lecturer = 0;
-		require_once("init-user.php");;
+		require_once("init-user.php");
 		$auth_user = new USER();
 
 		$course_data = $auth_user->getCourse($user_id,$course_id);
@@ -75,7 +75,7 @@
 			 $cause = strip_tags($_POST['cause']);
 			 $date_of_issue = strip_tags($_POST['date_of_issue']);
 			 try{
-				$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $cause, $appeals_dir.basename($_FILES["fileToUpload"]["name"]), $file = NULL);
+				$submit_result = $auth_user->submitAppeal($user_id, $course_id, $lecturer_id ,$cause ,$date_of_issue, $message, $appeals_dir.basename($_FILES["fileToUpload"]["name"]), $file = NULL);
 			 }
 			 catch(Exception $e) {
 				 echo 'Message: ' .$e->getMessage();
@@ -199,14 +199,20 @@
 							elseif ($presence == 2) {
 								 $table .= '<td><span class="glyphicon glyphicon-time"></span></td>';
 							}
-						  elseif ($presence == 3) {
+							elseif ($presence == 3) {
 								 $table .= '<td><span class="glyphicon glyphicon-bed"></span></td>';
+							}
+							elseif ($presence == 4) {
+								 $table .= '<td><span class="glyphicon glyphicon-flag"></span></td>';
+							}
+							elseif ($presence == 5) {
+								 $table .= '<td><span class="glyphicon glyphicon-plus"></span></td>';
 							}
 							}else{
 							$table .= "<td></td>";
 						}
-						if($presence){
-						$attended ++;
+						if($presence == 1){
+							$attended ++;
 							}
 						}
 						$prec = round(($attended * 100) / $num_of_days);
@@ -259,6 +265,12 @@
 						  elseif ($status == 3) {
 								 $table .= '<td><span class="glyphicon glyphicon-bed"></span></td>';
 							}
+							elseif ($status == 4) {
+								 $table .= '<td><span class="glyphicon glyphicon-flag"></span></td>';
+							}
+							elseif ($status == 5) {
+								 $table .= '<td><span class="glyphicon glyphicon-plus"></span></td>';
+							}
 							}
 							else{
 							$table .= "<td></td>";
@@ -280,6 +292,9 @@
 
       </div>
     </div>
+
+		<!-- submit appeal -->
+
     <div class="container">
       <div class="row">
 				<?php if(!$is_lecturer){ ?>
@@ -298,10 +313,11 @@
 						<label>Cause:</label>
 						<select name="cause" class="form-control" required>
 							<option value="" disabled selected>Select Cause</option>
-							<option value="late">Late</option>
-							<option value="sickness">Sickness</option>
-							<option value="reserve">Reserve Duty</option>
-							<option value="other">Other</option>
+							<option value="1">Attended</option>
+							<option value="2">Late</option>
+							<option value="3">Sickness</option>
+							<option value="4">Reserve Duty</option>
+							<option value="5">Other</option>
 						</select>
 					</div>
           <div class="form-group">
@@ -323,6 +339,9 @@
 				<?php }?>
       </div>
     </div>
+
+		<!-- End of submit appeal -->
+
 </div>
 
 <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>

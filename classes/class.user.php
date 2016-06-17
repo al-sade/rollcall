@@ -200,13 +200,37 @@ class USER
 	  return $result;
 	}
 
+	public function getAcceptedAppeals($student_id, $course_id){
+		$stmt = $this->conn->prepare("SELECT *
+		FROM appeals
+		WHERE student_id = :student_id
+		AND course_id = :course_id
+		AND status > 1
+		GROUP BY date_of_issue");
+		$stmt->execute(array(':student_id' => $student_id, ':course_id' => $course_id));
+		$result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+		return $result;
+	}
+	public function getAttendedByAppeal($student_id, $course_id){
+		$stmt = $this->conn->prepare("SELECT *
+		FROM appeals
+		WHERE student_id = :student_id
+		AND course_id = :course_id
+		AND status = 1
+		GROUP BY date_of_issue");
+		$stmt->execute(array(':student_id' => $student_id, ':course_id' => $course_id));
+		$result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+		return $result;
+	}
+
 	public function getAppealsStatus($course_id, $student_id){
-		$stmt = $this->conn->prepare("
-		SELECT date_of_issue,status
+		$stmt = $this->conn->prepare("SELECT date_of_issue,status
 		FROM appeals
 		WHERE course_id =  :course_id
 		AND student_id = :student_id
-		AND status > 1");
+		AND status > 0");
 		//0 and 1 are two default initializers, here we only update the newrer logic of appeals
 		//including custom statuses as sick, late , miluim etc.
 		$stmt->execute(array(':course_id' => $course_id, ':student_id' => $student_id));
@@ -223,7 +247,7 @@ class USER
 		return $stmt;
 	}
 
-	public function submitAppeal($user_id, $course_id, $lecturer_id,$date_of_issue, $message, $cause, $target_file, $file = NULL){
+	public function submitAppeal($user_id, $course_id, $lecturer_id ,$cause ,$date_of_issue, $message, $target_file, $file = NULL){
 		try
 		{
 
@@ -232,6 +256,7 @@ class USER
 				`course_id` ,
 				`student_id` ,
 				`lecturer_id` ,
+				`cause` ,
 				`content` ,
 				`file_dir` ,
 				`submit_date` ,
@@ -242,13 +267,14 @@ class USER
 				`status`
 				)
 				VALUES (
-				NULL , :course_id, :student_id, :lecturer_id, :content, :target_file,
+				NULL , :course_id, :student_id, :lecturer_id, :cause, :content, :target_file,
 				CURRENT_TIMESTAMP ,:date_of_issue, '0', '1', NULL, '0'
 				);");
 
 			$stmt->bindparam(":course_id", $course_id);
 			$stmt->bindparam(":student_id", $user_id);
 			$stmt->bindparam(":lecturer_id", $lecturer_id);
+			$stmt->bindparam(":cause", $cause);
 			$stmt->bindparam(":content", $message);
 			$stmt->bindparam(":target_file", $target_file);
 			$stmt->bindparam(":date_of_issue", $date_of_issue);
