@@ -103,6 +103,9 @@ h1{
 	text-align: center;
 }
 
+form#day_limit {
+    width: 200px;
+}
 /***notifications.php***/
 .appeal {
     background: #8DD0D2;

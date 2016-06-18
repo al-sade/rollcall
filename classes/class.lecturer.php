@@ -63,7 +63,7 @@ public function getDb(){
   return $this->$database;
 }
 public function getAppeals($user_id){
-  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.student_id,appeals.student_id,
+  $stmt = $this->conn->prepare("SELECT appeals.appeal_id, appeals.course_id, appeals.student_id,appeals.student_id,appeals.cause,
                                        appeals.content, appeals.submit_date,appeals.date_of_issue, appeals.read,appeals.file_dir,
                                        appeals.status, users.first_name, users.last_name,courses.course_name
   FROM appeals
@@ -104,6 +104,15 @@ public function approveAppeal($appeal_id){
 
 public function isAdmin(){
   if (isset($_SESSION['admin'])) TRUE : FALSE ;
+}
+
+public function setCourseDayLimit($course_id, $n_day_limit){
+  $stmt = $this->conn->prepare("UPDATE courses
+      SET `day_limit` = :day_limit
+      WHERE `course_id` = :course_id");
+
+      $stmt->execute(array(':course_id' => $course_id, ':day_limit' => $n_day_limit));
+      return $stmt;
 }
 
 public function getAdminCourses($admin_id){

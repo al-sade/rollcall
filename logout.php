@@ -10,7 +10,7 @@
 	if(isset($_GET['logout']) && $_GET['logout']=="true")
 	{
 		$user_logout->doLogout();
-		if ($_SESSION['lecturer']) {
+		if (isset($_SESSION['lecturer'])) {
 			$user_logout->redirect('rc-lecturer.php');
 		} else{
 			$user_logout->redirect('index.php');

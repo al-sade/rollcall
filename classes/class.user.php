@@ -85,7 +85,7 @@ class USER
 	}
 
 	public function getCourse($user_id,$course_id){
-		$stmt = $this->conn->prepare("SELECT courses.course_name,users.user_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
+		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_limit, users.user_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
 		FROM courses
 		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
@@ -98,7 +98,7 @@ class USER
 
 	public function getCourses($user_id)
 	{
-		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_of_week,courses.start,courses.end, users.first_name, users.last_name,users.email,courses.course_id
+		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_of_week,courses.start,courses.end,courses.day_limit, users.first_name, users.last_name,users.email,courses.course_id
 		FROM students_courses
 		INNER JOIN courses ON students_courses.course = courses.course_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
@@ -423,5 +423,6 @@ class USER
 		// echo $responseData['published'];
 
 		}
+
 }
 ?>

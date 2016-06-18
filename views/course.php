@@ -85,6 +85,11 @@
 
 	$dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
+	if(isset($_POST['set_day_limit']))
+	{
+		$n_day_limt = strip_tags($_POST['day_limit']);
+		$auth_user->setCourseDayLimit($course_id, $n_day_limt);
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -110,17 +115,42 @@
       <div class="row">
       	<h1><?php echo($course_data[0]['course_name']); ?></h1>
 	      <ul>
+					<!-- If student -->
+
 	        <?php if(!$is_lecturer){
 						echo '<li>Lecturer: '.$course_data[0]['first_name'].' '.$course_data[0]['last_name'].'</li>';
 						}?>
 					<li>Day: <?php $day = $course_data[0]['day_of_week']; echo $dowMap[$day-1]; ?></li>
 	        <li>Start: <?php echo $course_data[0]['start'];?></li>
-	        <li>End: <?php echo $course_data[0]['end'];?></li>
+					<li>End: <?php echo $course_data[0]['end'];?></li>
 	      </ul>
+
+				<h3>Day Limit: <?php echo $course_data[0]['day_limit'];?></h3>
+				<?php if($is_lecturer){ ?>
+				<form method="post" id="day_limit">
+					<div class="form-group">
+					<select class="form-control" name="day_limit">
+						<?php
+							echo '<option value="" disabled selected>Change Day Limit</option>';
+							for ($i=0; $i <= 10; $i++) {
+								echo '<option value="'.$i.'">'.$i.'</option>';
+							}
+						?>
+					</select>
+				</div>
+				<div class="form-group">
+					<button id="form-submit" type="submit" class="btn btn-primary" name="set_day_limit">
+							<i class="glyphicon glyphicon-ok"></i>&nbsp;Change
+					</button>
+				</div>
+				</form>
+				<?php } ?>
     	</div>
     </div>
 
-		<?php	if($_SESSION['lecturer']){ ?>
+		<!-- If lecturer -->
+
+		<?php	if($is_lecturer){ ?>
 					<div class="container">
 						<div class="row">
 							<h1>Camera</h1>

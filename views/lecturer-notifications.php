@@ -1,6 +1,6 @@
 <?php
 $image_location = '/rollcall/uploads/appeals/';
-
+$appealCauseArr = ['Attended', 'Late', 'Sickness', 'Reserve Duty', 'other'];
   //lecturer response for appeal form
   $form = '<div class="form-response"><form class="form-signin" method="post">';
   $form .= '<div class="form-group">';
@@ -23,6 +23,7 @@ $image_location = '/rollcall/uploads/appeals/';
     $output .= '<span>Student: '.$appeal['first_name']." ".$appeal['last_name'].'</span>';
     $output .= '<span>Submit Date: '.$appeal['submit_date'].'</span>';
     $output .= '<span>Date Of Issue: '.$appeal['date_of_issue'].'</span>';
+    $output .= '<span>Cause: '.$appealCauseArr[$appeal['cause']].'</span>';
     $output .= '<span>Message: '.$appeal['content'].'</span>';
     if($attached_file !== $image_location)
       $output .= '<a href="'.$attached_file.'" download=""><div class="appeal-file" style="background-image: url('.$attached_file.');"></div></a>';
