@@ -1,7 +1,7 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/dbconfig.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/classes/class.user.php');
+require_once(__DIR__.'/../dbconfig.php');
+require_once(__DIR__.'/../config.php');
+require_once(__DIR__.'/../classes/class.user.php');
 
 class STATS extends USER
 {

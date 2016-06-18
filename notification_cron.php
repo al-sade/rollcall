@@ -4,6 +4,4 @@
 session_start();
 require_once("classes/class.notifications.php");
 
-$login = new NOTIFICATIONS();
-
-$login->ex();
+$notifications = new NOTIFICATIONS();

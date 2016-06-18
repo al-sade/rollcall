@@ -1,7 +1,7 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/dbconfig.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/classes/class.user.php');
+require_once(__DIR__.'/../dbconfig.php');
+require_once(__DIR__.'/../config.php');
+require_once(__DIR__.'/../classes/class.user.php');
 
 class ADMIN extends USER
 {
