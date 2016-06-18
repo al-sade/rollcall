@@ -16,7 +16,7 @@ if(isset($_POST['btn-login']))
 	$email = strip_tags($_POST['id_email']);
 	$pass = strip_tags($_POST['password']);
 
-	if($login->doLogin($id_number,$email,$pass) && !$_SESSION['lecturer']){
+	if($login->doLogin($id_number,$email,$pass) && !isset($_SESSION['lecturer'])){
 		$login->redirect('views/home.php');
 	}	else {
 		$error = "Wrong Details !";

@@ -40,7 +40,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 			<div class="details">
 				<ul>
 	    	<?php
-			   $row = '<li><img src="/rollcall/uploads/images/users/'.$userRow['id_number'].'.png"</li>';
+			   $row = '<li><img src="../uploads/images/users/'.$userRow['id_number'].'.png"</li>';
 				 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
 				 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
 				 $row .= '<li>Age: ';
