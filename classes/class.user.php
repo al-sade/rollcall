@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/dbconfig.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/rollcall/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/dbconfig.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
 class USER
 {
 	protected $conn;
