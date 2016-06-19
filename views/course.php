@@ -274,7 +274,10 @@
 							$date = strtok($attended['date'], " ");
 							$date_arr[$date] = 1;
 							for($i = 0 ; $i < sizeof($appealsUpdate); $i++) {
-								$date_arr[$appealsUpdate[$i]['date_of_issue']] = $appealsUpdate[$i]['status'];
+								$issue_date = $appealsUpdate[$i]['date_of_issue'];
+								if(array_key_exists($issue_date,$date_arr)){
+										$date_arr[$appealsUpdate[$i]['date_of_issue']] = $appealsUpdate[$i]['status'];
+									}
 								}
 
 							}
