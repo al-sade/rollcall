@@ -110,9 +110,11 @@ class USER
 
 	//get presence for a specific course
 	public function getUserCoursePresence($user_id, $course_id){
-		$stmt = $this->conn->prepare("SELECT *
+		$stmt = $this->conn->prepare('SELECT *
 		FROM presence
- 		WHERE student =:student_id AND course = :course_id");
+ 		WHERE student =:student_id
+		AND course = :course_id
+		AND date BETWEEN CAST("'.SEMESTER_START.'" AS DATE) AND CAST("'.SEMESTER_END.'" AS DATE);');
 		$stmt->execute(array(':student_id'=>$user_id, ':course_id'=>$course_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 

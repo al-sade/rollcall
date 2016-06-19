@@ -198,7 +198,6 @@
 					$date = date ("Y-m-d", strtotime("+7 day", strtotime($date)));
 					}
 					$num_of_days = sizeof($date_arr);
-
 					$table .= "<th>pct.</th>";
 
 					/*
@@ -208,18 +207,24 @@
 					if(!$is_lecturer){
 						$appealsUpdate = $auth_user->getAppealsStatus($course_id, $user_id);
 						$attended = 0;
-
+						// print_r(array_keys($date_arr));
 						foreach ($presence as $key => $value) {
 						$date = explode(" ",$value['date']);
+
 						$date_arr[$date[0]] = 1;
 						}
 						$table .= '</thead>';
 						$table .= '<tbody id="attendance-tbody"><tr>';
+
 						for($i = 0 ; $i < sizeof($appealsUpdate); $i++) {
-							$date_arr[$appealsUpdate[$i]['date_of_issue']] = $appealsUpdate[$i]['status'];
+							$issue_date = $appealsUpdate[$i]['date_of_issue'];
+							if(array_key_exists($issue_date,$date_arr)){
+							$date_arr[$issue_date] = $appealsUpdate[$i]['status'];
+							}
 						}
+
 						foreach ($date_arr as $date => $presence) {
-							if($date < date("Y-m-d")){
+							if(array_key_exists($date,$date_arr) && $date < date("Y-m-d")){
 							if ($presence == 0) {
 								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
@@ -334,7 +339,7 @@
 						<label>Date Of Issue:  <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
 			      <select class="form-control" name="date_of_issue" id="doi">
 							<?php foreach ($date_arr as $date => $status){
-								if($status !== 1) { echo '<option>'.$date.'</option>';}
+								if($status == 0) { echo '<option>'.$date.'</option>';}
 							}
 							?>
 			      </select>
