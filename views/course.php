@@ -224,7 +224,7 @@
 						}
 
 						foreach ($date_arr as $date => $presence) {
-							if(array_key_exists($date,$date_arr) && $date < date("Y-m-d")){
+							if(array_key_exists($date,$date_arr) && $date <= date("Y-m-d")){
 							if ($presence == 0) {
 								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
