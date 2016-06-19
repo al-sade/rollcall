@@ -42,10 +42,11 @@ public function getCourseStudents($course_id, $day_of_week){
 }
 //get presence for a specific course
 public function getCoursePresence($course_id){
-  $stmt = $this->conn->prepare("SELECT presence.student, presence.date, users.first_name, users.last_name
+  $stmt = $this->conn->prepare('SELECT presence.student, presence.date, users.first_name, users.last_name
   FROM presence
   INNER JOIN users ON presence.student = users.user_id
-  WHERE course = :course_id");
+  WHERE course = :course_id
+  AND date BETWEEN CAST("'.SEMESTER_START.'" AS DATE) AND CAST("'.SEMESTER_END.'" AS DATE);');
   $stmt->execute(array(':course_id'=>$course_id));
   $userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
   return $userRow;
