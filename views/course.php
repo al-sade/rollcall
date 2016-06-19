@@ -101,7 +101,7 @@
 <script type="text/javascript" src="../components/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="../style.css" type="text/css"  />
 <title>welcome - <?php print($userRow['email']); ?></title>
-
+|<script type="text/javascript" src="../js/attended_images.js"></script>
 </head>
 
 <body>
@@ -334,7 +334,7 @@
       <div class="row">
 				<?php if(!$is_lecturer){ ?>
         <h2>Submit Appeal</h2>
-        <form method="post" class="form-signin" enctype="multipart/form-data">
+        <form id="appeal-form" method="post" class="form-signin" enctype="multipart/form-data">
 					<div class="form-group">
 						<label>Date Of Issue:  <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
 			      <select class="form-control" name="date_of_issue" id="doi">
@@ -346,7 +346,7 @@
 					</div>
 					<div class="form-group">
 						<label>Cause:</label>
-						<select name="cause" class="form-control" required>
+						<select id="cause-dd" name="cause" class="form-control" required>
 							<option value="" disabled selected>Select Cause</option>
 							<option value="1">Attended</option>
 							<option value="2">Late</option>
