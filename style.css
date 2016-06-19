@@ -108,9 +108,13 @@ form#day_limit {
 }
 
 #cause-dd{
-	
+
 }
 
+/*** Calendar****/
+#calendar{
+	width: 100%;
+}
 /***notifications.php***/
 .appeal {
     background: #8DD0D2;

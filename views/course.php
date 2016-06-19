@@ -267,10 +267,6 @@
 						foreach ($students_list as $key => $student) {
 							$student_id = $student['student'];
 							$appealsUpdate = $auth_user->getAppealsStatus($course_id, $student_id);
-							// echo 'student id: '.$student_id.'<br>';
-							// var_dump($appealsUpdate);
-							var_dump($date_arr);
-							echo '======================<br>';
 							$student_presence_arr = $presence_arr[$student_id]; //array of registration dates for each student
 							$student_name = $student["first_name"]." ".$student["last_name"];
 							//init each user attendance table row
