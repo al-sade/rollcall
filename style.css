@@ -110,6 +110,12 @@ form#day_limit {
 #cause-dd{
 
 }
+div.appeal-img {
+    width: 31%;
+    height: 100px;
+    margin: 3px;
+    float: left;
+}
 
 /*** Calendar****/
 #calendar{
