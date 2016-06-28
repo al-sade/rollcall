@@ -114,7 +114,7 @@ class USER
 		FROM presence
  		WHERE student =:student_id
 		AND course = :course_id
-		AND date BETWEEN CAST("'.SEMESTER_START.'" AS DATE) AND CAST("'.SEMESTER_END.'" AS DATE);');
+		AND date BETWEEN CAST("'.SEMESTER_START.'" AS DATE) AND CURDATE();');
 		$stmt->execute(array(':student_id'=>$user_id, ':course_id'=>$course_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 
@@ -137,6 +137,7 @@ class USER
 	public function getAbsence($user_id)
 	{
 			$allCoursesDates = $this->getCoursesDates($user_id); //all dates of all courses
+			var_dump($allCoursesDates);
 			$presence = $this->getPresence($user_id); // all dates user was presence
 			$newPresence = array(); //array of key(course_name) => value(array of all dates user attended)
 			$absence = array();

@@ -1,6 +1,5 @@
 function removeAppeal(appeal_id){
-document.getElementById('an_'+appeal_id).style.display = "none";
-document.getElementById('notifications').innerHTML -= 1;
+
 
   jQuery.ajax({
        url: '../appeal-handler.php',
@@ -11,6 +10,8 @@ document.getElementById('notifications').innerHTML -= 1;
            if(status=='success')
            {
               console.log("appeal removed");
+              document.getElementById('an_'+appeal_id).style.display = "none";
+              document.getElementById('notifications').innerHTML -= 1;
            }
        }
    });

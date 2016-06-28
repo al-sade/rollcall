@@ -40,7 +40,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 			<div class="details">
 				<ul>
 	    	<?php
-			   $row = '<li><img src="../uploads/images/users/'.$userRow['id_number'].'.png"</li>';
+			   $row = '<li><img src="../uploads/images/users/'.$userRow['id_number'].'-a0.png"</li>';
 				 $row .= '<li>First Name: '.$userRow['first_name'].'</li>';
 				 $row .= '<li>Last Name: '.$userRow['last_name'].'</li>';
 				 $row .= '<li>Age: ';
@@ -50,7 +50,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 				 $row .= '</li>';
 				 $row .= '<li>Department: '.$userRow['department'].'</li>';
 				 $row .= '<li>eMail: '.$userRow['email'].'</li>';
-				 $row .= '<li>Phone: '.$userRow['phone'].'</li>';
+				 $row .= '<li>Phone: 0'.$userRow['phone'].'</li>';
 				 $row .= '<li>Year Of Study: ';
 				 $begin_studying = new DateTime($userRow['begin_studying']);
 				 $row .= $begin_studying->diff($today)->y;

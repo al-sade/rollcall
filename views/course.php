@@ -30,6 +30,7 @@
 		$presence = $auth_user->getUserCoursePresence($user_id,$course_id);
 
 		//File Handling
+
 		if(isset($_FILES["fileToUpload"])){
 			$appeals_dir = "/rollcall/uploads/appeals/";
 			$target_dir = $_SERVER['DOCUMENT_ROOT'].$appeals_dir;
@@ -43,6 +44,7 @@
 				$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
 			 if($check !== false) {
 					//  echo "File is an image - " . $check["mime"] . ".";
+
 					 $uploadOk = 1;
 			 } else {
 					//  echo "File is not an image.";
@@ -65,11 +67,19 @@
 					$uploadOk = 0;
 			}
 			// Check if $uploadOk is set to 0 by an error
+
 			if ($uploadOk == 0) {
+			echo '<br><br><br><br><br>fddddddg';
 					// echo "Sorry, your file was not uploaded.";
 			// if everything is ok, try to upload file
-			}
+			}else {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
 		}
+	}
 			 //End of checking
 			 $message = strip_tags($_POST['message']);
 			 $cause = strip_tags($_POST['cause']);
@@ -285,6 +295,7 @@
 						$table .= '<tr><td>'.$student_name.'</td>';
 
 						$attended = 0;
+
 						foreach ($date_arr as $date => $status) {
 							if($date < date("Y-m-d")){
 							if ($status == 0) {

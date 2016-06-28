@@ -2,6 +2,9 @@
 use Ghunti\HighchartsPHP\Highchart;
 use Ghunti\HighchartsPHP\HighchartJsExpr;
 
+require_once('../classes/class.user.php');
+$tmp_student = new USER();
+
 $dowMap = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 $lecture_courses = $auth_user->getLecturerCourses($user_id);
 
@@ -18,21 +21,31 @@ foreach($lecture_courses as $course){
  $course_day = $course['day_of_week'];
 
  $numOfLectures = $auth_user->countCourseDays($course_day);
-
  //get all students for each course
  //and store in [course_name] => array of student
  $lecture_students[$course_name]  = $auth_user->getCourseStudents($course_id, $course_day);
  $students_list = array(); //chart categories as students names
  $presence = array();
  $absence = array();
+ $appealed = array();
 
  foreach($lecture_students[$course_name] as $student){
    $student_id = $student['student'];
 
    $name = $student['first_name']." ".$student['last_name'];
+   $numOfAttendedByAppeal = count($auth_user->getAttendedByAppeal($student_id, $course_id));
+   $numOfPresence = count($auth_user->getUserCoursePresence($student_id, $course_id)) + $numOfAttendedByAppeal;
+   $numOfAppealed = count($auth_user->getAcceptedAppeals($student_id, $course_id));
+
    array_push($students_list, $name);
-   array_push($presence, count($auth_user->getUserCoursePresence($student_id, $course_id)));
-   array_push($absence, $numOfLectures - count($auth_user->getUserCoursePresence($student_id, $course_id)));
+
+   array_push($presence, $numOfPresence);
+   array_push($appealed, $numOfAppealed);
+   array_push($absence, $numOfLectures - $numOfPresence - $numOfAppealed);
+
+
+  //  array_push($presence, count($auth_user->getUserCoursePresence($student_id, $course_id)));
+  //  array_push($absence, $numOfLectures - count($auth_user->getUserCoursePresence($student_id, $course_id)));
 
  }
 
@@ -54,7 +67,16 @@ foreach($lecture_courses as $course){
      'data' => $absence,
      'color' => "#434348"
  );
-
+ $course_chart[$course_name]->series[] = array(
+     'name' => "Appealed",
+     'data' => $appealed,
+     'color' => "#90ED7D"
+ );
+ // $course_chart->series[] = array(
+ //     'name' => "Appealed",
+ //     'data' => $appealed,
+ //     'color' => "#90ED7D"
+ // );
  $course_chart[$course_name]->series[] = array(
      'name' => "Present",
      'data' => $presence

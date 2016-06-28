@@ -26,7 +26,6 @@ foreach($courses as $course){
   array_push($presence, $numOfPresence);
   array_push($appealed, $numOfAppealed);
   array_push($absence, $numOfLectures - $numOfPresence - $numOfAppealed);
-
 }
 
  $course_chart = new Highchart();

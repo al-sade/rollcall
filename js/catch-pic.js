@@ -1,3 +1,4 @@
+var picNum = 1;
 
 //passes base64 image
 function saveImage(image , user_id, pic_id){
@@ -10,11 +11,20 @@ function saveImage(image , user_id, pic_id){
        {
            if(status=='success')
            {
-              alert('saved!');
+            if(picNum < 9){
+              if(picNum > 0 && picNum < 8){
+              jQuery('#takePicStat').text("Processing...");
+              jQuery('#picNum').text(picNum);
+              picNum++;
+            }else if (picNum ==8) {
+              jQuery('#picNum').text(picNum);
+              jQuery('#takePicStat').text("Complete :)");
+            }
            }
        }
-   });
-};
+   }
+});
+}
 
 // Put event listeners into place
 
@@ -52,20 +62,22 @@ window.addEventListener("DOMContentLoaded", function() {
         var id = document.getElementById('user_id').value;// get user id
 
         if(IsNumeric(id)) {
+
           if(pic_id <= 8) {
-          context.drawImage(video, 0, 0, 640, 480);
 
-          var image = document.getElementById("canvas"); // get the canvas
-          var pngUrl = canvas.toDataURL('image/png');
+            context.drawImage(video, 0, 0, 640, 480);
 
-          saveImage(pngUrl, id, pic_id);
-          pic_id++;
+            var image = document.getElementById("canvas"); // get the canvas
+            var pngUrl = canvas.toDataURL('image/png');
+
+            saveImage(pngUrl, id, pic_id);
+            pic_id++;
 
           } else if (pic_id ==8){
             document.getElementById('form-submit').style.pointerEvents = "all";
           }
       }else {
-        console.log("please fill up the form before taking pictures");
+        alert("please fill up the form before taking pictures");
       }
 
   });
