@@ -36,7 +36,7 @@
 
 <div class="clearfix"></div>
 
-<div class="container-fluid" style="margin-top:80px;">
+<div class="container-fluid">
 
     <div class="container">
 
@@ -101,7 +101,7 @@
 
 </div>
 
-<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+<?php require_once('footer.php') ?>
 
 </body>
 </html>

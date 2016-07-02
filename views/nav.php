@@ -36,4 +36,6 @@
       </div>
     </nav>
 
-<script type="text/javascript">document.getElementById('notifications').innerHTML = <?php echo sizeof($auth_user->getAppeals($user_id)); ?></script>
+    <script type="text/javascript">
+    document.getElementById('notifications').innerHTML = <?php $val = sizeof($auth_user->getAppeals($user_id)); if($val){echo $val;} ?>;
+    </script>

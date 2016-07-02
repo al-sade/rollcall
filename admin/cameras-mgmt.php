@@ -34,7 +34,7 @@
 <?php require_once 'admin-header.php';?>
 
 <div class="clearfix"></div>
-<div class="container-fluid" style="margin-top:80px;">
+<div class="container-fluid">
     <div class="container">
 	    <h2>Manage Cameras</h2>
 	    <table  class="table table-bordered">
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+<?php require_once('footer.php') ?>
 
 </body>
 </html>

@@ -137,7 +137,7 @@ class USER
 	public function getAbsence($user_id)
 	{
 			$allCoursesDates = $this->getCoursesDates($user_id); //all dates of all courses
-			var_dump($allCoursesDates);
+
 			$presence = $this->getPresence($user_id); // all dates user was presence
 			$newPresence = array(); //array of key(course_name) => value(array of all dates user attended)
 			$absence = array();
@@ -150,13 +150,16 @@ class USER
 				$strippedDate = explode(" ",$attendedDate->date);
 				array_push($newPresence[$attendedDate->course_name], $strippedDate[0]);
 			}
-
-
 			foreach($allCoursesDates as $key => $dates){
 
-				foreach($dates as $date)
+				foreach($dates as $date){
+				if(!isset($newPresence[$key]))
+					$newPresence[$key] = array();
 				if(!in_array($date,$newPresence[$key])){
+					if(!isset($absence[$key]))
+						$absence[$key] = array();
 					array_push($absence[$key], $date);
+					}
 				}
 			}
 
@@ -167,12 +170,10 @@ class USER
 	public function getSchedule($user_id)
 	{
 		$stmt = $this->conn->prepare("SELECT
-		students_courses.course,students_courses.day_of_week,students_courses.start,students_courses.end,courses.course_name
+		students_courses.course,courses.course_name, courses.day_of_week,courses.start,courses.end
 		FROM students_courses
 		INNER JOIN courses ON students_courses.course = courses.course_id
 		WHERE student =:student_id ");
-		$stmt->execute(array(':student_id'=>$user_id));
-
 		$stmt->execute(array(':student_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 		return $userRow;
@@ -245,7 +246,6 @@ class USER
 	public function appealIsRead($appeal_id){
 		$stmt = $this->conn->prepare("UPDATE appeals SET `student_show` = 0 WHERE `appeal_id` = :appeal_id");
 		$stmt->execute(array(':appeal_id' => $appeal_id));
-		// $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
 		return $stmt;
 	}
@@ -347,8 +347,13 @@ class USER
 			}
 
 		}
+		try {
+			if (isset($dates))
+				return $dates;
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
 
-		return $dates;
 	}
 
 	public function countCourseDays($day){//$date is first day of course in semester and $day is day of week
@@ -383,49 +388,47 @@ class USER
 		ftp_close($ftp_conn);
 	}
 
-	public function kairosEnroll($user_id, $pic_id)
-	{
-	$subject_id = $user_id."-a".$pic_id;
-	// The data to send to the API
-	$postData = array(
-		 "image" => "http://104.131.0.21/rollcall/uploads/images/users/".$subject_id.".png",
-		 "subject_id" => $user_id.'-a'.$pic_id,
-		 "gallery_name" => KAIROS_GALLERY,
-		 "selector" => "SETPOSE",
-		 "symmetricFill" => "true"
-	);
-
-		$url = "https://api.kairos.com/enroll";
-    $curl = curl_init($url);
-
-		// Setup cURL
-		$ch = curl_init($url);
-		curl_setopt_array($ch, array(
-		    CURLOPT_POST => TRUE,
-		    CURLOPT_RETURNTRANSFER => TRUE,
-		    CURLOPT_HTTPHEADER => array(
-					'Content-Type:  application/json',
-					'app_id:'.APP_ID,
-					'app_key:'.APP_KEY
-		    ),
-		    CURLOPT_POSTFIELDS => json_encode($postData)
-		));
-
-		// Send the request
-		$response = curl_exec($ch);
-
-		// Check for errors
-		if($response === FALSE){
-		    die(curl_error($ch));
-		}
-
-		// Decode the response
-		$responseData = json_decode($response, TRUE);
-
-		// Print the date from the response
-		// echo $responseData['published'];
-
-		}
+	// public function kairosEnroll($user_id, $pic_id)
+	// {
+	// $subject_id = $user_id."-a".$pic_id;
+	// // The data to send to the API
+	// $postData = array(
+	// 	 "image" => "http://104.131.0.21/rollcall/uploads/images/users/".$subject_id.".png",
+	// 	 "subject_id" => $user_id.'-a'.$pic_id,
+	// 	 "gallery_name" => KAIROS_GALLERY,
+	// 	 "selector" => "SETPOSE",
+	// 	 "symmetricFill" => "true"
+	// );
+	//
+	// 	$url = "https://api.kairos.com/enroll";
+  //   $curl = curl_init($url);
+	//
+	// 	// Setup cURL
+	// 	$ch = curl_init($url);
+	// 	curl_setopt_array($ch, array(
+	// 	    CURLOPT_POST => TRUE,
+	// 	    CURLOPT_RETURNTRANSFER => TRUE,
+	// 	    CURLOPT_HTTPHEADER => array(
+	// 				'Content-Type:  application/json',
+	// 				'app_id:'.APP_ID,
+	// 				'app_key:'.APP_KEY
+	// 	    ),
+	// 	    CURLOPT_POSTFIELDS => json_encode($postData)
+	// 	));
+	//
+	// 	// Send the request
+	// 	$response = curl_exec($ch);
+	//
+	// 	// Check for errors
+	// 	if($response === FALSE){
+	// 	    die(curl_error($ch));
+	// 	}
+	//
+	// 	// Decode the response
+	// 	$responseData = json_decode($response, TRUE);
+	//
+	//
+	// 	}
 
 }
 ?>

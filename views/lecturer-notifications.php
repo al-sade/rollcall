@@ -1,10 +1,10 @@
 <?php
 $image_location = '/rollcall/uploads/appeals/';
-$appealCauseArr = ['Attended', 'Late', 'Sickness', 'Reserve Duty', 'other'];
+$appealCauseArr = ['Attended', 'Sickness', 'Reserve Duty', 'other'];
   //lecturer response for appeal form
-  $form = '<div class="form-response"><form class="form-signin" method="post">';
-  $form .= '<div class="form-group">';
-  $form .= '<label for="response">Message:</label>';
+  $form = '<div class="form-response"><form class="" method="post">';
+  $form .= '<div class="form-group form-el">';
+  $form .= '<label for="response">Response:</label>';
   $form .= '<textarea class="form-control" name="response" rows="5"></textarea>';
   $form .= '</div>';
 

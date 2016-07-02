@@ -15,26 +15,13 @@ $courses = $auth_user->getCourses($user_id);
 $courses = array_combine(array_column($courses, "course_name"), $courses);
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="../components/jquery/jquery.min.js"></script>
-<link href="../vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" href="../style.css" type="text/css"  />
-<title>welcome - <?php print($userRow['email']); ?></title>
 
-</head>
-
-<body>
-
-
-<?php require_once('header.php');?>
+<?php require_once('head.php');?>
+<?php require_once('nav.php');?>
 
 	<div class="clearfix"></div>
 
-    <div class="container-fluid" style="margin-top:80px;">
+    <div class="container-fluid">
 
     <div class="container">
 			<div class="details">
@@ -74,7 +61,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 							<?php
 							$schedule = ($auth_user->getSchedule($user_id));
 							foreach ($schedule as $class) {
-								$output = '<tr><td><a href="course.php?cid='.$courses[$class['course_name']]['course_id'].'">'.$class['course_name'].'</a></td>';
+								$output = '<tr><td><a href="course.php?cid='.$class['course_id'].'">'.$class['course_name'].'</a></td>';
 								$output .= "<td>".$auth_user->getDay($class['day_of_week'])."</td>";
 								$output .= "<td>".$class['start']."</td>";
 								$output .= "<td>".$class['end']."</td></tr>";
@@ -82,6 +69,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 							}
 							?>
 						</tbody>
+					</table>
 			</div>
 
 
@@ -89,7 +77,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 
 </div>
 
-<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+<?php require_once('footer.php') ?>
 
 </body>
 </html>

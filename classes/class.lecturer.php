@@ -15,6 +15,15 @@ public function getCourse($course_id){
 
 }
 
+public function getSchedule($user_id)
+{
+  $stmt = $this->conn->prepare(" SELECT * FROM courses
+  WHERE lecturer_id =:lecturer_id ");
+  $stmt->execute(array(':lecturer_id'=>$user_id));
+  $userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
+  return $userRow;
+}
+
 public function getCourseCamera($course_id, $day_of_week, $open_time, $close_time){
   $stmt = $this->conn->prepare("SELECT * FROM cameras
   WHERE course_id =:course_id

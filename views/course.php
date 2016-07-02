@@ -101,26 +101,12 @@
 		$auth_user->setCourseDayLimit($course_id, $n_day_limt);
 	}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-<link href="../vendor/fortawesome/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="../components/jquery/jquery.min.js"></script>
-<link rel="stylesheet" href="../style.css" type="text/css"  />
-<title>welcome - <?php print($userRow['email']); ?></title>
-|<script type="text/javascript" src="../js/attended_images.js"></script>
-</head>
 
-<body>
+<?php require_once('head.php');?>
+<?php require_once('nav.php');?>
 
-<?php require_once('header.php');?>
 
-<div class="clearfix"></div>
-
-<div class="container-fluid" style="margin-top:80px;">
+<div class="container-fluid">
     <div class="container">
       <div class="row">
       	<h1><?php echo($course_data[0]['course_name']); ?></h1>
@@ -200,6 +186,7 @@
 					}
 
 					$date_arr = array(); //course dates between SEMESTER_START to SEMESTER_END
+					$num_of_days = 0;
 					//<th> for each date
 					while (strtotime($date) <= strtotime(SEMESTER_END)) {
 					$date_arr[$date] = 0;
@@ -238,11 +225,8 @@
 							if ($presence == 0) {
 								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
-							elseif ($presence == 1) {
+							elseif ($presence == 1 || $presence == 2) {
 								 $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>';
-							}
-							elseif ($presence == 2) {
-								 $table .= '<td><span class="glyphicon glyphicon-time"></span></td>';
 							}
 							elseif ($presence == 3) {
 								 $table .= '<td><span class="glyphicon glyphicon-bed"></span></td>';
@@ -255,6 +239,7 @@
 							}
 							}else{
 							$table .= "<td></td>";
+							$num_of_days--;
 						}
 						if($presence == 1){
 							$attended ++;
@@ -277,10 +262,14 @@
 						foreach ($students_list as $key => $student) {
 							$student_id = $student['student'];
 							$appealsUpdate = $auth_user->getAppealsStatus($course_id, $student_id);
-							$student_presence_arr = $presence_arr[$student_id]; //array of registration dates for each student
+							if(isset($presence_arr[$student_id])){
+								$student_presence_arr = $presence_arr[$student_id]; //array of registration dates for each student
+							}else{
+								$student_presence_arr = array();
+							}
 							$student_name = $student["first_name"]." ".$student["last_name"];
 							//init each user attendance table row
-							foreach ($student_presence_arr as $key=> $attended) { //loop over each date student attended and set to 1 = attended
+							foreach ($student_presence_arr as $key => $attended) { //loop over each date student attended and set to 1 = attended
 							$date = strtok($attended['date'], " ");
 							$date_arr[$date] = 1;
 							for($i = 0 ; $i < sizeof($appealsUpdate); $i++) {
@@ -301,11 +290,8 @@
 							if ($status == 0) {
 								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
-							elseif ($status == 1) {
+							elseif ($status == 1 || $status == 2) {
 								 $table .= '<td><span class="glyphicon glyphicon-ok"></span></td>';
-							}
-							elseif ($status == 2) {
-								 $table .= '<td><span class="glyphicon glyphicon-time"></span></td>';
 							}
 						  elseif ($status == 3) {
 								 $table .= '<td><span class="glyphicon glyphicon-bed"></span></td>';
@@ -319,15 +305,20 @@
 							}
 							else{
 							$table .= "<td></td>";
+							$num_of_days--;
 							}
 							if($status){
 							$attended ++;
 								}
+
+							$date_arr[$date] = 0	;
 							}
 
 						$prec = round(($attended * 100) / $num_of_days);
 						$table .= '<td>'.$prec.'%</td>';
 						$table .= '</tr>';
+
+
 						}
 						$table .= '</body></table>';
 					}
@@ -349,7 +340,7 @@
 						<label>Date Of Issue:  <?php if(isset($submit_result)) {echo "Appeal Submited!";} ?></label>
 			      <select class="form-control" name="date_of_issue" id="doi">
 							<?php foreach ($date_arr as $date => $status){
-								if($status == 0) { echo '<option>'.$date.'</option>';}
+								if($status == 0 && $date < date("Y-m-d")) { echo '<option>'.$date.'</option>';}
 							}
 							?>
 			      </select>
@@ -358,8 +349,7 @@
 						<label>Cause:</label>
 						<select id="cause-dd" name="cause" class="form-control" required>
 							<option value="" disabled selected>Select Cause</option>
-							<option value="1">Attended</option>
-							<option value="2">Late</option>
+							<option value="2">Attended</option>
 							<option value="3">Sickness</option>
 							<option value="4">Reserve Duty</option>
 							<option value="5">Other</option>
@@ -382,14 +372,18 @@
 
         </form>
 				<?php }?>
+
+				<!-- End of submit appeal -->
+
       </div>
     </div>
 
 		<!-- End of submit appeal -->
 
 </div>
+<div class="clearfix"></div>
 
-<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+<?php require_once('footer.php') ?>
 
 </body>
 </html>

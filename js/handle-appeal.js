@@ -12,6 +12,9 @@ function removeAppeal(appeal_id){
               console.log("appeal removed");
               document.getElementById('an_'+appeal_id).style.display = "none";
               document.getElementById('notifications').innerHTML -= 1;
+              location.reload(true);
+           }else {
+              location.reload(true);
            }
        }
    });
