@@ -114,7 +114,7 @@ class USER
 		FROM presence
  		WHERE student =:student_id
 		AND course = :course_id
-		AND date BETWEEN CAST("'.SEMESTER_START.'" AS DATE) AND CURDATE();');
+		AND date BETWEEN CAST("'.SEMESTER_START.'" AS DATE) AND NOW() + INTERVAL 1 DAY;');
 		$stmt->execute(array(':student_id'=>$user_id, ':course_id'=>$course_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 
