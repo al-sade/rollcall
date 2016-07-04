@@ -1,129 +1,143 @@
 @charset "utf-8";
+
 /* CSS Document */
 
-body{
-	background:#f1f9f9;
+body {
+	background: #f1f9f9;
 }
-.container-fluid{
-	margin-top:80px;
+.container-fluid {
+	margin-top: 80px;
 }
 .form-signin {
-    max-width: 500px;
-    padding: 19px 29px 29px;
-    margin: 0 auto;
+	max-width: 500px;
+	padding: 19px 29px 29px;
+	margin: 0 auto;
 	//margin-top:90px;
-    background-color: #fff;
-
-    border: 1px solid #e5e5e5;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-       -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            box-shadow: 0 1px 2px rgba(0,0,0,.05);
-
-	font-family:Tahoma, Geneva, sans-serif;
-	color:#990000;
-	font-weight:lighter;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	font-family: Tahoma, Geneva, sans-serif;
+	color: #990000;
+	font-weight: lighter;
 }
-
-.form-signin .form-signin-heading{
-    color:#00A2D1;
+.form-signin .form-signin-heading {
+	color: #00A2D1;
 }
-.form-signin input[type="text"],
-.form-signin input[type="password"],
-.form-signin input[type="email"] {
-    font-size: 16px;
-    height: 45px;
-    padding: 7px 9px;
+.form-signin input[type="text"], .form-signin input[type="password"], .form-signin input[type="email"] {
+	font-size: 16px;
+	height: 45px;
+	padding: 7px 9px;
 }
-
-.signin-form, .body-container
-{
+.signin-form, .body-container {
 	//border:solid red 1px;
-	margin-top:110px;
+	margin-top: 110px;
 }
-.navbar-brand{
-	font-family:"Lucida Handwriting";
+.navbar-brand {
+	font-family: "Lucida Handwriting";
 }
-#btn-submit{
-	height:45px;
+#btn-submit {
+	height: 45px;
 }
-.h5{
-	font-family:Verdana, Geneva, sans-serif;
+.h5 {
+	font-family: Verdana, Geneva, sans-serif;
 }
-h1{
-	font-family:Verdana, Geneva, sans-serif;
+h1 {
+	font-family: Verdana, Geneva, sans-serif;
 }
-
-.details{
+.details {
 	position: absolute;
 	left: 30px;
 }
-
-.details > ul{
+.details > ul {
 	list-style: none;
 	font-size: 1.5em;
 }
-
-.details  img{
+.details img {
 	margin-bottom: 20px;
-  width: 290px;
+	width: 290px;
 }
-
 .picCapture {
-    width: 100%;
+	width: 100%;
 }
-
-#snap{
+#snap {
 	margin-top: 17px;
 	margin-bottom: 17px;
 }
 
 /***sign-up.php***/
 
-#scehdule{
+#scehdule {
 	width: 50%;
 	float: right;
 }
 
-
-
 /***course.php***/
 
-.glyphicon-ok{
+.course-info {
+	background-color: #45375F;
+	color: #FFF;
+	padding: 10px;
+	border-radius: 5px;
+}
+.course-info > h1 {
+	color: #D3C64F;
+}
+.course-info > ul {
+	display: inline-flex;
+	list-style: none;
+	padding-left: 0px;
+	font-size: 20px;
+}
+.attendance-table {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0px 0px 5px #45375F;
+	padding: 10px;
+	border-radius: 5px;
+}
+#appeal-form{
+	float: left;
+	min-width: 500px;
+}
+.course-info > ul >li {
+	margin-right: 25px;
+}
+.glyphicon-ok {
 	color: #027D02;
 }
-.glyphicon-remove{
+.glyphicon-remove {
 	color: #F30505;
 }
-#attendance-tbody > tr > td{
+#attendance-tbody > tr > td {
 	text-align: center;
 }
-
 form#day_limit {
-    width: 200px;
+	width: 200px;
 }
-
-.appeal-img{
+.appeal-img {
 	cursor: pointer;
 }
-
-#cause-dd{
-
-}
+#cause-dd {}
 div.appeal-img {
-    width: 31%;
-    height: 100px;
-    margin: 3px;
-    float: left;
+	width: 31%;
+	height: 100px;
+	margin: 3px;
+	float: left;
 }
 
 /*** Calendar****/
-#calendar{
+
+#calendar {
 	width: 100%;
 }
+
 /***notifications.php***/
+
 .appeal {
 	background: #8DD0D2;
 	padding: 10px;
@@ -136,21 +150,20 @@ div.appeal-img {
 	float: left;
 	min-height: 453px;
 }
-.appeal div{
+.appeal div {
 	display: inline-block;
 }
 .form-el {
-    width: 100%;
+	width: 100%;
 }
-.form-response button{
+.form-response button {
 	width: 50%;
 }
 .appeal-data >span {
-    display: -webkit-box;
-		font-size: 17px;
+	display: -webkit-box;
+	font-size: 17px;
 }
-
-.appeal-file{
+.appeal-file {
 	height: 200px;
 	width: 100%;
 	background-size: cover;
@@ -158,37 +171,39 @@ div.appeal-img {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
 /*** student-notifications.php ***/
-.remove-appeal{
-		float: right;
-    margin-right: -10px;
-    margin-top: -10px;
-		cursor: pointer;
+
+.remove-appeal {
+	float: right;
+	margin-right: -10px;
+	margin-top: -10px;
+	cursor: pointer;
 }
 
 /***cameras mgmt***/
-.cameras-table{
+
+.cameras-table {
 	cursor: pointer;
 }
 
 /***footer.php***/
+
 .footer {
-    width: 100%;
-    height: 60px;
-    background-color: #413D46;
-		margin-top: 30px;
-		position: fixed;
-	  bottom: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #413D46;
+	margin-top: 30px;
+	position: fixed;
+	bottom: 0;
 }
-
 .footer > .container {
-    padding-right: 15px;
-    padding-left: 15px;
+	padding-right: 15px;
+	padding-left: 15px;
 }
-
 .container .text-muted {
-    margin: 20px 0;
+	margin: 20px 0;
 }
 .text-muted {
-    color: #777;
+	color: #777;
 }

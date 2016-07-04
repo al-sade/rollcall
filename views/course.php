@@ -107,7 +107,7 @@
 
 <div class="container-fluid">
     <div class="container">
-      <div class="row">
+      <div class="row course-info">
       	<h1><?php echo($course_data[0]['course_name']); ?></h1>
 	      <ul>
 					<!-- If student -->
@@ -169,7 +169,7 @@
 		<?php		} ?>
 
 		<div class="container">
-      <div class="row">
+      <div class="row attendance-table">
         <h2>Attendance</h2>
 
 				  <!-- create presence table -->
@@ -189,7 +189,7 @@
 					//<th> for each date
 					while (strtotime($date) <= strtotime(SEMESTER_END)) {
 					$date_arr[$date] = 0;
-					$th = explode('-',$date)[1]."-".explode('-',$date)[2];
+					$th = explode('-',$date)[1]." &#8725; ".explode('-',$date)[2];
 					$table .= "<th>".$th."</th>";
 					$date = date ("Y-m-d", strtotime("+7 day", strtotime($date)));
 					}
@@ -331,7 +331,7 @@
 		<!-- submit appeal -->
 
     <div class="container">
-      <div class="row">
+      <div class="row appeal-row">
 				<?php if(!$is_lecturer){ ?>
         <h2>Submit Appeal</h2>
         <form id="appeal-form" method="post" class="form-signin" enctype="multipart/form-data">
