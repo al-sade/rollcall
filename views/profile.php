@@ -2,6 +2,7 @@
 require_once '../session.php';
 
 if (isset($_SESSION['lecturer'])) {
+    $is_lecturer = 1;
     require_once 'init-lecturer.php';
     $auth_user = new LECTURER();
 } else {
@@ -34,10 +35,12 @@ $courses = array_combine(array_column($courses, 'course_name'), $courses);
 	           $row .= '<li>Department: '.$userRow['department'].'</li>';
 	           $row .= '<li>eMail: '.$userRow['email'].'</li>';
 	           $row .= '<li>Phone: 0'.$userRow['phone'].'</li>';
-	           $row .= '<li>Year Of Study: ';
+	           if(!$is_lecturer){
+             $row .= '<li>Year Of Study: ';
 	           $begin_studying = new DateTime($userRow['begin_studying']);
 	           $row .= $begin_studying->diff($today)->y;
 	           $row    .= '</li>';
+            }
 	           echo $row;
 	          ?>
 					</ul>
