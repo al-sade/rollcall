@@ -38,7 +38,7 @@
 
 <div class="container-fluid">
 
-    <div class="container">
+    <div class="container spacer">
 			<h2>Notifications</h2>
 
 			<?php

@@ -6,6 +6,8 @@ $output .=  '<tr>';
 $output .=  '<th>Course</th>';
 $output .=  '<th>Lecturer</th>';
 $output .=  '<th>Email</th>';
+$output .=  '<th>Day</th>';
+$output .=  '<th>Hour</th>';
 $output .=  '<th>Day Limit</th>';
 $output .=  '</tr>';
 $output .=  '</thead>';
@@ -18,13 +20,16 @@ echo $output;
       $row = '<tr>';
       $row .= '<td><a href="course.php?cid='.$course["course_id"].'">'.$course["course_name"].'</a></td>';
       $row .= '<td>'.$course["first_name"]." ".$course["last_name"].'</td>';
-      $row .= '<td>'.$course["email"].'</td>';
+      $row .= '<td><a href="mailto:'.$course["email"].'">'.$course["email"].'</a></td>';
+      $row .= '<td>'.$auth_user->getDay($course["day_of_week"]).'</td>';
+      $row .= '<td>'.$course["start"].' - '.$course["end"].'</td>';
       $row .= '<td>'.$course["day_limit"].'</td>';
       $row .= '<tr>';
       echo $row;
     }
 
-$output .= '</tbody>';
-$output .= '</table>';
+$eoutput .= '</tbody>';
+$eoutput .= '</table>';
 
+echo $eoutput;
 ?>

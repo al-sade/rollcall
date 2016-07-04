@@ -15,7 +15,7 @@
 <?php require_once('nav.php');?>
 
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
     <div class="container ddddd">
 
@@ -32,6 +32,6 @@
 </div>
 
 <?php require_once('footer.php') ?>
-<!--  -->
+
 </body>
 </html>
