@@ -54,7 +54,13 @@ h1 {
 }
 .details {
 	position: absolute;
-	left: 30px;
+	left: 0px;
+	background: #45375F;
+	color: #FFF;
+	padding: 10px;
+	height: 92vh;
+	padding-top: 40px;
+	top: 40px;
 }
 .details > ul {
 	list-style: none;
@@ -75,7 +81,7 @@ h1 {
 /***sign-up.php***/
 
 #scehdule {
-	width: 50%;
+	width: 65%;
 	float: right;
 }
 
@@ -174,6 +180,9 @@ div.appeal-img {
 .appeal div {
 	display: inline-block;
 }
+.spacer{
+	margin-bottom: 50px;
+}
 .form-el {
 	width: 100%;
 }
@@ -226,4 +235,28 @@ div.appeal-img {
 }
 .text-muted {
 	color: #777;
+}
+
+
+/***Media Queries***/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)  {
+	.details {
+	    position: absolute;
+	    left: 0px;
+	    background: #45375F;
+	    color: #FFF;
+	    padding: 10px;
+	    height: 90vh;
+	    padding-top: 71px;
+	    top: 98px;
+	}
+	#scehdule {
+    width: 70%;
+    float: right;
+    position: relative;
+    left: 77px;
+    top: 90px;
+}
 }
