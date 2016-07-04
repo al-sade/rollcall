@@ -61,7 +61,7 @@ $courses = array_combine(array_column($courses, "course_name"), $courses);
 							<?php
 							$schedule = ($auth_user->getSchedule($user_id));
 							foreach ($schedule as $class) {
-								$output = '<tr><td><a href="course.php?cid='.$class['course_id'].'">'.$class['course_name'].'</a></td>';
+								$output = '<tr><td><a href="course.php?cid='.$class['course'].'">'.$class['course_name'].'</a></td>';
 								$output .= "<td>".$auth_user->getDay($class['day_of_week'])."</td>";
 								$output .= "<td>".$class['start']."</td>";
 								$output .= "<td>".$class['end']."</td></tr>";
