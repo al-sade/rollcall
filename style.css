@@ -2,6 +2,9 @@
 
 /* CSS Document */
 
+h1, h2, li, td, th, #navbar > ul > li > a, .appeal-data > span, .highcharts-title {
+	font-family: 'Arimo', sans-serif !important;
+}
 body {
 	background: #f1f9f9;
 }
@@ -93,6 +96,15 @@ h1 {
 	padding-left: 0px;
 	font-size: 20px;
 }
+.camera-info > ul {
+	display: inline-flex;
+	list-style: none;
+	padding-left: 0px;
+}
+.camera-info > ul > li {
+	margin-right: 10px;
+	font-size: 20px;
+}
 .attendance-table {
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -100,7 +112,10 @@ h1 {
 	padding: 10px;
 	border-radius: 5px;
 }
-#appeal-form{
+.appeal-row {
+	margin-bottom: 80px;
+}
+#appeal-form {
 	float: left;
 	min-width: 500px;
 }
@@ -112,6 +127,12 @@ h1 {
 }
 .glyphicon-remove {
 	color: #F30505;
+}
+.glyphicon-asterisk {
+	color: #D3C64F;
+}
+.over-limit {
+	color: red !important;
 }
 #attendance-tbody > tr > td {
 	text-align: center;
@@ -191,9 +212,8 @@ div.appeal-img {
 
 .footer {
 	width: 100%;
-	height: 60px;
-	background-color: #413D46;
-	margin-top: 30px;
+	height: 35px;
+	background-color: #2C2835;
 	position: fixed;
 	bottom: 0;
 }
@@ -202,7 +222,7 @@ div.appeal-img {
 	padding-left: 15px;
 }
 .container .text-muted {
-	margin: 20px 0;
+	margin: 10px 0;
 }
 .text-muted {
 	color: #777;

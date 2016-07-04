@@ -119,8 +119,9 @@
 	        <li>Start: <?php echo $course_data[0]['start'];?></li>
 					<li>End: <?php echo $course_data[0]['end'];?></li>
 	      </ul>
-
+				<h4>Semester Dates: <?php echo SEMESTER_START.' &#8725; '.SEMESTER_END ?></h4>
 				<h3>Day Limit: <?php echo $course_data[0]['day_limit'];?></h3>
+				<div id="absence-ctr"></div>
 				<?php if($is_lecturer){ ?>
 				<form method="post" id="day_limit">
 					<div class="form-group">
@@ -147,20 +148,20 @@
 
 		<?php	if($is_lecturer){ ?>
 					<div class="container">
-						<div class="row">
-							<h1>Camera</h1>
+						<div class="row camera-info">
 
 
 									<?php
 									$camera = $auth_user->getCourseCamera($course_data[0]['course_id'],$course_data[0]['day_of_week'],
 								  $course_data[0]['start'],$course_data[0]['end']);
+							    echo '<h2>Camera: '.$camera[0]['camera'].'</h2>';
 
-									echo '<ul>';
-									echo '<li>Camera: '.$camera[0]['camera'].'</li>';
-									echo '<li>Day: '.$camera[0]['day_of_week'].'</li>';
-									echo '<li>Start: '.$camera[0]['open_time'].'</li>';
-									echo '<li>End: '.$camera[0]['close_time'].'</li>';
-									echo '</ul>';
+									// echo '<ul>';
+									// echo '<li>Camera: '.$camera[0]['camera'].'</li>';
+									// echo '<li>Day: '.$camera[0]['day_of_week'].'</li>';
+									// echo '<li>Start: '.$camera[0]['open_time'].'</li>';
+									// echo '<li>End: '.$camera[0]['close_time'].'</li>';
+									// echo '</ul>';
 									?>
 
 						</div>
@@ -219,9 +220,11 @@
 							}
 						}
 
+						$absence_ctr = 0;
 						foreach ($date_arr as $date => $presence) {
 							if(array_key_exists($date,$date_arr) && $date <= date("Y-m-d")){
 							if ($presence == 0) {
+								 $absence_ctr++;
 								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
 							elseif ($presence == 1 || $presence == 2) {
@@ -383,6 +386,6 @@
 <div class="clearfix"></div>
 
 <?php require_once('footer.php') ?>
-
+<script type="text/javascript">absecneAsterisk(<?php echo $absence_ctr?>,<?php echo $course_data[0]['day_limit']?>)</script>
 </body>
 </html>
