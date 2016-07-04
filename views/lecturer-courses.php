@@ -14,7 +14,7 @@ echo $output;
 
     $courses = $auth_user->getLecturerCourses($userRow["user_id"]);
     foreach($courses as $course){
-      
+
       $row = '<tr>';
       $row .= '<td><a href="course.php?cid='.$course["course_id"].'">'.$course["course_name"].'</a></td>';
       $row .= '<td>'.$auth_user->getDay($course["day_of_week"]).'</td>';
@@ -23,7 +23,8 @@ echo $output;
       echo $row;
     }
 
-$output .= '</tbody>';
-$output .= '</table>';
+$eoutput .= '</tbody>';
+$eoutput .= '</table>';
 
+echo $eoutput;
 ?>
