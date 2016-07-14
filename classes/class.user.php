@@ -108,10 +108,9 @@ class USER
 		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
 		WHERE course_id =:course_id ");
-		$stmt->execute(array(':course_id'=>$course_id, ':user_id'=>$user_id));
+		$stmt->execute(array(':course_id'=>$course_id, ':user_id'=>$user_id, 'id_number'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 		return $userRow;
-
 	}
 
 	public function getCourses($user_id)
