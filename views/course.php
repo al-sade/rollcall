@@ -286,9 +286,8 @@
 						$table .= '<tr><td>'.$student_name.'</td>';
 
 						$attended = 0;
-
 						foreach ($date_arr as $date => $status) {
-							if($date < date("Y-m-d")){
+							if($date <= date("Y-m-d")){
 							if ($status == 0) {
 								 $table .= '<td><span class="glyphicon glyphicon-remove"></span></td>';
 							}
