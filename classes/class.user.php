@@ -103,12 +103,12 @@ class USER
 	}
 
 	public function getCourse($user_id,$course_id){
-		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_limit, users.us(SELECT student_id FROM users WHERE id_number = :id_number)er_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
+		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_limit, users.user_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
 		FROM courses
 		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
 		WHERE course_id =:course_id ");
-		$stmt->execute(array(':course_id'=>$course_id, ':user_id'=>$user_id, ':id_number'=>$user_id));
+		$stmt->execute(array(':course_id'=>$course_id, ':user_id'=>$user_id));
 		$userRow=$stmt->fetchall(PDO::FETCH_ASSOC);
 		return $userRow;
 	}
