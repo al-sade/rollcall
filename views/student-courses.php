@@ -28,7 +28,7 @@ echo $output;
       echo $row;
     }
 
-$eoutput .= '</tbody>';
+$eoutput = '</tbody>';
 $eoutput .= '</table>';
 
 echo $eoutput;
