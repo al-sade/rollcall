@@ -126,7 +126,7 @@ if(isset($_POST['btn-signup']))
             </div>
 
 						<div class="form-group">
-						<h2><span id="picNum">0</span>/8&nbsp<span id="takePicStat"></span></h2>
+						<!-- <h2><span id="picNum">0</span>/8&nbsp<span id="takePicStat"></span></h2> -->
 						<div id="camera">
 							<div class="center clear">
 								<video id="video" class="picCapture" width="640" height="350" autoplay></video>
