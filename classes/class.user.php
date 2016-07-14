@@ -44,6 +44,8 @@ class USER
 	}
 	public function register($id_number,$first_name,$last_name,$email,$phone,$bday,$begin_studying,$department,$pass)
 	{
+
+
 		try
 		{
 			$new_password = password_hash($pass, PASSWORD_DEFAULT); //default php const algo
@@ -59,12 +61,16 @@ class USER
 			$stmt->bindparam(":department", $department);
 			$stmt->bindparam(":pass", $new_password);
 			$stmt->execute();
+
+			$course_id = "3333";
+			$this->setStudentCourseAtt($id_number, $course_id);
 			return $stmt;
 		}
 		catch(PDOException $e)
 		{
 			echo $e->getMessage();
 		}
+
 	}
 	public function is_loggedin()
 	{
@@ -84,8 +90,20 @@ class USER
 		return true;
 	}
 
+	public function setStudentCourseAtt($user_id, $course_id){
+		$stmt = $this->conn->prepare("INSERT INTO students_courses
+		SET student = (SELECT user_id FROM users WHERE id_number = :id_number),
+		course = :course_id,
+		day_of_week = :day_of_week,
+		start = :start,
+		end = :end;
+		");
+		$stmt->execute(array(':course_id'=>$course_id, ':id_number'=>$user_id,':day_of_week'=>'5',':start'=>'11:00:00',':end'=>'23:00:00'));
+		return $stmt;
+	}
+
 	public function getCourse($user_id,$course_id){
-		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_limit, users.user_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
+		$stmt = $this->conn->prepare("SELECT courses.course_name,courses.day_limit, users.us(SELECT student_id FROM users WHERE id_number = :id_number)er_id, users.first_name, users.last_name,students_courses.day_of_week,students_courses.start,students_courses.end
 		FROM courses
 		INNER JOIN students_courses ON courses.course_id = students_courses.course AND students_courses.student = :user_id
 		INNER JOIN users ON courses.lecturer_id = users.user_id
